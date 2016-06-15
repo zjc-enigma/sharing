@@ -1,0 +1,19 @@
+#+Title: Beginner python
+#+Author: jiancheng.zhai
+#+Email: jiancheng.pro@gmail.com
+#+OPTIONS: toc:nil reveal_mathjax:t
+#+REVEAL_THEME: night
+#+REVEAL_TRANS: linear    
+# #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+
+* 代码风格
+* 包管理
+** sub-title 2.1
+** sub-title 2.2
+* 运行环境
+* 配置文件
+* 日志
+* 数据库
+* shell
+* Q & A
+* Thanks!
