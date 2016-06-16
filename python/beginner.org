@@ -2,18 +2,116 @@
 #+Author: jiancheng.zhai
 #+Email: jiancheng.pro@gmail.com
 #+OPTIONS: toc:nil reveal_mathjax:t
+#+OPTIONS: ^:nil
 #+REVEAL_THEME: night
 #+REVEAL_TRANS: linear    
 # #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 
 * 代码风格
+[[http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/]]
+** 名称
+
+| 类型     | 常规名             | 内部名              |   |
+|----------+--------------------+---------------------+---|
+| 变量     | lower_with_under   | _lower_with_under   |   |
+| 函数     | lower_with_under() | _lower_with_under() |   |
+| 类       | CapWords           | _CapWords           |   |
+| 包       | lower_with_under   |                     |   |
+| 全局常量 | CAPS_WITH_UNDER    | CAPS_WITH_UNDER     |   |
+| 异常     | CapWords           | CapWords            |   |
+
+** 缩进
+使用四个空格缩进
+不要用 tab, 也不要 tab 和空格混用
+
+** 函数
+#+BEGIN_SRC python
+def fetch_bigtable_rows(big_table, keys, other_silly_variable=None):
+    """Fetches rows from a Bigtable.
+
+    Retrieves rows pertaining to the given keys from the Table instance
+    represented by big_table.  Silly things may happen if
+    other_silly_variable is not None.
+
+    Args:
+        big_table: An open Bigtable Table instance.
+        keys: A sequence of strings representing the key of each table row
+            to fetch.
+        other_silly_variable: Another optional variable, that has a much
+            longer name than the other args, and which does nothing.
+
+    Returns:
+        A dict mapping keys to the corresponding table row data
+        fetched. Each row is represented as a tuple of strings. For
+        example:
+
+        {'Serak': ('Rigel VII', 'Preparer'),
+         'Zim': ('Irk', 'Invader'),
+         'Lrrr': ('Omicron Persei 8', 'Emperor')}
+
+        If a key from the keys argument is missing from the dictionary,
+        then that row was not found in the table.
+
+    Raises:
+        IOError: An error occurred accessing the bigtable.Table object.
+    """
+    pass
+#+END_SRC
+
+** import
+顺序
+1.标准库导入
+2.第三方库导入
+3.应用程序指定导入
+
+Good
+#+BEGIN_SRC python
+import os
+import sys
+#+END_SRC
+Bad
+#+BEGIN_SRC python
+import os, sys
+#+END_SRC
+
+** PEP-8
+
+
 * 包管理
-** sub-title 2.1
-** sub-title 2.2
+
+** pip
+https://pypi.python.org/pypi/pip
+
+#+BEGIN_SRC shell
+# pip install pandas
+#+END_SRC
+#+BEGIN_SRC shell
+# pip install -r requirement.txt
+#+END_SRC
+#+BEGIN_SRC shell
+#+END_SRC
+
+
+** easy_install
+https://pypi.python.org/pypi/setuptools
+
+
 * 运行环境
+** virtualenv
+
+
+
 * 配置文件
+** json
+
 * 日志
+** logging
+
 * 数据库
+** sqlalchemy
+
 * shell
+** subprocess
+
 * Q & A
-* Thanks!
+- Thanks!

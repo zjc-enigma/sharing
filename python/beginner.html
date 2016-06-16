@@ -26,29 +26,259 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Beginner python</h1><h2 class="author">jiancheng.zhai</h2><p class="date">Created: 2016-06-15 Wed 17:18</p>
+<section id="sec-title-slide"><h1 class="title">Beginner python</h1><h2 class="author">jiancheng.zhai</h2><p class="date">Created: 2016-06-16 Thu 11:44</p>
 </section>
 
 <section>
+<section id="slide-orgheadline6">
+<h2 id="orgheadline6"><span class="section-number-2">1</span> 代码风格</h2>
+<p>
+<a href="http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/">http://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/</a>
+</p>
+</section>
 <section id="slide-orgheadline1">
-<h2 id="orgheadline1"><span class="section-number-2">1</span> title 1</h2>
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> 名称</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">类型</th>
+<th scope="col" class="org-left">常规名</th>
+<th scope="col" class="org-left">内部名</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">变量</td>
+<td class="org-left">lower_with_under</td>
+<td class="org-left">_lower_with_under</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">函数</td>
+<td class="org-left">lower_with_under()</td>
+<td class="org-left">_lower_with_under()</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">类</td>
+<td class="org-left">CapWords</td>
+<td class="org-left">_CapWords</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">包</td>
+<td class="org-left">lower_with_under</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">全局常量</td>
+<td class="org-left">CAPS_WITH_UNDER</td>
+<td class="org-left">CAPS_WITH_UNDER</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">异常</td>
+<td class="org-left">CapWords</td>
+<td class="org-left">CapWords</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
 </section>
-</section>
-<section>
-<section id="slide-orgheadline4">
-<h2 id="orgheadline4"><span class="section-number-2">2</span> title 2</h2>
-<div class="outline-text-2" id="text-2">
-</div></section>
 <section id="slide-orgheadline2">
-<h3 id="orgheadline2"><span class="section-number-3">2.1</span> sub-title 2.1</h3>
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> 缩进</h3>
+<p>
+使用四个空格缩进不要用 tab, 也不要 tab 和空格混用
+</p>
+
 </section>
 <section id="slide-orgheadline3">
-<h3 id="orgheadline3"><span class="section-number-3">2.2</span> sub-title 2.2</h3>
+<h3 id="orgheadline3"><span class="section-number-3">1.3</span> 函数</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">fetch_bigtable_rows</span><span style="color: #4f97d7;">(</span>big_table, keys, other_silly_variable=<span style="color: #a45bad;">None</span><span style="color: #4f97d7;">)</span>:
+    <span style="color: #2d9574;">"""Fetches rows from a Bigtable.</span>
+
+<span style="color: #2d9574;">    Retrieves rows pertaining to the given keys from the Table instance</span>
+<span style="color: #2d9574;">    represented by big_table.  Silly things may happen if</span>
+<span style="color: #2d9574;">    other_silly_variable is not None.</span>
+
+<span style="color: #2d9574;">    Args:</span>
+<span style="color: #2d9574;">        big_table: An open Bigtable Table instance.</span>
+<span style="color: #2d9574;">        keys: A sequence of strings representing the key of each table row</span>
+<span style="color: #2d9574;">            to fetch.</span>
+<span style="color: #2d9574;">        other_silly_variable: Another optional variable, that has a much</span>
+<span style="color: #2d9574;">            longer name than the other args, and which does nothing.</span>
+
+<span style="color: #2d9574;">    Returns:</span>
+<span style="color: #2d9574;">        A dict mapping keys to the corresponding table row data</span>
+<span style="color: #2d9574;">        fetched. Each row is represented as a tuple of strings. For</span>
+<span style="color: #2d9574;">        example:</span>
+
+<span style="color: #2d9574;">        {'Serak': ('Rigel VII', 'Preparer'),</span>
+<span style="color: #2d9574;">         'Zim': ('Irk', 'Invader'),</span>
+<span style="color: #2d9574;">         'Lrrr': ('Omicron Persei 8', 'Emperor')}</span>
+
+<span style="color: #2d9574;">        If a key from the keys argument is missing from the dictionary,</span>
+<span style="color: #2d9574;">        then that row was not found in the table.</span>
+
+<span style="color: #2d9574;">    Raises:</span>
+<span style="color: #2d9574;">        IOError: An error occurred accessing the bigtable.Table object.</span>
+<span style="color: #2d9574;">    """</span>
+    <span style="color: #4f97d7; font-weight: bold;">pass</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-orgheadline4">
+<h3 id="orgheadline4"><span class="section-number-3">1.4</span> import</h3>
+<p>
+顺序
+1.标准库导入
+2.第三方库导入
+3.应用程序指定导入
+</p>
+
+<p>
+Good
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">import</span> os
+<span style="color: #4f97d7; font-weight: bold;">import</span> sys
+</pre>
+</div>
+<p>
+Bad
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">import</span> os, sys
+</pre>
+</div>
+
+</section>
+<section id="slide-orgheadline5">
+<h3 id="orgheadline5"><span class="section-number-3">1.5</span> PEP-8</h3>
+
+
 </section>
 </section>
 <section>
-<section id="slide-orgheadline5">
-<h2 id="orgheadline5"><span class="section-number-2">3</span> title 3</h2>
+<section id="slide-orgheadline9">
+<h2 id="orgheadline9"><span class="section-number-2">2</span> 包管理</h2>
+<div class="outline-text-2" id="text-2">
+</div></section>
+<section id="slide-orgheadline7">
+<h3 id="orgheadline7"><span class="section-number-3">2.1</span> pip</h3>
+<p>
+<a href="https://pypi.python.org/pypi/pip">https://pypi.python.org/pypi/pip</a>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">pip install pandas</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">pip install -r requirement.txt</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre  class="src src-shell"></pre>
+</div>
+
+
+</section>
+<section id="slide-orgheadline8">
+<h3 id="orgheadline8"><span class="section-number-3">2.2</span> easy_install</h3>
+<p>
+<a href="https://pypi.python.org/pypi/setuptools">https://pypi.python.org/pypi/setuptools</a>
+</p>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline11">
+<h2 id="orgheadline11"><span class="section-number-2">3</span> 运行环境</h2>
+<div class="outline-text-2" id="text-3">
+</div></section>
+<section id="slide-orgheadline10">
+<h3 id="orgheadline10"><span class="section-number-3">3.1</span> virtualenv</h3>
+
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline13">
+<h2 id="orgheadline13"><span class="section-number-2">4</span> 配置文件</h2>
+<div class="outline-text-2" id="text-4">
+</div></section>
+<section id="slide-orgheadline12">
+<h3 id="orgheadline12"><span class="section-number-3">4.1</span> json</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline15">
+<h2 id="orgheadline15"><span class="section-number-2">5</span> 日志</h2>
+<div class="outline-text-2" id="text-5">
+</div></section>
+<section id="slide-orgheadline14">
+<h3 id="orgheadline14"><span class="section-number-3">5.1</span> logging</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline17">
+<h2 id="orgheadline17"><span class="section-number-2">6</span> 数据库</h2>
+<div class="outline-text-2" id="text-6">
+</div></section>
+<section id="slide-orgheadline16">
+<h3 id="orgheadline16"><span class="section-number-3">6.1</span> sqlalchemy</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline19">
+<h2 id="orgheadline19"><span class="section-number-2">7</span> shell</h2>
+<div class="outline-text-2" id="text-7">
+</div></section>
+<section id="slide-orgheadline18">
+<h3 id="orgheadline18"><span class="section-number-3">7.1</span> subprocess</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline20">
+<h2 id="orgheadline20"><span class="section-number-2">8</span> Q &amp; A</h2>
+<ul>
+<li>Thanks!</li>
+
+</ul>
 </section>
 </section>
 </div>
