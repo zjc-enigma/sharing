@@ -12,7 +12,7 @@
 * 代码风格
 ** utf-8
 #+BEGIN_SRC python
-文件开头添加
+文件开头统一添加
 # -*- coding: utf-8 -*-  
 #+END_SRC
 
@@ -32,8 +32,8 @@
 | 异常     | CapWords           | CapWords            |
 
 ** 缩进
-使用四个空格缩进
-不要用 tab, 也不要 tab 和空格混用
+使用四个空格缩进 \\
+设置编辑器 tab = 4 空格
 
 ** 函数
 #+BEGIN_SRC python
@@ -69,6 +69,27 @@ def fetch_bigtable_rows(big_table, keys, other_silly_variable=None):
     pass
 #+END_SRC
 
+** 类
+#+BEGIN_SRC python
+class SampleClass(object):
+    """Summary of class here.
+
+    Longer class information....
+    Longer class information....
+
+    Attributes:
+        likes_spam: A boolean indicating if we like SPAM or not.
+        eggs: An integer count of the eggs we have laid.
+    """
+
+    def __init__(self, likes_spam=False):
+        """Inits SampleClass with blah."""
+        self.likes_spam = likes_spam
+        self.eggs = 0
+
+    def public_method(self):
+        """Performs operation blah."""
+#+END_SRC
 ** import
 #+ATTR_REVEAL: :frag roll-in
 1 标准库
@@ -84,7 +105,8 @@ def fetch_bigtable_rows(big_table, keys, other_silly_variable=None):
 import os
 import sys
 #+END_SRC
-#+ATTR_REVEAL: :frag roll-in
+
+
 #+ATTR_REVEAL: :frag roll-in
 #+BEGIN_SRC python
 # Bad

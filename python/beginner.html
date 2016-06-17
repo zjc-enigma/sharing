@@ -26,19 +26,19 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Beginner python</h1><h2 class="author">jiancheng.zhai</h2><p class="date">Created: 2016-06-16 Thu 16:23</p>
+<section id="sec-title-slide"><h1 class="title">Beginner python</h1><h2 class="author">jiancheng.zhai</h2><p class="date">Created: 2016-06-16 Thu 16:59</p>
 </section>
 
 <section>
-<section id="slide-orgheadline7">
-<h2 id="orgheadline7">代码风格</h2>
-<div class="outline-text-2" id="text-orgheadline7">
+<section id="slide-orgheadline8">
+<h2 id="orgheadline8">代码风格</h2>
+<div class="outline-text-2" id="text-orgheadline8">
 </div></section>
 <section id="slide-orgheadline1">
 <h3 id="orgheadline1">utf-8</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python">&#25991;&#20214;&#24320;&#22836;&#28155;&#21152;
+<pre  class="src src-python">&#25991;&#20214;&#24320;&#22836;&#32479;&#19968;&#28155;&#21152;
 <span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">-*- coding: utf-8 -*-</span>
 </pre>
 </div>
@@ -112,7 +112,8 @@
 <section id="slide-orgheadline3">
 <h3 id="orgheadline3">缩进</h3>
 <p>
-使用四个空格缩进不要用 tab, 也不要 tab 和空格混用
+使用四个空格缩进 <br  />
+设置编辑器 tab = 4 空格
 </p>
 
 </section>
@@ -155,40 +156,60 @@
 
 </section>
 <section id="slide-orgheadline5">
-<h3 id="orgheadline5">import</h3>
-<p>
-顺序
+<h3 id="orgheadline5">类</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">class</span> <span style="color: #ce537a; font-weight: bold;">SampleClass</span><span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">object</span><span style="color: #4f97d7;">)</span>:
+    <span style="color: #2d9574;">"""Summary of class here.</span>
+
+<span style="color: #2d9574;">    Longer class information....</span>
+<span style="color: #2d9574;">    Longer class information....</span>
+
+<span style="color: #2d9574;">    Attributes:</span>
+<span style="color: #2d9574;">        likes_spam: A boolean indicating if we like SPAM or not.</span>
+<span style="color: #2d9574;">        eggs: An integer count of the eggs we have laid.</span>
+<span style="color: #2d9574;">    """</span>
+
+    <span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">__init__</span><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">self</span>, likes_spam=<span style="color: #a45bad;">False</span><span style="color: #4f97d7;">)</span>:
+        <span style="color: #2d9574;">"""Inits SampleClass with blah."""</span>
+        <span style="color: #4f97d7; font-weight: bold;">self</span>.likes_spam = likes_spam
+        <span style="color: #4f97d7; font-weight: bold;">self</span>.eggs = <span style="color: #a45bad;">0</span>
+
+    <span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">public_method</span><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">self</span><span style="color: #4f97d7;">)</span>:
+        <span style="color: #2d9574;">"""Performs operation blah."""</span>
+</pre>
+</div>
+</section>
+<section id="slide-orgheadline6">
+<h3 id="orgheadline6">import</h3>
+<p class="fragment roll-in">
+1 标准库
 </p>
 <p class="fragment roll-in">
-1 标准库导入
+2 第三方库
 </p>
 <p class="fragment roll-in">
-2 第三方库导入
-</p>
-<p class="fragment roll-in">
-3 应用程序指定导入
-</p>
-<p class="fragment roll-in">
-Good
+3 应用程序指定
 </p>
 <div class="org-src-container">
 
-<pre  class="fragment roll-in"><span style="color: #4f97d7; font-weight: bold;">import</span> os
+<pre  class="fragment roll-in"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">Good</span>
+<span style="color: #4f97d7; font-weight: bold;">import</span> os
 <span style="color: #4f97d7; font-weight: bold;">import</span> sys
 </pre>
 </div>
-<p class="fragment roll-in">
-Bad
-</p>
+
+
 <div class="org-src-container">
 
-<pre  class="fragment roll-in"><span style="color: #4f97d7; font-weight: bold;">import</span> os, sys
+<pre  class="fragment roll-in"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">Bad</span>
+<span style="color: #4f97d7; font-weight: bold;">import</span> os, sys
 </pre>
 </div>
 
 </section>
-<section id="slide-orgheadline6">
-<h3 id="orgheadline6">工具</h3>
+<section id="slide-orgheadline7">
+<h3 id="orgheadline7">工具</h3>
 <ul class="fragment highlight-blue">
 <li><a href="https://pypi.python.org/pypi/autopep8">Autopep8</a></li>
 <li><a href="https://pypi.python.org/pypi/pycodestyle">pycodestyle</a></li>
@@ -201,15 +222,15 @@ Bad
 </section>
 </section>
 <section>
-<section id="slide-orgheadline9">
-<h2 id="orgheadline9">pip</h2>
+<section id="slide-orgheadline10">
+<h2 id="orgheadline10">pip</h2>
 <p>
 <a href="https://pypi.python.org/pypi/pip">pip</a> 是一个用来安装和管理 Python 包的工具
 </p>
 
 </section>
-<section id="slide-orgheadline8">
-<h3 id="orgheadline8">示例</h3>
+<section id="slide-orgheadline9">
+<h3 id="orgheadline9">示例</h3>
 <div class="org-src-container">
 
 <pre  class="src src-shell"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#25351;&#23450;&#29256;&#26412;</span>
@@ -233,10 +254,10 @@ pip install -r requirement.txt
 </section>
 </section>
 <section>
-<section id="slide-orgheadline11">
-<h2 id="orgheadline11">virtualenv</h2>
+<section id="slide-orgheadline12">
+<h2 id="orgheadline12">virtualenv</h2>
 <p>
-virtualenv 可以创建多个独立的 Python 虚拟运行环境
+virtualenv 用于创建多个独立的 Python 虚拟运行环境
 </p>
 <ul>
 <li>在没有权限的情况下安装包</li>
@@ -246,8 +267,8 @@ virtualenv 可以创建多个独立的 Python 虚拟运行环境
 </ul>
 
 </section>
-<section id="slide-orgheadline10">
-<h3 id="orgheadline10">示例</h3>
+<section id="slide-orgheadline11">
+<h3 id="orgheadline11">示例</h3>
 <div class="org-src-container">
 
 <pre  class="src src-shell"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#21019;&#24314;&#26032;&#29615;&#22659;</span>
@@ -273,16 +294,16 @@ deactivate
 </section>
 </section>
 <section>
-<section id="slide-orgheadline13">
-<h2 id="orgheadline13">json</h2>
+<section id="slide-orgheadline14">
+<h2 id="orgheadline14">json</h2>
 <p>
 JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式
 json 模块提供了一种简单的方式来编码和解码 JSON 数据
 </p>
 
 </section>
-<section id="slide-orgheadline12">
-<h3 id="orgheadline12">示例</h3>
+<section id="slide-orgheadline13">
+<h3 id="orgheadline13">示例</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#23558; python &#25968;&#25454;&#32467;&#26500;&#36716;&#25442;&#20026; json &#20018;</span>
@@ -308,15 +329,15 @@ json 模块提供了一种简单的方式来编码和解码 JSON 数据
 </section>
 </section>
 <section>
-<section id="slide-orgheadline15">
-<h2 id="orgheadline15">logging</h2>
+<section id="slide-orgheadline16">
+<h2 id="orgheadline16">logging</h2>
 <p>
 提供了通用的日志系统
 </p>
 
 </section>
-<section id="slide-orgheadline14">
-<h3 id="orgheadline14">示例</h3>
+<section id="slide-orgheadline15">
+<h3 id="orgheadline15">示例</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#35774;&#32622;&#26085;&#24535;&#26684;&#24335;</span>
@@ -341,15 +362,15 @@ logger.warning<span style="color: #4f97d7;">(</span><span style="color: #2d9574;
 </section>
 </section>
 <section>
-<section id="slide-orgheadline17">
-<h2 id="orgheadline17">sqlalchemy</h2>
+<section id="slide-orgheadline18">
+<h2 id="orgheadline18">sqlalchemy</h2>
 <p>
 sqlalchmey 是一个 ORM(Object-Relational Mapping) 框架提供一种关系数据库的表结构和 python 对象之间的映射
 </p>
 
 </section>
-<section id="slide-orgheadline16">
-<h3 id="orgheadline16">示例</h3>
+<section id="slide-orgheadline17">
+<h3 id="orgheadline17">示例</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">from</span> sqlalchemy <span style="color: #4f97d7; font-weight: bold;">import</span> Column, String, create_engine
@@ -392,14 +413,14 @@ session.close<span style="color: #4f97d7;">()</span>
 </section>
 </section>
 <section>
-<section id="slide-orgheadline19">
-<h2 id="orgheadline19">subprocess</h2>
+<section id="slide-orgheadline20">
+<h2 id="orgheadline20">subprocess</h2>
 <p>
 创建一个子进程用于执行外部命令
 </p>
 </section>
-<section id="slide-orgheadline18">
-<h3 id="orgheadline18">示例</h3>
+<section id="slide-orgheadline19">
+<h3 id="orgheadline19">示例</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#23450;&#20041; shell &#21629;&#20196;</span>
@@ -422,8 +443,8 @@ session.close<span style="color: #4f97d7;">()</span>
 </section>
 </section>
 <section>
-<section id="slide-orgheadline20">
-<h2 id="orgheadline20">Q &amp; A</h2>
+<section id="slide-orgheadline21">
+<h2 id="orgheadline21">Q &amp; A</h2>
 <p>
 谢谢
 </p>
