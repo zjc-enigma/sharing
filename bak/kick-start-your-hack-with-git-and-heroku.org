@@ -1,0 +1,220 @@
+#+Title: Kickstart you Hack with Git, Build tools & Heroku
+#+Author: John Stevenson
+#+Email: john@jr0cket.co.uk
+
+#+OPTIONS: toc:nil num:nil
+#+OPTIONS: reveal_width:1200
+#+OPTIONS: reveal_height:800
+#+REVEAL_MARGIN: 0.1
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+OPTIONS: reveal_center:nil 
+#+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t 
+#+REVEAL_TRANS: linear
+#+REVEAL_THEME: jr0cket
+#+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Kickstart you Hack with Git, Built tools & Heroku">
+
+* What is the first thing you should do at a Hackathon?
+
+** Well, the first thing after you have...
+
+ - woken up
+ - found a team
+ - thought of an idea
+ - had a discusson about that idea...
+
+* Testing out your ideas 
+:PROPERTIES:
+    :reveal_background: ./images/git-background.png
+    :reveal_background_trans: slide
+    :END:
+
+Using Git to manage code allows you to:
+#+ATTR_REVEAL: :frag roll-in
+- experiment with ideas quickly
+- use branching to experiment in code  
+- throw away code that is not wanted
+- go back to the great idea you had right at the start
+
+
+** Create a Git repository
+:PROPERTIES:
+    :reveal_background: ./images/git-background.png
+    :reveal_background_trans: slide
+:END:
+
+Create a local repository
+
+#+BEGIN_SRC zsh 
+  git init 
+#+END_SRC
+
+
+Or create a shared repo on Github & clone it
+
+#+BEGIN_SRC zsh 
+  git clone git@github.com:/username/project
+#+END_SRC
+
+
+
+** Git Quickstart Guide
+
+[[./images/git-quickstart-guilde-v1.png]]
+
+** Learn more with Try Git
+
+[[http://try.github.io][try.github.io]]
+
+[[./images/git-try-git-website.png]]
+
+** Hack away with confidence
+
+[[./images/hackathon-hands-coding-on-macs.jpg]]
+
+* How do you manage all the moving parts
+* Collaborating on your app
+ :PROPERTIES:
+    :reveal_background: ./images/github-background.png
+    :reveal_background_trans: slide
+    :END:
+
+Use Github to:
+ - Share a repository for code
+ - Use Issues to define features & work on bugs
+ - Use [[http://pages.github.com/][Github pages]] for docs / notes / designs
+
+
+** Github workflow
+ :PROPERTIES:
+    :reveal_background: ./images/github-background.png
+    :reveal_background_trans: slide
+    :END:
+
+[[./images/git-and-github-workflow.png]]
+
+* Build automation
+:PROPERTIES:
+    :reveal_background: ./images/build-tools-background.png
+    :reveal_background_trans: slide
+    :END:
+
+Gives consistency for creating, building and running apps
+
+ - Yeoman & Grunt for JavaScript
+ - Graddle / Maven for Java
+ - Leiningen for Clojure
+ - Rake & Bundle for Ruby 
+ 
+ 
+** Build tool demo
+
+Lets play with:
+ - Yeoman
+ - Grunt
+ - Angular
+
+#+BEGIN_SRC zsh 
+  # Create an app using Angularjs
+  yo angular 
+
+  # Build the website
+  grunt build 
+#+END_SRC
+
+
+* Consistent deployment with Heroku 
+ :PROPERTIES:
+    :reveal_background: ./images/heroku-background.png
+    :reveal_background_trans: slide
+    :END:
+
+ - Deploy using Git
+ - Provides a standard build & deploy workflow
+ - Deploy as a team
+
+** Heroku workflow 
+ :PROPERTIES:
+    :reveal_background: ./images/heroku-background.png
+    :reveal_background_trans: slide
+    :END:
+
+[[./images/heroku-developer-team-workflow-overview.png]]
+
+* What Heroku Provides
+ :PROPERTIES:
+    :reveal_background: ./images/heroku-background.png
+    :reveal_background_trans: slide
+    :END:
+
+#+ATTR_REVEAL: :frag highlight-red
+Helping Developers focus on their apps
+
+Heroku has support for 
+ - Polyglot Languages & frameworks
+ - Instantly scalability
+ - Consistent deployment
+ - Platform as a service
+
+
+** Extensive range of addons
+ :PROPERTIES:
+    :reveal_background: ./images/heroku-background.png
+    :reveal_background_trans: slide
+    :END:
+[[https://addons.heroku.com][
+addons.heroku.com]]
+
+
+** Quick Demo 
+ :PROPERTIES:
+    :reveal_background: ./images/heroku-background.png
+    :reveal_background_trans: slide
+    :END:
+#+ATTR_REVEAL: :frag highlight-green
+ 1. Create an app from scratch (done)
+ 2. Create a local git repository
+ 3. Commit project code to local repository 
+ 4. Create an Heroku app
+ 5. Git Push code to Heroku
+
+[[./images/heroku-developer-workflow--create-push.png]]
+
+* What is the last thing you do at a Hackathon?
+
+* Demo your app 
+
+Avoid trying to wire everything up at the last minute :)
+
+- a consistent deployment helps you focus on a good demo 
+
+** Tweet about your app
+
+Show the judges what you are up to by tweeting the URL for you live app
+- get feedback during the event 
+
+
+* Did the demo work?
+ :PROPERTIES:
+    :reveal_background: ./images/heroku-background.png
+    :reveal_background_trans: slide
+    :END:
+Open the URL in a browser, or use the command:
+
+#+BEGIN_SRC zsh 
+heroku open
+#+END_SRC
+
+
+
+* Thank you
+
+Happy Hacking !!
+
+ [[https://twitter.com/jr0cket][@jr0cket]]
+
+ [[http://blog.jr0cket.co.uk][blog.jr0cket.co.uk]]
+
+ [[http://www.heroku.com][heroku.com]]
+
+ [[http://developer.force.com][developer.force.com]]

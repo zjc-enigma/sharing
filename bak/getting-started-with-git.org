@@ -1,0 +1,269 @@
+#+Title: Getting Started with Git & Github 
+#+Author: John Stevenson
+#+Email: john@jr0cket.co.uk
+
+#+OPTIONS: toc:nil num:nil 
+#+OPTIONS: reveal_width:1600
+#+OPTIONS: reveal_height:900
+#+OPTIONS: reveal_center:nil 
+#+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t 
+#+REVEAL_TRANS: linear
+#+REVEAL_THEME: jr0cket 
+#+REVEAL_HEAD_PREAMBLE: <meta name="description" content="Getting started with Git and Github">
+
+* Managing code with Git 
+
+ A distributed approach to source control 
+
+Advantages:
+#+ATTR_REVEAL: :frag roll-in
+- local repository, manage commits off-line
+- change sets for more detailed history
+- unique commit numbers rather than version numbers 
+- easy to create branches, easy to throw away too 
+
+* Git Quickstart Guide
+
+[[./images/git-quickstart-guide.png]]
+
+* Installing Git 
+
+Download Git Client from http://git-scm.com/
+
+** Introduce yourself to Git
+
+#+BEGIN_SRC bash
+git config --global user.name "John Stevenson"
+git config --global user.email "john@jr0cket.co.uk"
+#+END_SRC
+
+** Set up some nice aliases
+
+(Optional)
+
+Edit your Git config file:
+~/.gitconfig
+
+ - add aliases for common commands & options
+ - add a global ignore file
+ - use external diff & merge tools 
+
+See my [[https://github.com/jr0cket/dot-files-ubuntu/blob/master/.gitconfig][.gitconfig]] file for examples 
+
+* Creating a local repository 
+
+Changes managed as unique data objects in .git folder 
+#+ATTR_REVEAL: :frag highlight-red
+- dont delete .git 
+
+#+BEGIN_SRC bash
+  git init 
+#+END_SRC
+
+* Git local workflow - overview 
+
+[[./images/git-local-workflow.png]]
+
+
+* Git local workflow - commands 
+
+Just need to get familiar with 5 commands to start with
+
+#+BEGIN_SRC bash 
+  git status 
+
+  git add
+
+  git diff 
+
+  git commit
+
+  git log 
+#+END_SRC
+
+* Git status
+
+Whats going on, what has changes?
+
+#+BEGIN_SRC bash
+  git status
+  git status -sb 
+#+END_SRC
+
+** Git Status example
+
+[[./images/git-status-modified-untracked.png]]
+
+
+** Git Status example
+
+[[./images/git-status-staged-modified-untracked.png]]
+
+
+* Git add 
+Tell git which changes make up the next commit (version)
+- refered to as staging or index
+
+#+BEGIN_SRC bash 
+  ; adds everything
+  git add .  
+
+  git add filename.ext 
+
+  git add my-class.java 
+#+END_SRC
+
+** Working with Staging
+
+Easy to add and remove changes 
+  - nothing has been committed as yet
+  - gives another level of comparison (diffs)
+
+#+BEGIN_SRC bash 
+  ;; updates files in staging 
+  git add .  
+  git add filename.ext 
+  git add my-class.java
+
+  git reset --HEAD 
+  git reset --HEAD filename.ext
+  git reset --HEAD my-class.java  
+#+END_SRC
+
+* Git diff 
+View changes in your files, compared to the last commit  
+
+#+BEGIN_SRC bash 
+  ;; show changes made in the working copy 
+  git diff 
+
+  ;; show changes made in staging
+  git diff --cache
+#+END_SRC
+
+** Git diff - more specifically
+
+Just show the words that have changed 
+- use the option --word-diff 
+
+#+BEGIN_SRC bash 
+  ;; show changes made in the working copy 
+  git diff --word-diff
+
+  ;; show changes made in staging
+  git diff --cache --word-diff
+#+END_SRC
+ 
+* Git commit 
+Make a new commit (version) with everything in staging
+- option -m specifies the commit message (not optinal)
+
+#+BEGIN_SRC bash 
+  ;; commit changes from staging
+  git commit -m "useful commit message"
+
+  ;; commit changes from all tracked files 
+  git commit -am "useful commit message"
+
+#+END_SRC
+
+* Git Log
+
+See all the commits made
+ - dates of commit
+ - author of commit
+ - keep track of branches & forks 
+
+** Default log view is boring
+
+#+BEGIN_SRC bash 
+  git log 
+#+END_SRC
+
+[[./images/git-log-default.png]
+
+** Customise the output to see the history better
+
+#+BEGIN_SRC bash 
+  git log --oneline --graph --decorate 
+#+END_SRC
+
+[[./images/git-log-custom.png]
+
+** Drilling deeper into a commit
+
+Show the code that is part of the commit 
+
+#+BEGIN_SRC bash 
+git show 9690af6
+#+END_SRC
+
+
+* Collaborating with Github
+
+Github == Social Coding 
+
+- share your code with others
+- keep a backup of your code (if your laptop dies)
+
+** Create a Github account (free)
+
+Sign up at: http://github.com 
+
+Add a public key to identify yourself
+- Github help shows you how [[https://help.github.com/articles/generating-ssh-keys][generate an SSH key]]
+
+** Github the big picture
+
+[[./images/git-and-github-workflow.png]]
+
+
+** Github forking 
+
+1) View someone elses project on Github
+2) Fork the project to get your own copy
+3) Clone your fork and extend the project 
+
+
+** Github pull requests
+
+ - Commit your changes locally
+ - push changes to your fork
+ - click the pull reuest button on Github page 
+
+#+BEGIN_SRC bash 
+  git add .
+  git commit -m "a new feature"
+  git push my-fork branch
+ 
+  ;; Go to your repository on Github.com,
+  ;; press the pull request button, add a message
+#+END_SRC
+ 
+
+* Branching and Merging
+
+#+BEGIN_SRC bash 
+git checkout branch-name
+#+END_SRC
+
+
+* Moving things around
+
+
+#+BEGIN_SRC bash 
+git mv filename new-filename
+#+END_SRC
+
+
+
+
+* Get Reveal.js and Org-reveal
+
+  - Emacs
+    http://www.gnu.org/software/emacs/
+  - Reveal.js on GitHub:\\
+    [[https://github.com/hakimel/reveal.js]]
+  - Org-reveal on GitHub:\\
+    [[https://github.com/yjwen/org-reveal]]
+
