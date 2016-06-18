@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Beginner python</title>
+<meta name="author" content="(jiancheng.zhai)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/night.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Beginner python</h1><h2 class="author">jiancheng.zhai</h2><p class="date">Created: 2016-06-18 六 14:04</p>
+</section>
+
+<section>
+<section id="slide-orgheadline8">
+<h2 id="orgheadline8">代码风格</h2>
+<div class="outline-text-2" id="text-orgheadline8">
+</div></section>
+<section id="slide-orgheadline1">
+<h3 id="orgheadline1">utf-8</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python">&#25991;&#20214;&#24320;&#22836;&#32479;&#19968;&#28155;&#21152;
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">-*- coding: utf-8 -*-</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-python">&#25110;
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">coding=utf-8</span>
+</pre>
+</div>
+</section>
+<section id="slide-orgheadline2">
+<h3 id="orgheadline2">名称</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">类型</th>
+<th scope="col" class="org-left">常规名</th>
+<th scope="col" class="org-left">内部名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">变量</td>
+<td class="org-left">lower_with_under</td>
+<td class="org-left">_lower_with_under</td>
+</tr>
+
+<tr>
+<td class="org-left">函数</td>
+<td class="org-left">lower_with_under()</td>
+<td class="org-left">_lower_with_under()</td>
+</tr>
+
+<tr>
+<td class="org-left">类</td>
+<td class="org-left">CapWords</td>
+<td class="org-left">_CapWords</td>
+</tr>
+
+<tr>
+<td class="org-left">包</td>
+<td class="org-left">lower_with_under</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">全局常量</td>
+<td class="org-left">CAPS_WITH_UNDER</td>
+<td class="org-left">CAPS_WITH_UNDER</td>
+</tr>
+
+<tr>
+<td class="org-left">异常</td>
+<td class="org-left">CapWords</td>
+<td class="org-left">CapWords</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-orgheadline3">
+<h3 id="orgheadline3">缩进</h3>
+<p>
+使用四个空格缩进 <br  />
+设置编辑器 tab = 4 空格
+</p>
+
+</section>
+<section id="slide-orgheadline4">
+<h3 id="orgheadline4">函数</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">fetch_bigtable_rows</span><span style="color: #4f97d7;">(</span>big_table, keys, other_silly_variable=<span style="color: #a45bad;">None</span><span style="color: #4f97d7;">)</span>:
+    <span style="color: #2d9574;">"""Fetches rows from a Bigtable.</span>
+
+<span style="color: #2d9574;">    Retrieves rows pertaining to the given keys from the Table instance</span>
+<span style="color: #2d9574;">    represented by big_table.  Silly things may happen if</span>
+<span style="color: #2d9574;">    other_silly_variable is not None.</span>
+
+<span style="color: #2d9574;">    Args:</span>
+<span style="color: #2d9574;">        big_table: An open Bigtable Table instance.</span>
+<span style="color: #2d9574;">        keys: A sequence of strings representing the key of each table row</span>
+<span style="color: #2d9574;">            to fetch.</span>
+<span style="color: #2d9574;">        other_silly_variable: Another optional variable, that has a much</span>
+<span style="color: #2d9574;">            longer name than the other args, and which does nothing.</span>
+
+<span style="color: #2d9574;">    Returns:</span>
+<span style="color: #2d9574;">        A dict mapping keys to the corresponding table row data</span>
+<span style="color: #2d9574;">        fetched. Each row is represented as a tuple of strings. For</span>
+<span style="color: #2d9574;">        example:</span>
+
+<span style="color: #2d9574;">        {'Serak': ('Rigel VII', 'Preparer'),</span>
+<span style="color: #2d9574;">         'Zim': ('Irk', 'Invader'),</span>
+<span style="color: #2d9574;">         'Lrrr': ('Omicron Persei 8', 'Emperor')}</span>
+
+<span style="color: #2d9574;">        If a key from the keys argument is missing from the dictionary,</span>
+<span style="color: #2d9574;">        then that row was not found in the table.</span>
+
+<span style="color: #2d9574;">    Raises:</span>
+<span style="color: #2d9574;">        IOError: An error occurred accessing the bigtable.Table object.</span>
+<span style="color: #2d9574;">    """</span>
+    <span style="color: #4f97d7; font-weight: bold;">pass</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-orgheadline5">
+<h3 id="orgheadline5">类</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">class</span> <span style="color: #ce537a; font-weight: bold;">SampleClass</span><span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">object</span><span style="color: #4f97d7;">)</span>:
+    <span style="color: #2d9574;">"""Summary of class here.</span>
+
+<span style="color: #2d9574;">    Longer class information....</span>
+<span style="color: #2d9574;">    Longer class information....</span>
+
+<span style="color: #2d9574;">    Attributes:</span>
+<span style="color: #2d9574;">        likes_spam: A boolean indicating if we like SPAM or not.</span>
+<span style="color: #2d9574;">        eggs: An integer count of the eggs we have laid.</span>
+<span style="color: #2d9574;">    """</span>
+
+    <span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">__init__</span><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">self</span>, likes_spam=<span style="color: #a45bad;">False</span><span style="color: #4f97d7;">)</span>:
+        <span style="color: #2d9574;">"""Inits SampleClass with blah."""</span>
+        <span style="color: #4f97d7; font-weight: bold;">self</span>.likes_spam = likes_spam
+        <span style="color: #4f97d7; font-weight: bold;">self</span>.eggs = <span style="color: #a45bad;">0</span>
+
+    <span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">public_method</span><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">self</span><span style="color: #4f97d7;">)</span>:
+        <span style="color: #2d9574;">"""Performs operation blah."""</span>
+</pre>
+</div>
+</section>
+<section id="slide-orgheadline6">
+<h3 id="orgheadline6">import</h3>
+<p class="fragment roll-in">
+1 标准库
+</p>
+<p class="fragment roll-in">
+2 第三方库
+</p>
+<p class="fragment roll-in">
+3 应用程序指定
+</p>
+<div class="org-src-container">
+
+<pre  class="fragment roll-in"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">Good</span>
+<span style="color: #4f97d7; font-weight: bold;">import</span> os
+<span style="color: #4f97d7; font-weight: bold;">import</span> sys
+</pre>
+</div>
+
+
+<div class="org-src-container">
+
+<pre  class="fragment roll-in"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">Bad</span>
+<span style="color: #4f97d7; font-weight: bold;">import</span> os, sys
+</pre>
+</div>
+
+</section>
+<section id="slide-orgheadline7">
+<h3 id="orgheadline7">工具</h3>
+<ul class="fragment highlight-blue">
+<li><a href="https://pypi.python.org/pypi/autopep8">Autopep8</a></li>
+<li><a href="https://pypi.python.org/pypi/pycodestyle">pycodestyle</a></li>
+<li><a href="https://github.com/google/yapf">yapf</a></li>
+
+</ul>
+
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline10">
+<h2 id="orgheadline10">pip</h2>
+<p>
+<a href="https://pypi.python.org/pypi/pip">pip</a> 是一个用来安装和管理 Python 包的工具
+</p>
+
+</section>
+<section id="slide-orgheadline9">
+<h3 id="orgheadline9">示例</h3>
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#25351;&#23450;&#29256;&#26412;</span>
+pip install <span style="color: #7590db;">pandas</span>=<span style="color: #a45bad;">2.0.1</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#23433;&#35013;&#25152;&#26377;&#20381;&#36182;&#20851;&#31995;</span>
+pip install -r requirement.txt
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell"></pre>
+</div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline12">
+<h2 id="orgheadline12">virtualenv</h2>
+<p>
+virtualenv 用于创建多个独立的 Python 虚拟运行环境
+</p>
+<ul>
+<li>在没有权限的情况下安装包</li>
+<li>不同项目可以使用不同的包组合</li>
+<li>包版本升级不影响其他项目</li>
+
+</ul>
+
+</section>
+<section id="slide-orgheadline11">
+<h3 id="orgheadline11">示例</h3>
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#21019;&#24314;&#26032;&#29615;&#22659;</span>
+virtualenv venv
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#21551;&#21160;&#34394;&#25311;&#29615;&#22659;</span>
+<span style="color: #4f97d7;">source</span> venv/bin/activate
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#36864;&#20986;&#34394;&#25311;&#29615;&#22659;</span>
+deactivate
+</pre>
+</div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline14">
+<h2 id="orgheadline14">json</h2>
+<p>
+JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式
+json 模块提供了一种简单的方式来编码和解码 JSON 数据
+</p>
+
+</section>
+<section id="slide-orgheadline13">
+<h3 id="orgheadline13">示例</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#23558; python &#25968;&#25454;&#32467;&#26500;&#36716;&#25442;&#20026; json &#20018;</span>
+<span style="color: #4f97d7; font-weight: bold;">import</span> json
+
+<span style="color: #7590db;">data</span> = <span style="color: #4f97d7;">{</span>
+    <span style="color: #2d9574;">'name'</span> : <span style="color: #2d9574;">'ACME'</span>,
+    <span style="color: #2d9574;">'shares'</span> : <span style="color: #a45bad;">100</span>,
+    <span style="color: #2d9574;">'price'</span> : <span style="color: #a45bad;">542</span>.<span style="color: #a45bad;">23</span>
+<span style="color: #4f97d7;">}</span>
+<span style="color: #7590db;">json_str</span> = json.dumps<span style="color: #4f97d7;">(</span>data<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#20174; json &#23383;&#20018;&#20013;&#35299;&#26512;&#25968;&#25454;</span>
+<span style="color: #7590db;">data</span> = json.loads<span style="color: #4f97d7;">(</span>json_str<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline16">
+<h2 id="orgheadline16">logging</h2>
+<p>
+提供了通用的日志系统
+</p>
+
+</section>
+<section id="slide-orgheadline15">
+<h3 id="orgheadline15">示例</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#35774;&#32622;&#26085;&#24535;&#26684;&#24335;</span>
+<span style="color: #7590db;">FORMAT</span> = <span style="color: #2d9574;">'%(asctime)-15s %(clientip)s %(user)-8s %(message)s'</span>
+logging.basicConfig<span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">format</span>=FORMAT<span style="color: #4f97d7;">)</span>
+
+<span style="color: #7590db;">d</span> = <span style="color: #4f97d7;">{</span><span style="color: #2d9574;">'clientip'</span>: <span style="color: #2d9574;">'192.168.0.1'</span>, <span style="color: #2d9574;">'user'</span>: <span style="color: #2d9574;">'python'</span><span style="color: #4f97d7;">}</span>
+<span style="color: #7590db;">logger</span> = logging.getLogger<span style="color: #4f97d7;">(</span><span style="color: #2d9574;">'tcpserver'</span><span style="color: #4f97d7;">)</span>
+logger.warning<span style="color: #4f97d7;">(</span><span style="color: #2d9574;">'Protocol problem: %s'</span>, <span style="color: #2d9574;">'connection reset'</span>, extra=d<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+
+<div class="org-src-container">
+
+<pre  class="src src-text"># &#25171;&#21360;&#26085;&#24535;
+2016-06-16 22:20:02,165 192.168.0.1 python  Protocol problem: connection reset
+</pre>
+</div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline18">
+<h2 id="orgheadline18">sqlalchemy</h2>
+<p>
+sqlalchmey 是一个 ORM(Object-Relational Mapping) 框架提供一种关系数据库的表结构和 python 对象之间的映射
+</p>
+
+</section>
+<section id="slide-orgheadline17">
+<h3 id="orgheadline17">示例</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">from</span> sqlalchemy <span style="color: #4f97d7; font-weight: bold;">import</span> Column, String, create_engine
+<span style="color: #4f97d7; font-weight: bold;">from</span> sqlalchemy.orm <span style="color: #4f97d7; font-weight: bold;">import</span> sessionmaker
+<span style="color: #4f97d7; font-weight: bold;">from</span> sqlalchemy.ext.declarative <span style="color: #4f97d7; font-weight: bold;">import</span> declarative_base
+
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#21019;&#24314;&#23545;&#35937;&#30340;&#22522;&#31867;:</span>
+<span style="color: #7590db;">Base</span> = declarative_base<span style="color: #4f97d7;">()</span>
+
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#23450;&#20041; User &#23545;&#35937;:</span>
+<span style="color: #4f97d7; font-weight: bold;">class</span> <span style="color: #ce537a; font-weight: bold;">User</span><span style="color: #4f97d7;">(</span>Base<span style="color: #4f97d7;">)</span>:
+    <span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#34920;&#30340;&#21517;&#23383;:</span>
+    <span style="color: #7590db;">__tablename__</span> = <span style="color: #2d9574;">'user'</span>
+
+    <span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#34920;&#30340;&#32467;&#26500;:</span>
+    <span style="color: #4f97d7;">id</span> = Column<span style="color: #4f97d7;">(</span>String<span style="color: #bc6ec5;">(</span><span style="color: #a45bad;">20</span><span style="color: #bc6ec5;">)</span>, primary_key=<span style="color: #a45bad;">True</span><span style="color: #4f97d7;">)</span>
+    <span style="color: #7590db;">name</span> = Column<span style="color: #4f97d7;">(</span>String<span style="color: #bc6ec5;">(</span><span style="color: #a45bad;">20</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#21021;&#22987;&#21270;&#25968;&#25454;&#24211;&#36830;&#25509;:</span>
+<span style="color: #7590db;">engine</span> = create_engine<span style="color: #4f97d7;">(</span><span style="color: #2d9574;">'mysql+mysqlconnector://root:password@localhost:3306/test'</span><span style="color: #4f97d7;">)</span>
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#21019;&#24314; DBSession &#31867;&#22411;:</span>
+<span style="color: #7590db;">DBSession</span> = sessionmaker<span style="color: #4f97d7;">(</span>bind=engine<span style="color: #4f97d7;">)</span>
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#21019;&#24314; session &#23545;&#35937;:</span>
+<span style="color: #7590db;">session</span> = DBSession<span style="color: #4f97d7;">()</span>
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#21019;&#24314;&#26032; User &#23545;&#35937;:</span>
+<span style="color: #7590db;">new_user</span> = User<span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">id</span>=<span style="color: #2d9574;">'5'</span>, name=<span style="color: #2d9574;">'Bob'</span><span style="color: #4f97d7;">)</span>
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#28155;&#21152;&#21040; session:</span>
+session.add<span style="color: #4f97d7;">(</span>new_user<span style="color: #4f97d7;">)</span>
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#20445;&#23384;&#21040;&#25968;&#25454;&#24211;:</span>
+session.commit<span style="color: #4f97d7;">()</span>
+session.close<span style="color: #4f97d7;">()</span>
+</pre>
+</div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline20">
+<h2 id="orgheadline20">subprocess</h2>
+<p>
+创建一个子进程用于执行外部命令
+</p>
+</section>
+<section id="slide-orgheadline19">
+<h3 id="orgheadline19">示例</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#23450;&#20041; shell &#21629;&#20196;</span>
+<span style="color: #7590db;">cmd</span> = <span style="color: #2d9574;">"ps aux|grep mysql|grep -v grep|awk '{print $2}'|xargs kill -9"</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#25191;&#34892;&#21629;&#20196;</span>
+<span style="color: #4f97d7; font-weight: bold;">try</span> :
+    <span style="color: #7590db;">exec_output</span> = subprocess.check_output<span style="color: #4f97d7;">(</span>cmd, shell=<span style="color: #a45bad;">True</span>, stderr=subprocess.STDOUT<span style="color: #4f97d7;">)</span>
+
+<span style="color: #4f97d7; font-weight: bold;">except</span> subprocess.CalledProcessError, exec_err:
+    <span style="color: #4f97d7; font-weight: bold;">pass</span>
+</pre>
+</div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline21">
+<h2 id="orgheadline21">Q &amp; A</h2>
+<p>
+谢谢
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
