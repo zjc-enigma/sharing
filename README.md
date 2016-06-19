@@ -1,8 +1,6 @@
-slides
+enigma slides
 ======
 
-a collection of presentations using Github pages
+a collection of presentations 
 
-Presentations are on the gh-pages branch and not in master
-
-https://github.com/jr0cket/slides/tree/gh-pages
+http://expdemos.com
