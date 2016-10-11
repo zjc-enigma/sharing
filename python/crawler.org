@@ -73,7 +73,7 @@ content = requests.get(url, headers=headers)
 doc = pq(ret.text)
 en_mean_list = doc('div.trans-container')('ul')('p.wordGroup')
 #+END_SRC
-[[file:a.png]] [[file:b.png]]
+[[file:a.png]]
 
 ** js - selenium
 #+BEGIN_SRC python
@@ -99,7 +99,7 @@ browser.find_element_by_css_selector('.pagination .next').click()
  - http://phantomjs.org/
 
 
-* 扩大规模
+* 大规模
 ** 防屏蔽 - 代理池
 #+BEGIN_SRC python
 page_num = 10
@@ -136,7 +136,7 @@ resource_data = response.read()
 #+END_SRC
 ** 重复性验证 bloom filter
 #+BEGIN_SRC python
-# 解决大样本下 Hash 空间/时间增长的问题
+# 大样本下 Hash 空间/时间消耗均不理想
 from pybloom import BloomFilter, ScalableBloomFilter
 # 误报率 0.1%
 bf = BloomFilter(capacity=10000, error_rate=0.001)
@@ -154,20 +154,80 @@ from multiprocessing import Queue, JoinableQueue
 POISON_PILL = "POISON_END_PROCESSING"
 manager = Manager()
 worker = Queue()
-worker_num = 20
-pool = Pool(worker_num, crawl_url, (_queue, result_queue))
+WORKER_NUM = 20
+
+# 启动写线程
+writer_proc = Process(target=write_to_disk, args=())
+writer_proc.start()
+
+pool = Pool(WORKER_NUM, crawl_url, (queue, result_queue))
 pool.close()
 pool.join()
 
 #+END_SRC 
-** 协程
+
+** 并发 - 协程
 #+BEGIN_SRC python
-import gevent
-from gevent import monkey
-monkey.patch_all()
-#monkey.patch_all(thread=False, socket=False)
+def crawl_url():
+    send_headers = {'User-Agent': 'Mozilla/6.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
+    crawl_res = {}
+    while True:
+        url = yield crawl_res
+        request = urllib2.Request(url, headers=headers)
+        html = urllib2.urlopen(req, timeout=10).read()
+        content = BeautifulSoup(html, "lxml")
+        title = content.title.get_text()
+        crawl_res[url] = title
+
+
+crawler = crawl_url
+# 要先执行一次 next 方法
+crawl_res = crawler.next()
+
+result_list = []
+for url in url_list:
+    crawl_res = crawler.send(url)
+    result_list.append(crawl_res)
+
+
 
 #+END_SRC 
+
+** 并发 - 多进程 + 协程
+#+BEGIN_SRC python
+# multiprocessing 的 pool 和 gevent 冲突
+from multiprocessing import Process
+import gevent
+from gevent import monkey; monkey.patch_all()
+
+#使用协程来执行
+def process_start(tasks):
+    gevent.joinall(tasks)
+
+
+with open(crawl_url_file) as url_reader:
+    url = url_reader.readline.strip()
+    task_list = []
+    i = 0
+    while url:
+        i += 1
+        task_list.append(gevent.spawn(crawl_method, url, ))
+
+        if i >= MAX_TASK_NUM:
+            p = Process(target = process_start, args=(task_list, ))
+            p.start()
+            task_list = []
+            i = 0
+        url = url_reader.readline.strip()
+
+    # 抓取剩余 url
+    if task_list:
+        p = Process(target=process_start, args=(task_list, ))
+        p.start()
+
+#+END_SRC 
+
+
 ** 并发 - 分布式
 #+BEGIN_SRC python
 import redis
