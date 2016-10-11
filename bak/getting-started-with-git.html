@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><title>(Getting Started with Git & Github)</title>
+<meta name="author" content="(John Stevenson)"/>
+<link rel="stylesheet" href="./css/reveal.min.css">
+<link rel="stylesheet" href="./css/theme/jr0cket.css" id="theme">
+
+<link rel="stylesheet" href="./css/print/pdf.css" type="text/css" media="print">
+<meta name="description" content="Getting started with Git and Github">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<h1>Getting Started with Git &amp; Github</h1>
+<h2>John Stevenson</h2>
+<h2><a href="http://www.twitter.com/jr0cket">@jr0cket</a></h2>
+<h2></h2></section>
+
+<section>
+<section id="sec-1" >
+
+<h2>Managing code with Git</h2>
+<p>
+A distributed approach to source control 
+</p>
+
+<p>
+Advantages:
+</p>
+<ul class="org-ul">
+<li class="fragment roll-in">local repository, manage commits off-line
+</li>
+<li class="fragment roll-in">change sets for more detailed history
+</li>
+<li class="fragment roll-in">unique commit numbers rather than version numbers 
+</li>
+<li class="fragment roll-in">easy to create branches, easy to throw away too 
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="sec-2" >
+
+<h2>Git Quickstart Guide</h2>
+
+<div class="figure">
+<p><img src="./images/git-quickstart-guide.png"  alt="git-quickstart-guide.png"/></p>
+</div>
+</section>
+</section>
+<section>
+<section id="sec-3" >
+
+<h2>Installing Git</h2>
+<p>
+Download Git Client from <a href="http://git-scm.com/">http://git-scm.com/</a>
+</p>
+
+</section>
+<section id="sec-3-1" >
+
+<h3>Introduce yourself to Git</h3>
+<div class="org-src-container">
+
+<pre class="src src-bash">git config --global user.name "John Stevenson"
+git config --global user.email "john@jr0cket.co.uk"
+</pre>
+</div>
+</section>
+<section id="sec-3-2" >
+
+<h3>Set up some nice aliases</h3>
+<p>
+(Optional)
+</p>
+
+<p>
+Edit your Git config file:
+~/.gitconfig
+</p>
+
+<ul class="org-ul">
+<li>add aliases for common commands &amp; options
+</li>
+<li>add a global ignore file
+</li>
+<li>use external diff &amp; merge tools 
+</li>
+</ul>
+
+<p>
+See my <a href="https://github.com/jr0cket/dot-files-ubuntu/blob/master/.gitconfig">.gitconfig</a> file for examples 
+</p>
+</section>
+</section>
+<section>
+<section id="sec-4" >
+
+<h2>Creating a local repository</h2>
+<p>
+Changes managed as unique data objects in .git folder 
+</p>
+<ul class="org-ul">
+<li class="fragment highlight-red">dont delete .git 
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">git init
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="sec-5" >
+
+<h2>Git local workflow - overview</h2>
+
+<div class="figure">
+<p><img src="./images/git-local-workflow.png"  alt="git-local-workflow.png"/></p>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-6" >
+
+<h2>Git local workflow - commands</h2>
+<p>
+Just need to get familiar with 5 commands to start with
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">git status 
+
+git add
+
+git diff 
+
+git commit
+
+git log
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="sec-7" >
+
+<h2>Git status</h2>
+<p>
+Whats going on, what has changes?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">git status
+git status -sb
+</pre>
+</div>
+
+</section>
+<section id="sec-7-1" >
+
+<h3>Git Status example</h3>
+
+<div class="figure">
+<p><img src="./images/git-status-modified-untracked.png"  alt="git-status-modified-untracked.png"/></p>
+</div>
+
+</section>
+<section id="sec-7-2" >
+
+<h3>Git Status example</h3>
+
+<div class="figure">
+<p><img src="./images/git-status-staged-modified-untracked.png"  alt="git-status-staged-modified-untracked.png"/></p>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-8" >
+
+<h2>Git add</h2>
+<p>
+Tell git which changes make up the next commit (version)
+</p>
+<ul class="org-ul">
+<li>refered to as staging or index
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">; adds everything
+git add .  
+
+git add filename.ext 
+
+git add my-class.java
+</pre>
+</div>
+
+</section>
+<section id="sec-8-1" >
+
+<h3>Working with Staging</h3>
+<p>
+Easy to add and remove changes 
+</p>
+<ul class="org-ul">
+<li>nothing has been committed as yet
+</li>
+<li>gives another level of comparison (diffs)
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">;; updates files in staging 
+git add .  
+git add filename.ext 
+git add my-class.java
+
+git reset --HEAD 
+git reset --HEAD filename.ext
+git reset --HEAD my-class.java
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="sec-9" >
+
+<h2>Git diff</h2>
+<p>
+View changes in your files, compared to the last commit  
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">;; show changes made in the working copy 
+git diff 
+
+;; show changes made in staging
+git diff --cache
+</pre>
+</div>
+
+</section>
+<section id="sec-9-1" >
+
+<h3>Git diff - more specifically</h3>
+<p>
+Just show the words that have changed 
+</p>
+<ul class="org-ul">
+<li>use the option &#x2013;word-diff 
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">;; show changes made in the working copy 
+git diff --word-diff
+
+;; show changes made in staging
+git diff --cache --word-diff
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="sec-10" >
+
+<h2>Git commit</h2>
+<p>
+Make a new commit (version) with everything in staging
+</p>
+<ul class="org-ul">
+<li>option -m specifies the commit message (not optinal)
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">;; commit changes from staging
+git commit -m "useful commit message"
+
+;; commit changes from all tracked files 
+git commit -am "useful commit message"
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="sec-11" >
+
+<h2>Git Log</h2>
+<p>
+See all the commits made
+</p>
+<ul class="org-ul">
+<li>dates of commit
+</li>
+<li>author of commit
+</li>
+<li>keep track of branches &amp; forks 
+</li>
+</ul>
+
+</section>
+<section id="sec-11-1" >
+
+<h3>Default log view is boring</h3>
+<div class="org-src-container">
+
+<pre class="src src-bash">git log
+</pre>
+</div>
+
+<p>
+[[./images/git-log-default.png]
+</p>
+</section>
+<section id="sec-11-2" >
+
+<h3>Customise the output to see the history better</h3>
+<div class="org-src-container">
+
+<pre class="src src-bash">git log --oneline --graph --decorate
+</pre>
+</div>
+
+<p>
+[[./images/git-log-custom.png]
+</p>
+</section>
+<section id="sec-11-3" >
+
+<h3>Drilling deeper into a commit</h3>
+<p>
+Show the code that is part of the commit 
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">git show 9690af6
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-12" >
+
+<h2>Collaborating with Github</h2>
+<p>
+Github == Social Coding 
+</p>
+
+<ul class="org-ul">
+<li>share your code with others
+</li>
+<li>keep a backup of your code (if your laptop dies)
+</li>
+</ul>
+
+</section>
+<section id="sec-12-1" >
+
+<h3>Create a Github account (free)</h3>
+<p>
+Sign up at: <a href="http://github.com">http://github.com</a> 
+</p>
+
+<p>
+Add a public key to identify yourself
+</p>
+<ul class="org-ul">
+<li>Github help shows you how <a href="https://help.github.com/articles/generating-ssh-keys">generate an SSH key</a>
+</li>
+</ul>
+</section>
+<section id="sec-12-2" >
+
+<h3>Github the big picture</h3>
+
+<div class="figure">
+<p><img src="./images/git-and-github-workflow.png"  alt="git-and-github-workflow.png"/></p>
+</div>
+
+</section>
+<section id="sec-12-3" >
+
+<h3>Github forking</h3>
+<ol class="org-ol">
+<li>View someone elses project on Github
+</li>
+<li>Fork the project to get your own copy
+</li>
+<li>Clone your fork and extend the project 
+</li>
+</ol>
+
+</section>
+<section id="sec-12-4" >
+
+<h3>Github pull requests</h3>
+<ul class="org-ul">
+<li>Commit your changes locally
+</li>
+<li>push changes to your fork
+</li>
+<li>click the pull reuest button on Github page 
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">git add .
+git commit -m "a new feature"
+git push my-fork branch
+
+;; Go to your repository on Github.com,
+;; press the pull request button, add a message
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-13" >
+
+<h2>Branching and Merging</h2>
+<div class="org-src-container">
+
+<pre class="src src-bash">git checkout branch-name
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-14" >
+
+<h2>Moving things around</h2>
+<div class="org-src-container">
+
+<pre class="src src-bash">git mv filename new-filename
+</pre>
+</div>
+</section>
+
+
+
+</section>
+<section>
+<section id="sec-15" >
+
+<h2>Get Reveal.js and Org-reveal</h2>
+<ul class="org-ul">
+<li>Emacs
+    <a href="http://www.gnu.org/software/emacs/">http://www.gnu.org/software/emacs/</a>
+</li>
+<li>Reveal.js on GitHub:<br/>
+    <a href="https://github.com/hakimel/reveal.js">https://github.com/hakimel/reveal.js</a>
+</li>
+<li>Org-reveal on GitHub:<br/>
+    <a href="https://github.com/yjwen/org-reveal">https://github.com/yjwen/org-reveal</a>
+</li>
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="./lib/js/head.min.js"></script>
+<script src="./js/reveal.min.js"></script>
+<script>
+
+        		// Full list of configuration options available here:
+        		// https://github.com/hakimel/reveal.js#configuration
+        		Reveal.initialize({
+        			controls: true,
+        			progress: true,
+        			history: true,
+        			center: false,
+        			rollingLinks: true,
+        			keyboard: true,
+        			overview: true,
+        			width: 1600, // slide width
+        			height: 900, // slide height
+        			 // slide margin
+        			 // slide minimum scaling factor
+        			 // slide maximum scaling factor
+
+
+        			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        			transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+        			transitionSpeed: 'default',
+
+        			// Optional libraries used to extend on reveal.js
+        			dependencies: [
+        				{ src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        				{ src: './plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        				{ src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        				{ src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        				{ src: './plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        				{ src: './plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        				// { src: './plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+        				// { src: './plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        			]
+        		});
+</script>
+</body>
+</html>

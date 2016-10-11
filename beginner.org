@@ -1,0 +1,270 @@
+#+Title: Beginner python
+#+Author: jiancheng.zhai
+#+Email: jiancheng.pro@gmail.com
+#+OPTIONS: toc:nil reveal_mathjax:t
+#+OPTIONS: ^:nil
+#+OPTIONS: toc:nil num:nil
+#+STARTUP: indent
+#+REVEAL_THEME: night
+#+REVEAL_TRANS: linear    
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+
+* 代码风格
+** utf-8
+#+BEGIN_SRC python
+文件开头统一添加
+# -*- coding: utf-8 -*-  
+#+END_SRC
+
+#+BEGIN_SRC python
+或
+# coding=utf-8
+#+END_SRC
+** 名称
+
+| 类型     | 常规名             | 内部名              |
+|----------+--------------------+---------------------|
+| 变量     | lower_with_under   | _lower_with_under   |
+| 函数     | lower_with_under() | _lower_with_under() |
+| 类       | CapWords           | _CapWords           |
+| 包       | lower_with_under   |                     |
+| 全局常量 | CAPS_WITH_UNDER    | CAPS_WITH_UNDER     |
+| 异常     | CapWords           | CapWords            |
+
+** 缩进
+使用四个空格缩进 \\
+设置编辑器 tab = 4 空格
+
+** 函数
+#+BEGIN_SRC python
+def fetch_bigtable_rows(big_table, keys, other_silly_variable=None):
+    """Fetches rows from a Bigtable.
+
+    Retrieves rows pertaining to the given keys from the Table instance
+    represented by big_table.  Silly things may happen if
+    other_silly_variable is not None.
+
+    Args:
+        big_table: An open Bigtable Table instance.
+        keys: A sequence of strings representing the key of each table row
+            to fetch.
+        other_silly_variable: Another optional variable, that has a much
+            longer name than the other args, and which does nothing.
+
+    Returns:
+        A dict mapping keys to the corresponding table row data
+        fetched. Each row is represented as a tuple of strings. For
+        example:
+
+        {'Serak': ('Rigel VII', 'Preparer'),
+         'Zim': ('Irk', 'Invader'),
+         'Lrrr': ('Omicron Persei 8', 'Emperor')}
+
+        If a key from the keys argument is missing from the dictionary,
+        then that row was not found in the table.
+
+    Raises:
+        IOError: An error occurred accessing the bigtable.Table object.
+    """
+    pass
+#+END_SRC
+
+** 类
+#+BEGIN_SRC python
+class SampleClass(object):
+    """Summary of class here.
+
+    Longer class information....
+    Longer class information....
+
+    Attributes:
+        likes_spam: A boolean indicating if we like SPAM or not.
+        eggs: An integer count of the eggs we have laid.
+    """
+
+    def __init__(self, likes_spam=False):
+        """Inits SampleClass with blah."""
+        self.likes_spam = likes_spam
+        self.eggs = 0
+
+    def public_method(self):
+        """Performs operation blah."""
+#+END_SRC
+** import
+#+ATTR_REVEAL: :frag roll-in
+1 标准库
+#+ATTR_REVEAL: :frag roll-in
+2 第三方库
+#+ATTR_REVEAL: :frag roll-in
+3 应用程序指定
+#+ATTR_REVEAL: :frag roll-in
+
+#+ATTR_REVEAL: :frag roll-in
+#+BEGIN_SRC python
+# Good
+import os
+import sys
+#+END_SRC
+
+
+#+ATTR_REVEAL: :frag roll-in
+#+BEGIN_SRC python
+# Bad
+import os, sys
+#+END_SRC
+
+** 工具
+#+ATTR_REVEAL: :frag highlight-blue
+- [[https://pypi.python.org/pypi/autopep8][Autopep8]]
+- [[https://pypi.python.org/pypi/pycodestyle][pycodestyle]]
+- [[https://github.com/google/yapf][yapf]]
+
+
+
+* pip
+[[https://pypi.python.org/pypi/pip][pip]] 是一个用来安装和管理 Python 包的工具
+
+** 示例
+#+BEGIN_SRC shell
+# 指定版本
+pip install pandas=2.0.1
+#+END_SRC
+
+#+BEGIN_SRC shell
+# 安装所有依赖关系
+pip install -r requirement.txt
+#+END_SRC
+
+#+BEGIN_SRC shell
+#+END_SRC
+
+
+* virtualenv
+virtualenv 用于创建多个独立的 Python 虚拟运行环境
+- 在没有权限的情况下安装包
+- 不同项目可以使用不同的包组合
+- 包版本升级不影响其他项目
+
+** 示例 
+
+#+BEGIN_SRC shell
+# 创建新环境
+virtualenv venv
+#+END_SRC
+
+#+BEGIN_SRC shell
+# 启动虚拟环境
+source venv/bin/activate
+#+END_SRC
+
+#+BEGIN_SRC shell
+# 退出虚拟环境
+deactivate
+#+END_SRC
+
+
+* json
+JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式
+json 模块提供了一种简单的方式来编码和解码 JSON 数据
+
+** 示例
+#+BEGIN_SRC python
+# 将 python 数据结构转换为 json 串
+import json
+
+data = {
+    'name' : 'ACME',
+    'shares' : 100,
+    'price' : 542.23
+}
+json_str = json.dumps(data)
+#+END_SRC
+
+#+BEGIN_SRC python
+# 从 json 字串中解析数据
+data = json.loads(json_str)
+#+END_SRC
+
+
+* logging
+提供了通用的日志系统
+
+** 示例 
+#+BEGIN_SRC python
+# 设置日志格式
+FORMAT = '%(asctime)-15s %(clientip)s %(user)-8s %(message)s'
+logging.basicConfig(format=FORMAT)
+
+d = {'clientip': '192.168.0.1', 'user': 'python'}
+logger = logging.getLogger('tcpserver')
+logger.warning('Protocol problem: %s', 'connection reset', extra=d)
+#+END_SRC
+
+
+#+BEGIN_SRC text
+# 打印日志
+2016-06-16 22:20:02,165 192.168.0.1 python  Protocol problem: connection reset
+#+END_SRC
+
+
+* sqlalchemy
+sqlalchmey 是一个 ORM(Object-Relational Mapping) 框架
+提供一种关系数据库的表结构和 python 对象之间的映射
+
+** 示例
+#+BEGIN_SRC python
+from sqlalchemy import Column, String, create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
+# 创建对象的基类:
+Base = declarative_base()
+
+# 定义 User 对象:
+class User(Base):
+    # 表的名字:
+    __tablename__ = 'user'
+
+    # 表的结构:
+    id = Column(String(20), primary_key=True)
+    name = Column(String(20))
+#+END_SRC
+
+#+BEGIN_SRC python
+# 初始化数据库连接:
+engine = create_engine('mysql+mysqlconnector://root:password@localhost:3306/test')
+# 创建 DBSession 类型:
+DBSession = sessionmaker(bind=engine)
+# 创建 session 对象:
+session = DBSession()
+# 创建新 User 对象:
+new_user = User(id='5', name='Bob')
+# 添加到 session:
+session.add(new_user)
+# 保存到数据库:
+session.commit()
+session.close()
+#+END_SRC
+
+
+* subprocess
+创建一个子进程用于执行外部命令
+** 示例
+
+#+BEGIN_SRC python
+# 定义 shell 命令
+cmd = "ps aux|grep mysql|grep -v grep|awk '{print $2}'|xargs kill -9"
+#+END_SRC
+
+#+BEGIN_SRC python
+# 执行命令
+try :
+    exec_output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+
+except subprocess.CalledProcessError, exec_err:
+    pass
+#+END_SRC
+
+
+* Q & A
+谢谢
