@@ -1,0 +1,172 @@
+#+Title: Python web crawler
+#+Author: jiancheng.zhai
+#+Email: jiancheng.pro@gmail.com
+#+OPTIONS: toc:nil reveal_mathjax:t
+#+OPTIONS: ^:nil
+#+OPTIONS: toc:nil num:nil
+#+STARTUP: indent
+#+REVEAL_THEME: night
+#+REVEAL_TRANS: linear    
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+
+* 工作原理
+
+* Http 请求
+** urllib
+#+BEGIN_SRC python
+>>> values = {}
+>>> values['username'] = "1016903103@qq.com"
+>>> values['password'] = "XXXX"
+>>> headers = {'User-Agent':'Mozilla/6.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6' }
+>>> data = urllib.urlencode(values) 
+>>> request = urllib2.Request("http://www.baidu.com", data, headers=headers)
+>>> response = urllib2.urlopen(request)
+>>> print response.read()
+#+END_SRC
+
+** requests: HTTP for Humans 发送请求
+
+ #+BEGIN_SRC python
+# 设置编码
+>>> r.encoding
+'utf-8'
+>>> r.encoding = 'ISO-8859-1'
+
+# 定制 headers
+>>> url = 'https://api.github.com/some/endpoint'
+>>> headers = {'user-agent': 'my-app/0.0.1'}
+>>> r = requests.get(url, headers=headers)
+
+# 发送请求
+>>> r = requests.put("http://httpbin.org/put")
+>>> r = requests.delete("http://httpbin.org/delete")
+>>> r = requests.head("http://httpbin.org/get")
+>>> r = requests.options("http://httpbin.org/get")
+ #+END_SRC
+
+** requests: HTTP for Humans 传递参数
+
+ #+BEGIN_SRC python
+>>> payload = {'key1': 'value1', 'key2': 'value2'}
+>>> r = requests.get("http://httpbin.org/get", params=payload)
+>>> print(r.url)
+http://httpbin.org/get?key2=value2&key1=value1
+# 读取响应内容
+>>> r = requests.get('https://github.com/timeline.json')
+>>> r.text
+u'[{"repository":{"open_issues":0,"url":"https://github.com/...
+ #+END_SRC
+
+
+
+* 页面解析
+** html - beautifulsoup
+#+BEGIN_SRC python
+html = urllib2.urlopen(req, timeout=20).read()
+content = BeautifulSoup(html, "lxml")
+title = content.title.get_text()
+#+END_SRC
+** html - pyquery
+#+BEGIN_SRC python
+from pyquery import PyQuery as pq
+content = requests.get(url, headers=headers)
+doc = pq(ret.text)
+en_mean_list = doc('div.trans-container')('ul')('p.wordGroup')
+#+END_SRC
+[[file:a.png]] [[file:b.png]]
+
+** js - selenium
+#+BEGIN_SRC python
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.keys import Keys
+base_url = 'http://www.baidu.com/'
+browser = webdriver.Chrome()
+browser.get(base_url)
+
+# 读取响应内容, 这里使用 pyquery 进行解析
+doc = pq(browser.page_source)
+doc.xhtml_to_html()
+# 点击元素
+browser.find_element_by_css_selector('.pagination .next').click()
+#+END_SRC
+
+** js - PhantomJS
+ - HEADLESS WEBSITE TESTING
+ - SCREEN CAPTURE
+ - PAGE AUTOMATION
+ - NETWORK MONITORING
+ - http://phantomjs.org/
+
+
+* 扩大规模
+** 防屏蔽 - 代理池
+#+BEGIN_SRC python
+page_num = 10
+url_prefix = "http://www.xicidaili.com/wn/{pn}"
+url_list = [url_prefix.format(pn=x) for x in range(1, page_num)]
+headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.154 Safari/537.36'}
+headers['Content-Type'] = 'application/x-www-form-urlencoded'
+requests = requests.get(url, headers=headers)
+soup = BeautifulSoup(requests.text)
+tables = soup.findAll('table')
+trs = table.findAll('tr')
+res_list = []
+for index, tr in enumerate(trs):
+    res_list.append(item.text.encode('utf8').strip())
+
+ip, port, country, proxy_type, protocol = res_list[1:6]
+#+END_SRC
+
+** 防屏蔽 - 换 user agent
+#+BEGIN_SRC python
+# 随机换 user agent
+from fake_useragent import UserAgent
+ua = UserAgent()
+headers = {'User-Agent': ua.random}
+#+END_SRC
+** 防屏蔽 - 合理的抓取频率
+** cookie 处理
+#+BEGIN_SRC python
+import browsercookie
+cj = browsercookie.chrome()
+opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+response = opener.open(url)
+resource_data = response.read()
+#+END_SRC
+** 重复性验证 bloom filter
+#+BEGIN_SRC python
+# 解决大样本下 Hash 空间/时间增长的问题
+from pybloom import BloomFilter, ScalableBloomFilter
+# 误报率 0.1%
+bf = BloomFilter(capacity=10000, error_rate=0.001)
+bf.add('test')
+print 'test' in bf
+sbf = ScalableBloomFilter(mode=ScalableBloomFilter.SMALL_SET_GROWTH)
+sbf.add('dddd')
+print 'ddd' in sbf
+#+END_SRC 
+** 并发 - 多进程 + 协程
+** 并发 - 分布式
+
+#+BEGIN_SRC python
+import redis
+redis_conn = redis.StrictRedis()
+FETCH_QUEUE = 'FETCH'
+for item in item_list:
+    redis_conn.rpush(FETCH_QUEUE, item)
+#+END_SRC 
+
+
+* 数据存储
+** sqllite
+** mongodb
+** postgreSQL
+
+
+* 框架
+** scrapy
+** pyspider
+
+
+* Q & A
