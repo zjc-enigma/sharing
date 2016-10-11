@@ -151,8 +151,14 @@ print 'ddd' in sbf
 from multiprocessing import Process, Event
 from multiprocessing import Manager
 from multiprocessing import Queue, JoinableQueue
+POISON_PILL = "POISON_END_PROCESSING"
 manager = Manager()
-fetch_queue = Queue()
+worker = Queue()
+worker_num = 20
+pool = Pool(worker_num, crawl_url, (_queue, result_queue))
+pool.close()
+pool.join()
+
 #+END_SRC 
 ** 协程
 #+BEGIN_SRC python
