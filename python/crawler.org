@@ -7,7 +7,7 @@
 #+STARTUP: indent
 #+REVEAL_THEME: night
 #+REVEAL_TRANS: linear    
-
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 
 * 流程
 #+ATTR_HTML: :width 110% :height 90%
