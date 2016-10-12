@@ -7,70 +7,72 @@
 #+STARTUP: indent
 #+REVEAL_THEME: night
 #+REVEAL_TRANS: linear    
-#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 
-* 工作原理
 
-* Http 请求
+* 流程
+#+ATTR_HTML: :width 110% :height 90%
+[[file:flow.png]]
+
+* 请求
 ** urllib
 #+BEGIN_SRC python
->>> values = {}
->>> values['username'] = "1016903103@qq.com"
->>> values['password'] = "XXXX"
->>> headers = {'User-Agent':'Mozilla/6.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6' }
->>> data = urllib.urlencode(values) 
->>> request = urllib2.Request("http://www.baidu.com", data, headers=headers)
->>> response = urllib2.urlopen(request)
->>> print response.read()
+values = {}
+values['username'] = "1016903103@qq.com"
+values['password'] = "XXXX"
+headers = {'User-Agent':'Mozilla/6.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6' }
+data = urllib.urlencode(values) 
+request = urllib2.Request("http://www.baidu.com", data, headers=headers)
+response = urllib2.urlopen(request)
+print response.read()
 #+END_SRC
 
 ** requests: HTTP for Humans 发送请求
 
  #+BEGIN_SRC python
 # 设置编码
->>> r.encoding
+r.encoding
 'utf-8'
->>> r.encoding = 'ISO-8859-1'
+r.encoding = 'ISO-8859-1'
 
 # 定制 headers
->>> url = 'https://api.github.com/some/endpoint'
->>> headers = {'user-agent': 'my-app/0.0.1'}
->>> r = requests.get(url, headers=headers)
+url = 'https://api.github.com/some/endpoint'
+headers = {'user-agent': 'my-app/0.0.1'}
+r = requests.get(url, headers=headers)
 
 # 发送请求
->>> r = requests.put("http://httpbin.org/put")
->>> r = requests.delete("http://httpbin.org/delete")
->>> r = requests.head("http://httpbin.org/get")
->>> r = requests.options("http://httpbin.org/get")
+r = requests.put("http://httpbin.org/put")
+r = requests.delete("http://httpbin.org/delete")
+r = requests.head("http://httpbin.org/get")
+r = requests.options("http://httpbin.org/get")
  #+END_SRC
 
 ** requests: HTTP for Humans 传递参数
 
  #+BEGIN_SRC python
->>> payload = {'key1': 'value1', 'key2': 'value2'}
->>> r = requests.get("http://httpbin.org/get", params=payload)
->>> print(r.url)
+payload = {'key1': 'value1', 'key2': 'value2'}
+r = requests.get("http://httpbin.org/get", params=payload)
+print(r.url)
 http://httpbin.org/get?key2=value2&key1=value1
 # 读取响应内容
->>> r = requests.get('https://github.com/timeline.json')
->>> r.text
+r = requests.get('https://github.com/timeline.json')
+r.text
 u'[{"repository":{"open_issues":0,"url":"https://github.com/...
  #+END_SRC
 
 
 
-* 页面解析
+* 解析
 ** html - beautifulsoup
 #+BEGIN_SRC python
 html = urllib2.urlopen(req, timeout=20).read()
-content = BeautifulSoup(html, "lxml")
-title = content.title.get_text()
+soup = BeautifulSoup(html, "lxml")
+title = soup.title.get_text()
+tr_list = soup.find_all('table')[0].find_all('tr')
 #+END_SRC
 ** html - pyquery
 #+BEGIN_SRC python
 from pyquery import PyQuery as pq
-content = requests.get(url, headers=headers)
-doc = pq(ret.text)
+doc = pq(requests.get(url, headers=headers).text)
 en_mean_list = doc('div.trans-container')('ul')('p.wordGroup')
 #+END_SRC
 [[file:a.png]]
@@ -89,6 +91,8 @@ doc = pq(browser.page_source)
 doc.xhtml_to_html()
 # 点击元素
 browser.find_element_by_css_selector('.pagination .next').click()
+# 获取 cookies
+cookies = browser.get_cookies()
 #+END_SRC
 
 ** js - PhantomJS
@@ -99,7 +103,7 @@ browser.find_element_by_css_selector('.pagination .next').click()
  - http://phantomjs.org/
 
 
-* 大规模
+* 优化
 ** 防屏蔽 - 代理池
 #+BEGIN_SRC python
 page_num = 10
@@ -117,8 +121,14 @@ for index, tr in enumerate(trs):
 
 ip, port, country, proxy_type, protocol = res_list[1:6]
 #+END_SRC
+其他: TOR / ADSL
+** 防屏蔽 - headers
+#+ATTR_HTML: :width 50% :height 50%
+[[file:good_header.jpg]]
+#+ATTR_HTML: :width 50% :height 50%
+[[file:bad_header.png]]
 
-** 防屏蔽 - 换 user agent
+** 防屏蔽 - fake headers
 #+BEGIN_SRC python
 # 随机换 user agent
 from fake_useragent import UserAgent
@@ -126,15 +136,18 @@ ua = UserAgent()
 headers = {'User-Agent': ua.random}
 #+END_SRC
 ** 防屏蔽 - 合理的抓取频率
-** cookie 处理
+time.sleep(5 + random.randint(1,3))
+** DNS Server
+** cookie
 #+BEGIN_SRC python
 import browsercookie
 cj = browsercookie.chrome()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 response = opener.open(url)
-resource_data = response.read()
+html = response.read()
 #+END_SRC
-** 重复性验证 bloom filter
+chrome 插件 EditThisCookie http://www.editthiscookie.com/
+** bloom filter
 #+BEGIN_SRC python
 # 大样本下 Hash 空间/时间消耗均不理想
 from pybloom import BloomFilter, ScalableBloomFilter
@@ -146,21 +159,25 @@ sbf = ScalableBloomFilter(mode=ScalableBloomFilter.SMALL_SET_GROWTH)
 sbf.add('dddd')
 print 'ddd' in sbf
 #+END_SRC 
-** 并发 - 多进程
+** 并发 - 进程池
 #+BEGIN_SRC python
 from multiprocessing import Process, Event
 from multiprocessing import Manager
 from multiprocessing import Queue, JoinableQueue
 POISON_PILL = "POISON_END_PROCESSING"
 manager = Manager()
-worker = Queue()
+# 多进程共享队列
+working_queue = manager.Queue()
+output_queue = manager.Queue()
 WORKER_NUM = 20
 
 # 启动写线程
-writer_proc = Process(target=write_to_disk, args=())
+writer_proc = Process(target=write_to_disk, args=(output_queue, ))
 writer_proc.start()
 
-pool = Pool(WORKER_NUM, crawl_url, (queue, result_queue))
+pool = Pool(processes=WORKER_NUM)
+pool.apply(crawl_url, (working_queue, output_queue))
+#pool.apply_async(crawl_url, (working_queue, output_queue))
 pool.close()
 pool.join()
 
@@ -175,10 +192,8 @@ def crawl_url():
         url = yield crawl_res
         request = urllib2.Request(url, headers=headers)
         html = urllib2.urlopen(req, timeout=10).read()
-        content = BeautifulSoup(html, "lxml")
-        title = content.title.get_text()
+        title = BeautifulSoup(html, "lxml").title.get_text()
         crawl_res[url] = title
-
 
 crawler = crawl_url
 # 要先执行一次 next 方法
@@ -188,9 +203,6 @@ result_list = []
 for url in url_list:
     crawl_res = crawler.send(url)
     result_list.append(crawl_res)
-
-
-
 #+END_SRC 
 
 ** 并发 - 多进程 + 协程
@@ -214,7 +226,7 @@ with open(crawl_url_file) as url_reader:
         task_list.append(gevent.spawn(crawl_method, url, ))
 
         if i >= MAX_TASK_NUM:
-            p = Process(target = process_start, args=(task_list, ))
+            p = Process(target=process_start, args=(task_list, ))
             p.start()
             task_list = []
             i = 0
@@ -227,26 +239,173 @@ with open(crawl_url_file) as url_reader:
 
 #+END_SRC 
 
-
 ** 并发 - 分布式
 #+BEGIN_SRC python
 import redis
-redis_conn = redis.StrictRedis()
-FETCH_QUEUE = 'FETCH'
-for item in item_list:
-    redis_conn.rpush(FETCH_QUEUE, item)
+redis_conn = redis.StrictRedis(host='192.168.1.108', port=6379)
+WORKING_QUEUE = 'WORKING'
+OUTPUT_QUEUE = 'OUTPUT'
+# writer 进程
+writer = Process(target=write_to_disk, args=(redis_conn, OUTPUT_QUEUE))
+writer.start()
+# worker 进程
+task_list = []
+i = 0
+while redis_conn.llen(WORKING_QUEUE) > 0:
+    i += 1
+    task_list.append(redis_conn.lpop(WORKING_QUEUE))
+
+    if i >= MAX_TASK_NUM:
+        p = Process(target=crawl_url, args=(task_list, OUTPUT_QUEUE))
+        p.start()
+        task_list = []
+        i = 0
+
+# 抓取剩余 url
+if task_list:
+    p = Process(target=crawl_url, args=(task_list, OUTPUT_QUEUE))
+    p.start()
 #+END_SRC 
 
 
-* 数据存储
+* 存储
 ** sqllite
+#+BEGIN_SRC python
+# 轻量级
+# 跨平台
+# 读写速度快
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, mapper
+from sqlalchemy import Column, Integer, String, FLOAT, DATE
+from sqlalchemy.ext.declarative import declarative_base
+engine = create_engine('sqlite:///proxy.db')
+Base = declarative_base()
+# 定义数据 model
+class Proxy(Base):
+    __tablename__ = 'proxy'
+
+    id = Column(Integer, primary_key=True)
+    ip = Column(String(100))
+    port = Column(String(100))
+    country = Column(String(100))
+    proxy_type = Column(String(100))
+    protocol = Column(String(100))
+    delay = Column(FLOAT)
+    date = Column(DATE)
+
+Base.metadata.create_all(engine)
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+proxy_list = session.query(Proxy).all()
+session.close()
+#+END_SRC
+
 ** mongodb
+#+BEGIN_SRC python
+from pymongo import MongoClient
+client = MongoClient()
+db = client.proxy_db
+proxy = db.get_collection("proxy")
+proxy_item = {"ip": 127.0.0.1, "port": 1080}
+proxy.insert(proxy_item)
+#+END_SRC
 ** postgreSQL
+#+BEGIN_SRC python
+# JSONB 类型完全支持索引
+# 大数据量场景速度快,性能曲线平稳
+# 插入查询操作效率高
+
+SQLALCHEMY_DATABASE_URI = "postgresql://Patrick:123456@localhost/youdao"
+from sqlalchemy.dialects.postgresql import JSONB
+
+class YoudaoDict(db.Model):
+
+    __tablename__ = 'youdao_dict'
+
+    id = db.Column(db.Integer, primary_key=True)
+    char = db.Column(db.String(20))
+    char_unicode = db.Column(db.String(20))
+    content = db.Column(JSONB)
+
+    def __repr__(self):
+        return ("<char : %s>" % self.char)
+
+res_list = YoudaoDict.query.filter(
+YoudaoDict.content['detail_mean'].astext.like("%"+query+"%")).all()[:10]
+#+END_SRC
 
 
 * 框架
-** scrapy
+** scrapy - architecture
+[[file:scrapy.png]]
+
+** scrapy - tree
+#+ATTR_HTML: :width 45% :height 45%
+[[file:c.png]]
+
+** scrapy - items.py
+#+BEGIN_SRC python
+import scrapy
+
+class DomainItem(scrapy.Item):
+    domain = scrapy.Field()
+    title = scrapy.Field()
+    keywords = scrapy.Field()
+    desc = scrapy.Field()
+#+END_SRC
+
+** scrapy - spider.py
+
+#+BEGIN_SRC python
+from scrapy.spider import BaseSpider
+from domain_parse.items import DomainItem
+
+class DomainSpider(BaseSpider):
+    name = 'domain'
+    domain_list = open('domain_list')
+    start_urls = [ domain.strip() for domain in domain_list.readlines() ]
+    domain_list.close()
+
+    def parse(self, response):
+        domain = response.url
+        title = response.selector.xpath("//title/text()").extract_first()
+        keywords = response.selector.xpath("//meta[@name='keywords']/@content").extract_first()
+        desc = response.selector.xpath("//meta[@name='description']/@content").extract_first()
+        yield DomainItem(domain=domain, title=title, keywords=keywords, desc=desc)
+#+END_SRC
+
+** scrapy - settings.py
+#+BEGIN_SRC python
+BOT_NAME = 'domain_parse'
+SPIDER_MODULES = ['domain_parse.spiders']
+NEWSPIDER_MODULE = 'domain_parse.spiders'
+RETRY_TIMES = 10
+RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
+    'scrapy.contrib.downloadermiddleware.retry.RetryMiddleware': 90,
+    'domain_parse.spiders.random_proxy.RandomProxy': 100,
+    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
+    'domain_parse.spiders.user_agent_pool.UserAgentPoolMiddleware': 500,
+}
+PROXY_DB = 'proxy.db'
+DOMAIN_LIST = 'domain_list'
+CONCURRENT_REQUESTS = 100
+REACTOR_THREADPOOL_MAXSIZE = 20
+COOKIES_ENABLED=False
+REDIRECT_ENABLED = False
+AJAXCRAWL_ENABLED = True
+DOWNLOAD_HANDLERS={'s3':None,}
+#+END_SRC
+
 ** pyspider
+- Write script in Python
+- Powerful WebUI with script editor, task monitor, project manager and result viewer
+- MySQL, MongoDB, Redis, SQLite, Elasticsearch; PostgreSQL with SQLAlchemy as database backend
+- RabbitMQ, Beanstalk, Redis and Kombu as message queue
+- Task priority, retry, periodical, recrawl by age, etc...
+- Distributed architecture, Crawl Javascript pages, Python 2&3, etc...
+https://github.com/binux/pyspider
 
 
 * Q & A
