@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>React introduction</title>
+<meta name="author" content="(jiancheng.zhai)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/night.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">React introduction</h1><h2 class="author">jiancheng.zhai</h2><p class="date">Created: 2016-11-30 Wed 15:38</p>
+</section>
+
+
+<section>
+<section id="slide-org27dc241">
+<h2 id="org27dc241">Web 开发</h2>
+<div class="outline-text-2" id="text-org27dc241">
+</div></section>
+<section id="slide-org6f4f46a">
+<h3 id="org6f4f46a">dom tree</h3>
+<div class="org-src-container">
+
+<pre  class="src src-html">&lt;<span style="color: #4f97d7; font-weight: bold;">!DOCTYPE</span> html&gt;
+&lt;<span style="color: #bc6ec5; font-weight: bold;">html</span> <span style="color: #7590db;">lang</span>=<span style="color: #2d9574;">"en"</span>&gt;
+  &lt;<span style="color: #bc6ec5; font-weight: bold;">head</span>&gt;
+    &lt;<span style="color: #bc6ec5; font-weight: bold;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">My title</span>&lt;/<span style="color: #bc6ec5; font-weight: bold;">title</span>&gt;
+  &lt;/<span style="color: #bc6ec5; font-weight: bold;">head</span>&gt;
+  &lt;<span style="color: #bc6ec5; font-weight: bold;">body</span>&gt;
+    &lt;<span style="color: #bc6ec5; font-weight: bold;">a</span> <span style="color: #7590db;">href</span>=<span style="color: #2d9574;">""</span>&gt;My Link&lt;/<span style="color: #bc6ec5; font-weight: bold;">a</span>&gt;
+    &lt;<span style="color: #bc6ec5; font-weight: bold;">h1</span>&gt;<span style="font-weight: bold; text-decoration: underline;">My header</span>&lt;/<span style="color: #bc6ec5; font-weight: bold;">h1</span>&gt;
+  &lt;/<span style="color: #bc6ec5; font-weight: bold;">body</span>&gt;
+&lt;/<span style="color: #bc6ec5; font-weight: bold;">html</span>&gt;
+</pre>
+</div>
+
+<div class="figure">
+<p><img src="dom-tree.gif" alt="dom-tree.gif" />
+</p>
+</div>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org0130dab">
+<h2 id="org0130dab">react 特性</h2>
+<div class="outline-text-2" id="text-org0130dab">
+</div></section>
+<section id="slide-org00961df">
+<h3 id="org00961df">虚拟 dom</h3>
+<ul>
+<li>高效 diff 算法</li>
+<li>避免直接重置 innerHTML</li>
+<li>只更新必要的 dom</li>
+
+</ul>
+
+</section>
+<section id="slide-org3c2ff17">
+<h3 id="org3c2ff17">组件</h3>
+
+</section>
+<section id="slide-org9c49a50">
+<h3 id="org9c49a50">组件 - 生命周期</h3>
+
+</section>
+<section id="slide-org4ae7ce9">
+<h3 id="org4ae7ce9">react-native</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-org21c0004">
+<h2 id="org21c0004">开发环境</h2>
+<div class="outline-text-2" id="text-org21c0004">
+</div></section>
+<section id="slide-org443dc1f">
+<h3 id="org443dc1f">npm</h3>
+</section>
+<section id="slide-orgd143d33">
+<h3 id="orgd143d33">webpack</h3>
+</section>
+<section id="slide-orge0c4e02">
+<h3 id="orge0c4e02">devtools</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-orgb33e21d">
+<h2 id="orgb33e21d">语言特性</h2>
+<div class="outline-text-2" id="text-orgb33e21d">
+</div></section>
+<section id="slide-orgf6e4ae3">
+<h3 id="orgf6e4ae3">js vs jsx</h3>
+</section>
+<section id="slide-org4243e1d">
+<h3 id="org4243e1d">ES5 vs ES6</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-org931c600">
+<h2 id="org931c600">常用库</h2>
+<div class="outline-text-2" id="text-org931c600">
+</div></section>
+<section id="slide-org4a3f154">
+<h3 id="org4a3f154">redux</h3>
+</section>
+<section id="slide-orgb57db9a">
+<h3 id="orgb57db9a">react-router</h3>
+</section>
+<section id="slide-orgfd2e402">
+<h3 id="orgfd2e402">thunk</h3>
+</section>
+<section id="slide-org1939f63">
+<h3 id="org1939f63">layout</h3>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org4ccda55">
+<h2 id="org4ccda55">后端交互</h2>
+<div class="outline-text-2" id="text-org4ccda55">
+</div></section>
+<section id="slide-orgb8f5701">
+<h3 id="orgb8f5701">服务端渲染</h3>
+</section>
+<section id="slide-org2868d9b">
+<h3 id="org2868d9b">restful api</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-org83ac502">
+<h2 id="org83ac502">浏览器兼容性</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf821cf5">
+<h2 id="orgf821cf5">完整流程</h2>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org3923e25">
+<h2 id="org3923e25">Q &amp; A</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>

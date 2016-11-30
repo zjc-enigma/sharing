@@ -1,0 +1,149 @@
+#+Title: React introduction
+#+Author: jiancheng.zhai
+#+Email: jiancheng.pro@gmail.com
+#+OPTIONS: toc:nil reveal_mathjax:t
+#+OPTIONS: ^:nil
+#+OPTIONS: toc:nil num:nil
+#+STARTUP: indent
+#+REVEAL_THEME: night
+#+REVEAL_TRANS: linear    
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+
+
+* Web 开发
+** dom tree
+   #+BEGIN_SRC html
+   <!DOCTYPE html>
+   <html lang="en">
+     <head>
+       <title>My title</title>
+     </head>
+     <body>
+       <a href="">My Link</a>
+       <h1>My header</h1>
+     </body>
+   </html>
+   #+END_SRC
+   [[file:dom-tree.gif]]
+
+
+* react 特性
+** 虚拟 dom
+   - 高效 diff 算法
+   - 避免直接重置 innerHTML
+   - 只更新必要的 dom
+
+** 组件
+** 组件 - 生命周期
+** react-native
+
+* 开发环境
+** npm
+    #+BEGIN_SRC shell
+    $ sudo npm install -g npm
+    $ npm install react
+    #+END_SRC
+    #+BEGIN_SRC json
+    {
+      "name": "react-demo",
+      "version": "1.0.0",
+      "description": "practice with react",
+      "main": "index.js",
+      "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+      },
+      "keywords": [
+        "react"
+      ],
+      "author": "enigma",
+      "license": "MIT",
+      "dependencies": {
+        "react": "^15.3.0",
+        "react-router": "^2.7.0",
+        "react-router-redux": "^4.0.5"
+        },
+      "devDependencies": {
+        "redux-devtools": "^3.3.1"
+       }
+     }
+    #+END_SRC
+** webpack
+   [[file:webpack.jpg]]
+   #+BEGIN_SRC shell
+   $ webpack --watch
+   #+END_SRC
+
+** webpack - 配置
+
+   #+BEGIN_SRC js
+   var webpack = require('webpack');
+   var ExtractTextPlugin = require("extract-text-webpack-plugin");
+   var path = require("path");
+   module.exports = {
+     entry: [
+       'whatwg-fetch',
+       "./app/index.js"
+     ],
+     devtool: 'source-map',
+     output: {
+       path: __dirname + '/static',
+       filename: "bundle.js"
+     },
+     resolve: {
+         extensions: ['', '.scss', '.css', '.js', '.json'],
+         modulesDirectories: [
+             'node_modules',
+             path.resolve(__dirname, './node_modules')
+         ]
+     },
+     module: {
+       loaders: [
+         {
+           test: /\.js?$/,
+           loader: 'babel-loader',
+           query: {
+             presets: ['es2015', 'react', 'stage-0'],
+             plugins: ['transform-runtime', 'transform-decorators-legacy']
+           },
+           exclude: /node_modules/
+         },
+         {
+             test: /(\.scss|\.css)$/,
+           loaders:["style", "css", "sass"]
+         }
+       ]
+     },
+     plugins: [
+         new ExtractTextPlugin('theme.css', { allChunks: true }),
+     ]
+   };
+   #+END_SRC
+
+** devtools
+** babel
+
+* 语言特性
+** js vs jsx
+** ES5 vs ES6
+
+* 常用库
+** redux
+** 数据流
+** react-router
+** thunk
+** layout
+
+
+* 服务端
+  
+** 服务端渲染
+** restful api
+
+
+
+* 完整流程
+
+* Tips
+** 浏览器兼容性
+
+* Q & A

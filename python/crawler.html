@@ -26,22 +26,22 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Python web crawler</h1><h2 class="author">jiancheng.zhai</h2><p class="date">Created: 2016-10-12 三 01:05</p>
+<section id="sec-title-slide"><h1 class="title">Python web crawler</h1><h2 class="author">jiancheng.zhai</h2><p class="date">Created: 2016-11-30 Wed 14:24</p>
 </section>
 
 <section>
-<section id="slide-orgheadline1">
-<h2 id="orgheadline1">工作原理</h2>
+<section id="slide-org658c85a">
+<h2 id="org658c85a">工作原理</h2>
 
 </section>
 </section>
 <section>
-<section id="slide-orgheadline5">
-<h2 id="orgheadline5">Http 请求</h2>
-<div class="outline-text-2" id="text-orgheadline5">
+<section id="slide-org6584727">
+<h2 id="org6584727">Http 请求</h2>
+<div class="outline-text-2" id="text-org6584727">
 </div></section>
-<section id="slide-orgheadline2">
-<h3 id="orgheadline2">urllib</h3>
+<section id="slide-orgb974e40">
+<h3 id="orgb974e40">urllib</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python">&gt;&gt;&gt; <span style="color: #7590db;">values</span> = <span style="color: #4f97d7;">{}</span>
@@ -56,8 +56,8 @@
 </div>
 
 </section>
-<section id="slide-orgheadline3">
-<h3 id="orgheadline3">requests: HTTP for Humans 发送请求</h3>
+<section id="slide-org46064b9">
+<h3 id="org46064b9">requests: HTTP for Humans 发送请求</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#35774;&#32622;&#32534;&#30721;</span>
@@ -79,8 +79,8 @@
 </div>
 
 </section>
-<section id="slide-orgheadline4">
-<h3 id="orgheadline4">requests: HTTP for Humans 传递参数</h3>
+<section id="slide-orgd4bbea6">
+<h3 id="orgd4bbea6">requests: HTTP for Humans 传递参数</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python">&gt;&gt;&gt; <span style="color: #7590db;">payload</span> = <span style="color: #4f97d7;">{</span><span style="color: #2d9574;">'key1'</span>: <span style="color: #2d9574;">'value1'</span>, <span style="color: #2d9574;">'key2'</span>: <span style="color: #2d9574;">'value2'</span><span style="color: #4f97d7;">}</span>
@@ -99,12 +99,12 @@ u<span style="color: #2d9574;">'[{"repository":{"open_issues":0,"url":"https://g
 </section>
 </section>
 <section>
-<section id="slide-orgheadline10">
-<h2 id="orgheadline10">页面解析</h2>
-<div class="outline-text-2" id="text-orgheadline10">
+<section id="slide-orgad4f349">
+<h2 id="orgad4f349">页面解析</h2>
+<div class="outline-text-2" id="text-orgad4f349">
 </div></section>
-<section id="slide-orgheadline6">
-<h3 id="orgheadline6">html - beautifulsoup</h3>
+<section id="slide-org6297342">
+<h3 id="org6297342">html - beautifulsoup</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #7590db;">html</span> = urllib2.urlopen<span style="color: #4f97d7;">(</span>req, timeout=<span style="color: #a45bad;">20</span><span style="color: #4f97d7;">)</span>.read<span style="color: #4f97d7;">()</span>
@@ -113,8 +113,8 @@ u<span style="color: #2d9574;">'[{"repository":{"open_issues":0,"url":"https://g
 </pre>
 </div>
 </section>
-<section id="slide-orgheadline7">
-<h3 id="orgheadline7">html - pyquery</h3>
+<section id="slide-org65175ff">
+<h3 id="org65175ff">html - pyquery</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">from</span> pyquery <span style="color: #4f97d7; font-weight: bold;">import</span> PyQuery <span style="color: #4f97d7; font-weight: bold;">as</span> pq
@@ -123,13 +123,15 @@ u<span style="color: #2d9574;">'[{"repository":{"open_issues":0,"url":"https://g
 <span style="color: #7590db;">en_mean_list</span> = doc<span style="color: #4f97d7;">(</span><span style="color: #2d9574;">'div.trans-container'</span><span style="color: #4f97d7;">)(</span><span style="color: #2d9574;">'ul'</span><span style="color: #4f97d7;">)(</span><span style="color: #2d9574;">'p.wordGroup'</span><span style="color: #4f97d7;">)</span>
 </pre>
 </div>
-<p>
-<img src="a.png" alt="a.png" /> <img src="b.png" alt="b.png" />
+
+<div class="figure">
+<p><img src="a.png" alt="a.png" />
 </p>
+</div>
 
 </section>
-<section id="slide-orgheadline8">
-<h3 id="orgheadline8">js - selenium</h3>
+<section id="slide-org4bf5358">
+<h3 id="org4bf5358">js - selenium</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">from</span> selenium <span style="color: #4f97d7; font-weight: bold;">import</span> webdriver
@@ -148,8 +150,8 @@ browser.find_element_by_css_selector<span style="color: #4f97d7;">(</span><span 
 </div>
 
 </section>
-<section id="slide-orgheadline9">
-<h3 id="orgheadline9">js - PhantomJS</h3>
+<section id="slide-org452e971">
+<h3 id="org452e971">js - PhantomJS</h3>
 <ul>
 <li>HEADLESS WEBSITE TESTING</li>
 <li>SCREEN CAPTURE</li>
@@ -163,12 +165,12 @@ browser.find_element_by_css_selector<span style="color: #4f97d7;">(</span><span 
 </section>
 </section>
 <section>
-<section id="slide-orgheadline19">
-<h2 id="orgheadline19">扩大规模</h2>
-<div class="outline-text-2" id="text-orgheadline19">
+<section id="slide-org87ed5de">
+<h2 id="org87ed5de">大规模</h2>
+<div class="outline-text-2" id="text-org87ed5de">
 </div></section>
-<section id="slide-orgheadline11">
-<h3 id="orgheadline11">防屏蔽 - 代理池</h3>
+<section id="slide-orgddb8c34">
+<h3 id="orgddb8c34">防屏蔽 - 代理池</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #7590db;">page_num</span> = <span style="color: #a45bad;">10</span>
@@ -189,8 +191,8 @@ browser.find_element_by_css_selector<span style="color: #4f97d7;">(</span><span 
 </div>
 
 </section>
-<section id="slide-orgheadline12">
-<h3 id="orgheadline12">防屏蔽 - 换 user agent</h3>
+<section id="slide-orgf917333">
+<h3 id="orgf917333">防屏蔽 - 换 user agent</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#38543;&#26426;&#25442; user agent</span>
@@ -200,11 +202,11 @@ browser.find_element_by_css_selector<span style="color: #4f97d7;">(</span><span 
 </pre>
 </div>
 </section>
-<section id="slide-orgheadline13">
-<h3 id="orgheadline13">防屏蔽 - 合理的抓取频率</h3>
+<section id="slide-org2d3e9ad">
+<h3 id="org2d3e9ad">防屏蔽 - 合理的抓取频率</h3>
 </section>
-<section id="slide-orgheadline14">
-<h3 id="orgheadline14">cookie 处理</h3>
+<section id="slide-orgef05b41">
+<h3 id="orgef05b41">cookie 处理</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">import</span> browsercookie
@@ -215,11 +217,11 @@ browser.find_element_by_css_selector<span style="color: #4f97d7;">(</span><span 
 </pre>
 </div>
 </section>
-<section id="slide-orgheadline15">
-<h3 id="orgheadline15">重复性验证 bloom filter</h3>
+<section id="slide-org7d93e59">
+<h3 id="org7d93e59">重复性验证 bloom filter</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#35299;&#20915;&#22823;&#26679;&#26412;&#19979; Hash &#31354;&#38388;/&#26102;&#38388;&#22686;&#38271;&#30340;&#38382;&#39064;</span>
+<pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#22823;&#26679;&#26412;&#19979; Hash &#31354;&#38388;/&#26102;&#38388;&#28040;&#32791;&#22343;&#19981;&#29702;&#24819;</span>
 <span style="color: #4f97d7; font-weight: bold;">from</span> pybloom <span style="color: #4f97d7; font-weight: bold;">import</span> BloomFilter, ScalableBloomFilter
 <span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#35823;&#25253;&#29575; 0.1%</span>
 <span style="color: #7590db;">bf</span> = BloomFilter<span style="color: #4f97d7;">(</span>capacity=<span style="color: #a45bad;">10000</span>, error_rate=<span style="color: #a45bad;">0</span>.<span style="color: #a45bad;">001</span><span style="color: #4f97d7;">)</span>
@@ -231,8 +233,8 @@ sbf.add<span style="color: #4f97d7;">(</span><span style="color: #2d9574;">'dddd
 </pre>
 </div>
 </section>
-<section id="slide-orgheadline16">
-<h3 id="orgheadline16">并发 - 多进程</h3>
+<section id="slide-orgd56aa88">
+<h3 id="orgd56aa88">并发 - 多进程</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">from</span> multiprocessing <span style="color: #4f97d7; font-weight: bold;">import</span> Process, Event
@@ -241,26 +243,87 @@ sbf.add<span style="color: #4f97d7;">(</span><span style="color: #2d9574;">'dddd
 <span style="color: #7590db;">POISON_PILL</span> = <span style="color: #2d9574;">"POISON_END_PROCESSING"</span>
 <span style="color: #7590db;">manager</span> = Manager<span style="color: #4f97d7;">()</span>
 <span style="color: #7590db;">worker</span> = Queue<span style="color: #4f97d7;">()</span>
-<span style="color: #7590db;">worker_num</span> = <span style="color: #a45bad;">20</span>
-<span style="color: #7590db;">pool</span> = Pool<span style="color: #4f97d7;">(</span>worker_num, crawl_url, <span style="color: #bc6ec5;">(</span>_queue, result_queue<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+<span style="color: #7590db;">WORKER_NUM</span> = <span style="color: #a45bad;">20</span>
+
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#21551;&#21160;&#20889;&#32447;&#31243;</span>
+<span style="color: #7590db;">writer_proc</span> = Process<span style="color: #4f97d7;">(</span>target=write_to_disk, args=<span style="color: #bc6ec5;">()</span><span style="color: #4f97d7;">)</span>
+writer_proc.start<span style="color: #4f97d7;">()</span>
+
+<span style="color: #7590db;">pool</span> = Pool<span style="color: #4f97d7;">(</span>WORKER_NUM, crawl_url, <span style="color: #bc6ec5;">(</span>queue, result_queue<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
 pool.close<span style="color: #4f97d7;">()</span>
 pool.join<span style="color: #4f97d7;">()</span>
 </pre>
 </div>
+
 </section>
-<section id="slide-orgheadline17">
-<h3 id="orgheadline17">协程</h3>
+<section id="slide-org7002aa7">
+<h3 id="org7002aa7">并发 - 协程</h3>
 <div class="org-src-container">
 
-<pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">import</span> gevent
-<span style="color: #4f97d7; font-weight: bold;">from</span> gevent <span style="color: #4f97d7; font-weight: bold;">import</span> monkey
-monkey.patch_all<span style="color: #4f97d7;">()</span>
-<span style="color: #2aa1ae; background-color: #292e34;">#</span><span style="color: #2aa1ae; background-color: #292e34;">monkey.patch_all(thread=False, socket=False)</span>
+<pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">crawl_url</span><span style="color: #4f97d7;">()</span>:
+<span style="background-color: #555;"> </span>   <span style="color: #7590db;">send_headers</span> = <span style="color: #4f97d7;">{</span><span style="color: #2d9574;">'User-Agent'</span>: <span style="color: #2d9574;">'Mozilla/6.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'</span><span style="color: #4f97d7;">}</span>
+<span style="background-color: #555;"> </span>   <span style="color: #7590db;">crawl_res</span> = <span style="color: #4f97d7;">{}</span>
+<span style="background-color: #555;"> </span>   <span style="color: #4f97d7; font-weight: bold;">while</span> <span style="color: #a45bad;">True</span>:
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">url</span> = <span style="color: #4f97d7; font-weight: bold;">yield</span> crawl_res
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">request</span> = urllib2.Request<span style="color: #4f97d7;">(</span>url, headers=headers<span style="color: #4f97d7;">)</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">html</span> = urllib2.urlopen<span style="color: #4f97d7;">(</span>req, timeout=<span style="color: #a45bad;">10</span><span style="color: #4f97d7;">)</span>.read<span style="color: #4f97d7;">()</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">content</span> = BeautifulSoup<span style="color: #4f97d7;">(</span>html, <span style="color: #2d9574;">"lxml"</span><span style="color: #4f97d7;">)</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">title</span> = content.title.get_text<span style="color: #4f97d7;">()</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">crawl_res</span><span style="color: #4f97d7;">[</span>url<span style="color: #4f97d7;">]</span> = title
+
+
+<span style="color: #7590db;">crawler</span> = crawl_url
+<span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#35201;&#20808;&#25191;&#34892;&#19968;&#27425; next &#26041;&#27861;</span>
+<span style="color: #7590db;">crawl_res</span> = crawler.<span style="color: #4f97d7;">next</span><span style="color: #4f97d7;">()</span>
+
+<span style="color: #7590db;">result_list</span> = <span style="color: #4f97d7;">[]</span>
+<span style="color: #4f97d7; font-weight: bold;">for</span> url <span style="color: #4f97d7; font-weight: bold;">in</span> url_list:
+<span style="background-color: #555;"> </span>   <span style="color: #7590db;">crawl_res</span> = crawler.send<span style="color: #4f97d7;">(</span>url<span style="color: #4f97d7;">)</span>
+<span style="background-color: #555;"> </span>   result_list.append<span style="color: #4f97d7;">(</span>crawl_res<span style="color: #4f97d7;">)</span>
 </pre>
 </div>
+
 </section>
-<section id="slide-orgheadline18">
-<h3 id="orgheadline18">并发 - 分布式</h3>
+<section id="slide-org646e040">
+<h3 id="org646e040">并发 - 多进程 + 协程</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">multiprocessing &#30340; pool &#21644; gevent &#20914;&#31361;</span>
+<span style="color: #4f97d7; font-weight: bold;">from</span> multiprocessing <span style="color: #4f97d7; font-weight: bold;">import</span> Process
+<span style="color: #4f97d7; font-weight: bold;">import</span> gevent
+<span style="color: #4f97d7; font-weight: bold;">from</span> gevent <span style="color: #4f97d7; font-weight: bold;">import</span> monkey; monkey.patch_all<span style="color: #4f97d7;">()</span>
+
+<span style="color: #2aa1ae; background-color: #292e34;">#</span><span style="color: #2aa1ae; background-color: #292e34;">&#20351;&#29992;&#21327;&#31243;&#26469;&#25191;&#34892;</span>
+<span style="color: #4f97d7; font-weight: bold;">def</span> <span style="color: #bc6ec5; font-weight: bold;">process_start</span><span style="color: #4f97d7;">(</span>tasks<span style="color: #4f97d7;">)</span>:
+<span style="background-color: #555;"> </span>   gevent.joinall<span style="color: #4f97d7;">(</span>tasks<span style="color: #4f97d7;">)</span>
+
+
+<span style="color: #4f97d7; font-weight: bold;">with</span> <span style="color: #4f97d7;">open</span><span style="color: #4f97d7;">(</span>crawl_url_file<span style="color: #4f97d7;">)</span> <span style="color: #4f97d7; font-weight: bold;">as</span> url_reader:
+<span style="background-color: #555;"> </span>   <span style="color: #7590db;">url</span> = url_reader.readline.strip<span style="color: #4f97d7;">()</span>
+<span style="background-color: #555;"> </span>   <span style="color: #7590db;">task_list</span> = <span style="color: #4f97d7;">[]</span>
+<span style="background-color: #555;"> </span>   <span style="color: #7590db;">i</span> = <span style="color: #a45bad;">0</span>
+<span style="background-color: #555;"> </span>   <span style="color: #4f97d7; font-weight: bold;">while</span> url:
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">i</span> += <span style="color: #a45bad;">1</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   task_list.append<span style="color: #4f97d7;">(</span>gevent.spawn<span style="color: #bc6ec5;">(</span>crawl_method, url, <span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #4f97d7; font-weight: bold;">if</span> i &gt;= MAX_TASK_NUM:
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">p</span> = Process<span style="color: #4f97d7;">(</span>target = process_start, args=<span style="color: #bc6ec5;">(</span>task_list, <span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   p.start<span style="color: #4f97d7;">()</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">task_list</span> = <span style="color: #4f97d7;">[]</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">i</span> = <span style="color: #a45bad;">0</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">url</span> = url_reader.readline.strip<span style="color: #4f97d7;">()</span>
+
+<span style="background-color: #555;"> </span>   <span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">&#25235;&#21462;&#21097;&#20313; url</span>
+<span style="background-color: #555;"> </span>   <span style="color: #4f97d7; font-weight: bold;">if</span> task_list:
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   <span style="color: #7590db;">p</span> = Process<span style="color: #4f97d7;">(</span>target=process_start, args=<span style="color: #bc6ec5;">(</span>task_list, <span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+<span style="background-color: #555;"> </span>   <span style="background-color: #555;"> </span>   p.start<span style="color: #4f97d7;">()</span>
+</pre>
+</div>
+
+
+</section>
+<section id="slide-org3b7ae70">
+<h3 id="org3b7ae70">并发 - 分布式</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"><span style="color: #4f97d7; font-weight: bold;">import</span> redis
@@ -275,39 +338,39 @@ monkey.patch_all<span style="color: #4f97d7;">()</span>
 </section>
 </section>
 <section>
-<section id="slide-orgheadline23">
-<h2 id="orgheadline23">数据存储</h2>
-<div class="outline-text-2" id="text-orgheadline23">
+<section id="slide-org0cf4630">
+<h2 id="org0cf4630">数据存储</h2>
+<div class="outline-text-2" id="text-org0cf4630">
 </div></section>
-<section id="slide-orgheadline20">
-<h3 id="orgheadline20">sqllite</h3>
+<section id="slide-orgb0b379a">
+<h3 id="orgb0b379a">sqllite</h3>
 </section>
-<section id="slide-orgheadline21">
-<h3 id="orgheadline21">mongodb</h3>
+<section id="slide-org52b9ccc">
+<h3 id="org52b9ccc">mongodb</h3>
 </section>
-<section id="slide-orgheadline22">
-<h3 id="orgheadline22">postgreSQL</h3>
+<section id="slide-org947f6d2">
+<h3 id="org947f6d2">postgreSQL</h3>
 
 
 </section>
 </section>
 <section>
-<section id="slide-orgheadline26">
-<h2 id="orgheadline26">框架</h2>
-<div class="outline-text-2" id="text-orgheadline26">
+<section id="slide-orgc08e5f8">
+<h2 id="orgc08e5f8">框架</h2>
+<div class="outline-text-2" id="text-orgc08e5f8">
 </div></section>
-<section id="slide-orgheadline24">
-<h3 id="orgheadline24">scrapy</h3>
+<section id="slide-orgad65854">
+<h3 id="orgad65854">scrapy</h3>
 </section>
-<section id="slide-orgheadline25">
-<h3 id="orgheadline25">pyspider</h3>
+<section id="slide-orge492183">
+<h3 id="orge492183">pyspider</h3>
 
 
 </section>
 </section>
 <section>
-<section id="slide-orgheadline27">
-<h2 id="orgheadline27">Q &amp; A</h2>
+<section id="slide-org8b095b0">
+<h2 id="org8b095b0">Q &amp; A</h2>
 </section>
 </section>
 </div>
