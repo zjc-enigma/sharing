@@ -10,7 +10,10 @@
 #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 
 
-* Web 开发
+* Web
+** html
+** css
+** javascript
 ** dom tree
    #+BEGIN_SRC html
    <!DOCTYPE html>
@@ -26,16 +29,15 @@
    #+END_SRC
    [[file:dom-tree.gif]]
 
-
 * react 特性
 ** 虚拟 dom
    - 高效 diff 算法
    - 避免直接重置 innerHTML
    - 只更新必要的 dom
 
-** 组件
+** jsx
 ** 组件 - 生命周期
-** react-native
+** react - native
 
 * 开发环境
 ** npm
@@ -71,13 +73,13 @@
    [[file:webpack.jpg]]
    #+BEGIN_SRC shell
    $ webpack --watch
-   Hash: a052fb8231b250fb3068
+   Hash: 3117d6437f7c7b27e341
    Version: webpack 1.13.1
-   Time: 1856ms
+   Time: 1641ms
            Asset     Size  Chunks             Chunk Names
-       bundle.js  2.45 MB       0  [emitted]  main
-   bundle.js.map  2.95 MB       0  [emitted]  main
-       + 926 hidden modules
+       bundle.js  2.37 MB       0  [emitted]  main
+   bundle.js.map  2.83 MB       0  [emitted]  main
+       + 800 hidden modules
    #+END_SRC
 
 ** webpack - 配置
@@ -127,30 +129,146 @@
    #+END_SRC
 
 ** devtools
-** babel
+#+BEGIN_SRC js
+module.exports = {
+  devtool: 'source-map',
+}
+#+END_SRC
+#+BEGIN_SRC js
+const DevTools = createDevTools(
+    <DockMonitor toggleVisibilityKey="ctrl-h" changePositionKey="ctrl-q">
+    <LogMonitor theme="tomorrow" preserveScrollTop={false} />
+    </DockMonitor>
+)
+const store = createStore(rootReducer, DevTools.instrument())
+ReactDOM.render(
+    <Provider store={store}>
+    <div>
+    <HorizontalLinearStepper />
+    <Router history={history} routes={routes} />
+    <DevTools />
+    </div>
+    </Provider>,
+  document.getElementById('demo1'));
+#+END_SRC
 
-* 语言特性
-** js vs jsx
+** babel - .babelrc
+#+BEGIN_SRC js
+{
+  "presets": ["stage-0", ["es2015", { "loose": true }]],
+  "env": {
+    "test": {
+      "plugins": ["istanbul"]
+    }
+  }
+}
+#+END_SRC
 ** ES5 vs ES6
+** 语法检查
 
 * 常用库
-** redux
-** 数据流
+** redux vs flux
+[[file:flux.png]]
 ** react-router
 ** thunk
 ** layout
 
-
 * 服务端
-  
-** 服务端渲染
+** server side render
+#+BEGIN_SRC text
+renderToString
+renderToStaticMarkup
+#+END_SRC
+
+#+BEGIN_SRC js
+import path from 'path'
+import Express from 'express'
+import React from 'react'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import counterApp from './reducers'
+import App from './containers/App'
+
+const app = Express()
+const port = 3000
+
+// This is fired every time the server side receives a request
+app.use(handleRender)
+
+// We are going to fill these out in the sections to follow
+function handleRender(req, res) { /* ... */ }
+function renderFullPage(html, preloadedState) { /* ... */ }
+app.listen(port)
+#+END_SRC
+** server side render
+
+#+BEGIN_SRC js
+import { renderToString } from 'react-dom/server'
+
+function handleRender(req, res) {
+  // Create a new Redux store instance
+  const store = createStore(counterApp)
+
+  // Render the component to a string
+  const html = renderToString(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+
+  // Grab the initial state from our Redux store
+  const preloadedState = store.getState()
+
+  // Send the rendered page back to the client
+  res.send(renderFullPage(html, preloadedState))
+}
+#+END_SRC
+
+** server side render
+#+BEGIN_SRC js
+
+function renderFullPage(html, preloadedState) {
+  return `
+    <!doctype html>
+    <html>
+      <head>
+        <title>Redux Universal Example</title>
+      </head>
+      <body>
+        <div id="root">${html}</div>
+        <script>
+          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}
+        </script>
+        <script src="/static/bundle.js"></script>
+      </body>
+    </html>
+    `
+}
+#+END_SRC
+** server side render 
+
 ** restful api
-
-
-
-* 完整流程
 
 * Tips
 ** 浏览器兼容性
+** deepcopy
+
+#+BEGIN_SRC js
+let a = [1,2,3]
+let b = a.slice()
+#+END_SRC
+
+** JSX 加载
+#+BEGIN_SRC js
+require("babel-register");
+#+END_SRC
+
+** ES6 support
+#+BEGIN_SRC js
+require('babel-core/register');
+require('./server');
+#+END_SRC
+
+
 
 * Q & A
