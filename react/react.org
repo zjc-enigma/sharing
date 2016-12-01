@@ -71,6 +71,13 @@
    [[file:webpack.jpg]]
    #+BEGIN_SRC shell
    $ webpack --watch
+   Hash: a052fb8231b250fb3068
+   Version: webpack 1.13.1
+   Time: 1856ms
+           Asset     Size  Chunks             Chunk Names
+       bundle.js  2.45 MB       0  [emitted]  main
+   bundle.js.map  2.95 MB       0  [emitted]  main
+       + 926 hidden modules
    #+END_SRC
 
 ** webpack - 配置
