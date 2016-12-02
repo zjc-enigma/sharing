@@ -87,6 +87,28 @@ var HelloMessage = React.createClass({
 - 首字母需大写
 - 只能包含一个顶层标签
 ** 组件 - state
+#+BEGIN_SRC js
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <Clock />,
+  document.getElementById('root')
+);
+#+END_SRC
 ** 组件 - 生命周期
 #+BEGIN_SRC js
 class Content extends React.Component {
@@ -607,7 +629,6 @@ var buildStore = compose(applyMiddleware(thunk))(createStore);
 
 #+END_SRC
 
-
 ** react-grid-layout
 #+BEGIN_SRC shell
 npm install react-grid-layout
@@ -730,7 +751,7 @@ function renderFullPage(html, preloadedState) {
     `
 }
 #+END_SRC
-*
+
 ** restful api - Http 动词
 - GET（SELECT）：从服务器取出资源（一项或多项）
 - POST（CREATE）：在服务器新建一个资源
