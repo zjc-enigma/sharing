@@ -10,7 +10,7 @@
 #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 
 
-* Web
+* 简介
 ** html
 ** css
 ** javascript
@@ -29,17 +29,82 @@
    #+END_SRC
    [[file:dom-tree.gif]]
 
-* react 特性
+* 特性
 ** 虚拟 dom
+
    - 高效 diff 算法
    - 避免直接重置 innerHTML
    - 只更新必要的 dom
 
 ** jsx
+#+BEGIN_SRC js
+var names = ['Alice', 'Emily', 'Kate'];
+
+ReactDOM.render(
+  <div>
+  {
+    names.map(function (name) {
+      return <div>Hello, {name}!</div>
+    })
+  }
+  </div>,
+  document.getElementById('example')
+);
+#+END_SRC
+
+[[file:hello.png]]
+
+** 组件
+
+#+BEGIN_SRC js
+// ES5 way
+var HelloMessage = React.createClass({
+  render: function() {
+    return <h1>Hello {this.props.name}</h1>;
+  }
+});
+#+END_SRC
+- 必须实现 render 方法
+- 首字母需大写
+- 只能包含一个顶层标签
+
+** 组件 - state
+
+
 ** 组件 - 生命周期
+
+** html 模板
+#+BEGIN_SRC js
+<!doctype html>
+<html class="no-js" lang="">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Use minimum-scale=1 to enable GPU rasterization -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1" >
+    <!-- script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script -->
+    <!-- link rel="stylesheet" href={{ url_for('static', filename="css/react-grid-layout-style.css") }} -->
+    <!-- link rel="stylesheet" href={{ url_for('static', filename="css/react-resizable-style.css") }} -->
+    <!-- link rel="stylesheet" href={{ url_for('static', filename="css/react-select.css") }} -->
+    <!-- script src={{ url_for('static', filename="js/react-select.js") }}></script -->
+    <style type="text/css">
+     .hidden { display:none; }
+    </style>
+  </head>
+
+<body>
+  <div id="demo" key="demo"></div>
+  <!-- Attach React components -->
+  <script type="text/javascript" src="{{ url_for('static', filename='bundle.js') }}"></script>
+</body>
+</html>
+#+END_SRC
 ** react - native
 
-* 开发环境
+* 开发
 ** npm
     #+BEGIN_SRC shell
     $ sudo npm install -g npm
@@ -127,7 +192,6 @@
      ]
    };
    #+END_SRC
-
 ** devtools
 #+BEGIN_SRC js
 module.exports = {
@@ -152,6 +216,118 @@ ReactDOM.render(
   document.getElementById('demo1'));
 #+END_SRC
 
+** ES6+ - 类
+#+BEGIN_SRC js
+// The ES5 way
+var Photo = React.createClass({
+  handleDoubleTap: function(e) { … },
+  render: function() { … },
+});
+// The ES6+ way
+class Photo extends React.Component {
+  handleDoubleTap(e) { … }
+  render() { … }
+}
+#+END_SRC
+** ES6+ - 属性初始化
+#+BEGIN_SRC js
+// The ES5 way
+var Video = React.createClass({
+  getDefaultProps: function() {
+  return {
+      autoPlay: false,
+      maxLoops: 10,
+    };
+  },
+getInitialState: function() {
+  return {
+      loopsRemaining: this.props.maxLoops,
+    };
+  },
+  propTypes: {
+    autoPlay: React.PropTypes.bool.isRequired,
+    maxLoops: React.PropTypes.number.isRequired,
+    posterFrameSrc: React.PropTypes.string.isRequired,
+    videoSrc: React.PropTypes.string.isRequired,
+  },
+});
+// The ES6+ way
+class Video extends React.Component {
+  static defaultProps = {
+    autoPlay: false,
+    maxLoops: 10,
+  }
+  static propTypes = {
+    autoPlay: React.PropTypes.bool.isRequired,
+    maxLoops: React.PropTypes.number.isRequired,
+    posterFrameSrc: React.PropTypes.string.isRequired,
+    videoSrc: React.PropTypes.string.isRequired,
+  }
+  state = {
+    loopsRemaining: this.props.maxLoops,
+  }
+}
+#+END_SRC
+
+** ES6+ - 箭头函数
+#+BEGIN_SRC js
+// Manually bind, wherever you need to
+class PostInfo extends React.Component {
+  constructor(props) {
+  super(props);
+    // Manually bind this method to the component instance...
+    this.handleOptionsButtonClick = this.handleOptionsButtonClick.bind(this);
+  }
+  handleOptionsButtonClick(e) {
+    // ...to ensure that 'this' refers to the component instance here.
+    this.setState({showOptionsModal: true});
+  }
+}
+
+class PostInfo extends React.Component {
+    handleOptionsButtonClick = (e) => {
+    this.setState({showOptionsModal: true});
+  }
+}
+#+END_SRC
+
+** ES6+ - 字符串模板
+#+BEGIN_SRC js
+//ES5 way
+var Form = React.createClass({
+  onChange: function(inputName, e) {
+    var stateToSet = {};
+    stateToSet[inputName + 'Value'] = e.target.value;
+    this.setState(stateToSet);
+  },
+});
+
+//ES6 way
+class Form extends React.Component {
+  onChange(inputName, e) {
+  this.setState({
+    [`${inputName}Value`]: e.target.value,
+  });
+  }
+}
+#+END_SRC
+** ES6+ - 扩展运算符
+#+BEGIN_SRC js
+class AutoloadingPostsGrid extends React.Component {
+  render() {
+    var {
+      className,
+      ...others, // contains all properties of this.props except for className
+    } = this.props;
+  return (
+    <div className={className}>
+      <PostsGrid {...others} />
+      <button onClick={this.handleLoadMoreClick}>Load more</button>
+    </div>
+    );
+  }
+}
+#+END_SRC
 ** babel - .babelrc
 #+BEGIN_SRC js
 {
@@ -163,17 +339,78 @@ ReactDOM.render(
   }
 }
 #+END_SRC
-** ES5 vs ES6
-** 语法检查
+** 语法检查 - eslint
+#+BEGIN_SRC shell
+npm install eslint babel-eslint
+#+END_SRC
+#+BEGIN_SRC js
+/ Use this file as a starting point for your project's .eslintrc.
+// Copy this file, and add rule overrides as needed.
+{
+  "extends": "airbnb"
+}
+#+END_SRC
 
-* 常用库
-** redux vs flux
+** fetch / promise
+#+BEGIN_SRC js
+import 'whatwg-fetch';
+fetch('/token',
+      {method: "POST",
+       headers:{
+         'Accept': 'application/json',
+         'Content-Type': 'application/json'},
+       body: JSON.stringify({sentences: getSelectedSentences(selectedSentences)})
+      })
+  .then(response => {return response.json()})
+  .then(json => handleToken(json))
+  .catch(function(e){console.log('parsing failed', e)});
+#+END_SRC
+** deepcopy
+#+BEGIN_SRC js
+let a = [1,2,3]
+let b = a.slice()
+#+END_SRC
+
+** JSX 加载
+#+BEGIN_SRC js
+require("babel-register");
+#+END_SRC
+
+** ES6 support
+#+BEGIN_SRC js
+require('babel-core/register');
+require('./server');
+#+END_SRC
+
+
+* 库
+** flux
 [[file:flux.png]]
-** react-router
-** thunk
-** layout
 
-* 服务端
+** redux
+#+BEGIN_SRC shell
+npm install --save react-redux
+#+END_SRC
+[[file:redux.jpg]]
+
+** redux - store
+** redux - action
+#+BEGIN_SRC js
+{
+  type: ACTION_TYPE,
+  text: “content”,
+}
+#+END_SRC
+** redux - reducer
+** redux - connect
+** react-router
+** redux-thunk
+** 布局 - react-grid-layout
+** 布局 - flex
+** material-ui
+
+
+* 后端
 ** server side render
 #+BEGIN_SRC text
 renderToString
@@ -247,27 +484,82 @@ function renderFullPage(html, preloadedState) {
 #+END_SRC
 ** server side render 
 
-** restful api
-
-* Tips
-** 浏览器兼容性
-** deepcopy
-
+** restful api - Http 动词
+- GET（SELECT）：从服务器取出资源（一项或多项）
+- POST（CREATE）：在服务器新建一个资源
+- PUT（UPDATE）：在服务器更新资源（客户端提供完整资源数据）
+- PATCH（UPDATE）：在服务器更新资源（客户端提供需要修改的资源数据）
+- DELETE（DELETE）：从服务器删除资源
+** restful api - 序列化 & 反序列化
+- 格式：json , xml
 #+BEGIN_SRC js
-let a = [1,2,3]
-let b = a.slice()
+{
+  "page": 1,            # 当前是第几页
+  "pages": 3,          # 总共多少页
+  "per_page": 10,      # 每页多少数据
+  "has_next": true,    # 是否有下一页数据
+  "has_prev": false,    # 是否有前一页数据
+  "total": 27          # 总共多少数据
+}
 #+END_SRC
 
-** JSX 加载
-#+BEGIN_SRC js
-require("babel-register");
+** restful api - 校验
+- 数据类型校验，如字段类型如果是 int，那么给字段赋字符串的值则报错
+- 数据格式校验，如邮箱或密码，其赋值必须满足相应的正则表达式，才是正确的输入数据
+- 数据逻辑校验，如数据包含出生日期和年龄两个字段，如果这两个字段的数据不一致，则数据校验失败
+
+** restful api - 包含版本信息
+#+BEGIN_SRC shell
+# V1.0
+/api/v1/posts/
+/api/v1/drafts/
+
+# V2.0
+/api/v2/posts/
+/api/v2/drafts/
 #+END_SRC
 
-** ES6 support
-#+BEGIN_SRC js
-require('babel-core/register');
-require('./server');
+** restful api - url 使用名词
+- 指向资源而非行为（使用名词）
+#+BEGIN_SRC shell
+# Bad APIs
+/api/getArticle/1/
+/api/updateArticle/1/
+/api/deleteArticle/1/
+
+# Good APIs
+/api/Article/1/
 #+END_SRC
+
+** restful api - tips
+- url 区分大小写
+#+BEGIN_SRC shell
+# different url
+/posts
+/Posts
+#+END_SRC
+
+- 反斜线/结尾， 需重定向
+#+BEGIN_SRC shell
+# different url
+/posts/
+/posts
+#+END_SRC
+
+- 连词符
+#+BEGIN_SRC shell
+# Good
+/api/featured-post/
+
+# Bad
+/api/featured_post/
+#+END_SRC
+
+
+
+
+
+
 
 
 
