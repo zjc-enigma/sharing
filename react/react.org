@@ -8,13 +8,34 @@
 #+REVEAL_THEME: night
 #+REVEAL_TRANS: linear    
 #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_PLUGINS: (highlight)
 
+* 前端
+** html / css / javascript
+#+BEGIN_SRC html
+<html>  
+    <head>  
+        <title>HTML</title>  
+    </head>  
+    <body>  
+        <p id="num1">Hello World! I'm HTML</p>  
+    </body>  
+</html>  
+#+END_SRC
+#+BEGIN_SRC css
+#hello{  
+color:blue;  
+} 
+#+END_SRC
+#+BEGIN_SRC js
+<script>  
+window.onload=function hello(){  
+      document.getElementById("hello").innerHTML="Hello China!";  
+}  
+</script>
+#+END_SRC 
 
-* 简介
-** html
-** css
-** javascript
-** dom tree
+** DOM(html DOM)
    #+BEGIN_SRC html
    <!DOCTYPE html>
    <html lang="en">
@@ -31,7 +52,6 @@
 
 * 特性
 ** 虚拟 dom
-
    - 高效 diff 算法
    - 避免直接重置 innerHTML
    - 只更新必要的 dom
@@ -55,7 +75,6 @@ ReactDOM.render(
 [[file:hello.png]]
 
 ** 组件
-
 #+BEGIN_SRC js
 // ES5 way
 var HelloMessage = React.createClass({
@@ -67,13 +86,39 @@ var HelloMessage = React.createClass({
 - 必须实现 render 方法
 - 首字母需大写
 - 只能包含一个顶层标签
-
 ** 组件 - state
-
-
 ** 组件 - 生命周期
+#+BEGIN_SRC js
+class Content extends React.Component {
 
-** html 模板
+   componentWillMount() {
+      console.log('Component WILL MOUNT!')
+   }
+   componentDidMount() {
+      console.log('Component DID MOUNT!')
+   }
+   componentWillReceiveProps(newProps) {    
+      console.log('Component WILL RECIEVE PROPS!')
+   }
+   shouldComponentUpdate(newProps, newState) {
+      return true;
+   }
+   componentWillUpdate(nextProps, nextState) {
+      console.log('Component WILL UPDATE!');
+   }
+   componentDidUpdate(prevProps, prevState) {
+      console.log('Component DID UPDATE!')
+   }
+   componentWillUnmount() {
+      console.log('Component WILL UNMOUNT!')
+   }
+   render() {
+      return (... );
+   }
+}
+#+END_SRC
+
+** html 示例
 #+BEGIN_SRC js
 <!doctype html>
 <html class="no-js" lang="">
@@ -85,9 +130,6 @@ var HelloMessage = React.createClass({
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1" >
-    <!-- script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script -->
-    <!-- link rel="stylesheet" href={{ url_for('static', filename="css/react-grid-layout-style.css") }} -->
-    <!-- link rel="stylesheet" href={{ url_for('static', filename="css/react-resizable-style.css") }} -->
     <!-- link rel="stylesheet" href={{ url_for('static', filename="css/react-select.css") }} -->
     <!-- script src={{ url_for('static', filename="js/react-select.js") }}></script -->
     <style type="text/css">
@@ -103,6 +145,7 @@ var HelloMessage = React.createClass({
 </html>
 #+END_SRC
 ** react - native
+
 
 * 开发
 ** npm
@@ -148,50 +191,52 @@ var HelloMessage = React.createClass({
    #+END_SRC
 
 ** webpack - 配置
-
-   #+BEGIN_SRC js
-   var webpack = require('webpack');
-   var ExtractTextPlugin = require("extract-text-webpack-plugin");
-   var path = require("path");
-   module.exports = {
-     entry: [
-       'whatwg-fetch',
-       "./app/index.js"
-     ],
-     devtool: 'source-map',
-     output: {
-       path: __dirname + '/static',
-       filename: "bundle.js"
-     },
-     resolve: {
-         extensions: ['', '.scss', '.css', '.js', '.json'],
-         modulesDirectories: [
-             'node_modules',
-             path.resolve(__dirname, './node_modules')
-         ]
-     },
-     module: {
-       loaders: [
-         {
-           test: /\.js?$/,
-           loader: 'babel-loader',
-           query: {
-             presets: ['es2015', 'react', 'stage-0'],
-             plugins: ['transform-runtime', 'transform-decorators-legacy']
-           },
-           exclude: /node_modules/
-         },
-         {
-             test: /(\.scss|\.css)$/,
-           loaders:["style", "css", "sass"]
-         }
-       ]
-     },
-     plugins: [
-         new ExtractTextPlugin('theme.css', { allChunks: true }),
-     ]
-   };
-   #+END_SRC
+#+BEGIN_SRC shell
+npm install -g babel
+#+END_SRC
+#+BEGIN_SRC js
+var webpack = require('webpack');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var path = require("path");
+module.exports = {
+  entry: [
+    'whatwg-fetch',
+    "./app/index.js"
+  ],
+  devtool: 'source-map',
+  output: {
+    path: __dirname + '/static',
+    filename: "bundle.js"
+  },
+  resolve: {
+      extensions: ['', '.scss', '.css', '.js', '.json'],
+      modulesDirectories: [
+          'node_modules',
+          path.resolve(__dirname, './node_modules')
+      ]
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.js?$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react', 'stage-0'],
+          plugins: ['transform-runtime', 'transform-decorators-legacy']
+        },
+        exclude: /node_modules/
+      },
+      { 
+        test: /(\.scss|\.css)$/,
+        loaders:["style", "css", "sass"]
+      }
+    ]
+  },
+  plugins: [
+      new ExtractTextPlugin('theme.css', { allChunks: true }),
+  ]
+};
+#+END_SRC
 ** devtools
 #+BEGIN_SRC js
 module.exports = {
@@ -289,6 +334,14 @@ class PostInfo extends React.Component {
     this.setState({showOptionsModal: true});
   }
 }
+
+// ES5
+var selected = allJobs.filter(function (job) {
+    return job.isSelected();
+});
+// ES6
+let selected = allJobs.filter(job => job.isSelected());
+
 #+END_SRC
 
 ** ES6+ - 字符串模板
@@ -329,6 +382,10 @@ class AutoloadingPostsGrid extends React.Component {
 }
 #+END_SRC
 ** babel - .babelrc
+#+BEGIN_SRC shell
+npm install -g babel
+#+END_SRC
+
 #+BEGIN_SRC js
 {
   "presets": ["stage-0", ["es2015", { "loose": true }]],
@@ -353,6 +410,13 @@ npm install eslint babel-eslint
 
 ** fetch / promise
 #+BEGIN_SRC js
+module.exports = {
+  entry: [
+    'whatwg-fetch',
+  ],
+}
+#+END_SRC
+#+BEGIN_SRC js
 import 'whatwg-fetch';
 fetch('/token',
       {method: "POST",
@@ -361,21 +425,10 @@ fetch('/token',
          'Content-Type': 'application/json'},
        body: JSON.stringify({sentences: getSelectedSentences(selectedSentences)})
       })
-  .then(response => {return response.json()})
+  .then(response => response.json())
   .then(json => handleToken(json))
   .catch(function(e){console.log('parsing failed', e)});
 #+END_SRC
-** deepcopy
-#+BEGIN_SRC js
-let a = [1,2,3]
-let b = a.slice()
-#+END_SRC
-
-** JSX 加载
-#+BEGIN_SRC js
-require("babel-register");
-#+END_SRC
-
 ** ES6 support
 #+BEGIN_SRC js
 require('babel-core/register');
@@ -389,27 +442,222 @@ require('./server');
 
 ** redux
 #+BEGIN_SRC shell
-npm install --save react-redux
+npm install react-redux
 #+END_SRC
 [[file:redux.jpg]]
 
 ** redux - store
+#+BEGIN_SRC js
+import { createStore } from 'redux';
+const store = createStore(fn);
+const state = store.getState();
+#+END_SRC
+
+- 全局唯一的数据容器
+- 一个 state 对应唯一 view
+
 ** redux - action
 #+BEGIN_SRC js
-{
-  type: ACTION_TYPE,
-  text: “content”,
+// 普通 action
+const action = {
+  type: 'ADD_TODO',
+  payload: 'Learn Redux'
+};
+#+END_SRC
+#+BEGIN_SRC js
+// action creator
+const ADD_TODO = '添加 TODO';
+
+function addTodo(text) {
+  return {
+    type: ADD_TODO,
+    text
+  }
+}
+const action = addTodo('Learn Redux');
+#+END_SRC
+** redux - dispatch
+#+BEGIN_SRC js
+import { createStore } from 'redux';
+const store = createStore(fn);
+// 普通 action 版本
+store.dispatch({
+  type: 'ADD_TODO',
+  payload: 'Learn Redux'
+});
+#+END_SRC
+#+BEGIN_SRC js
+// action creator 版本
+store.dispatch(addTodo('Learn Redux'));
+#+END_SRC
+
+** redux - reducer
+#+BEGIN_SRC js
+export default function (state = [], action) {
+  switch(action.type){
+  case "UPDATE_SEARCH_TEXT":
+    return {...state, searchText: action.data}
+
+  case "SEARCH_QUERY":
+    return {...state, searchRes: action.data}
+
+  case "UPDATE_MULTISELECT_OPTIONS":
+    return {...state, classOptions: action.data}
+
+  case "UPDATE_CLASS_SELECTION":
+    return {...state, classSelection: action.data}
+  default:
+    return state
+
+  }
 }
 #+END_SRC
-** redux - reducer
+#+BEGIN_SRC js
+import { combineReducers } from 'redux';
+
+const chatReducer = combineReducers({
+  chatLog,
+  statusMessage,
+  userName
+})
+export default todoApp;
+#+END_SRC
 ** redux - connect
+
+#+BEGIN_SRC js
+import { connect } from 'react-redux'
+const mapStateToProps = (state) => {
+  return {
+    todos: getVisibleTodos(state.todos, state.visibilityFilter)
+  }
+}
+
+const mapDispatchToProps = (
+  dispatch,
+  ownProps
+) => {
+  return {
+    onClick: () => {
+      dispatch({
+        type: 'SET_VISIBILITY_FILTER',
+        filter: ownProps.filter
+      });
+    }
+  };
+}
+const VisibleTodoList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList)
+#+END_SRC
+- connect 从 UI 组件生成容器
+
+** redux - provider
+#+BEGIN_SRC js
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import todoApp from './reducers'
+import App from './components/App'
+
+let store = createStore(todoApp);
+
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
+#+END_SRC
 ** react-router
+#+BEGIN_SRC js
+// route.js
+const routes = (
+    <Route>
+    <Route name='index' path='/' component={Search} />
+    <Route name='selection' path='/selection' component={SelectionTable} />
+    <Route name='writer' path='/writer' component={Writer} />
+    <Route name='result' path='/result' component={Result} />
+    </Route>)
+
+export default routes
+#+END_SRC
+#+BEGIN_SRC js
+// index.js
+import { browserHistory, Router, Route } from 'react-router'
+const history = syncHistoryWithStore(browserHistory, store)
+
+ReactDOM.render(
+    <Provider store={store}>
+    <div>
+    <HorizontalLinearStepper />
+    <Router history={history} routes={routes} />
+    <DevTools />
+    </div>
+    </Provider>,
+  document.getElementById('demo1'));
+#+END_SRC
 ** redux-thunk
-** 布局 - react-grid-layout
-** 布局 - flex
+#+BEGIN_SRC shell
+npm install redux-thunk
+#+END_SRC
+#+BEGIN_SRC js
+import { compose, createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+var buildStore = compose(applyMiddleware(thunk))(createStore);
+
+#+END_SRC
+
+
+** react-grid-layout
+#+BEGIN_SRC shell
+npm install react-grid-layout
+#+END_SRC
+#+BEGIN_SRC js
+import {Responsive, WidthProvider} from 'react-grid-layout';
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
+
+class SearchGridLayout extends Component {
+  constructor(props, context){
+    super(props, context);
+  }
+  render() {
+    let layouts = {
+      lg:[{i:"searchText", x: 3, y: 2, w: 5, h: 0.2, static:true},
+          {i:"searchBtn", x: 8, y: 2, w: 1, h: 0.2, static:true},
+          {i:"categorySelection", x: 3, y: 1, w: 3, h: 0.2, static:true},]
+    }
+    return(
+        <ResponsiveReactGridLayout
+      layouts={layouts}
+      breakpoints={{lg: 800, md: 600, sm: 500, xs: 480, xxs: 0}}
+      cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}}>
+        {this.props.children}
+      </ResponsiveReactGridLayout>
+    )
+  }
+}
+#+END_SRC
+
 ** material-ui
-
-
+#+BEGIN_SRC shell
+npm install material-ui
+#+END_SRC
+#+BEGIN_SRC shell
+class Search extends Component {
+  constructor(props, context){
+    super(props, context)
+  }
+  search(query){ }
+  render() {
+    return (
+        <MuiThemeProvider>
+        <SearchTextField hint={"input your secrets"} />
+        <SearchBtn label={"Search"} onClick={() => this.search(this.props.query)} />
+        </MuiThemeProvider>
+    )
+}
+#+END_SRC
+[[file:searchbar.png]]
 * 后端
 ** server side render
 #+BEGIN_SRC text
@@ -482,8 +730,7 @@ function renderFullPage(html, preloadedState) {
     `
 }
 #+END_SRC
-** server side render 
-
+*
 ** restful api - Http 动词
 - GET（SELECT）：从服务器取出资源（一项或多项）
 - POST（CREATE）：在服务器新建一个资源
