@@ -1,0 +1,77 @@
+#+Title: Remote workstation
+#+Author: jiancheng.zhai
+#+Email: jiancheng.pro@gmail.com
+#+OPTIONS: toc:nil reveal_mathjax:t
+#+OPTIONS: ^:nil
+#+OPTIONS: toc:nil num:nil
+#+STARTUP: indent
+#+REVEAL_THEME: white
+#+REVEAL_TRANS: linear    
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+
+* 使用场景
+** PC 开发, 测试机调试，线上部署
+** 开发机开发调试，docker 部署
+*** screen / tmux
+** CUDA 加速
+
+
+* 方案选择
+** AWS
+** Aliyun
+** 准系统
+** DIY
+
+
+* 配置选择
+** 平台
+ - Z270
+ - X99
+ - C620
+
+** 主板
+** CPU
+** 显卡
+** 散热器
+** 机箱
+** 内存
+** 硬盘
+** 电源
+
+** 路由
+
+** nas 存储
+
+
+* 操作系统
+** ubuntu
+** gentoo
+
+** 内核 docker 支持
+** 内核 bbr 支持
+
+
+* 软件环境
+** cuda
+** tensorflow
+*** pip
+*** docker
+*** 源
+*** github
+*** nvidia 官网教程
+*** 手动安装
+
+** jupyter
+** superset
+** mldonkey
+** nextcloud
+
+
+
+
+* 远程连接
+** 光猫桥接 + DMZ
+** ngrok
+** 跳板机
+** DDNS
+** ssh 图形界面
