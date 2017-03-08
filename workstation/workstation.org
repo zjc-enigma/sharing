@@ -144,7 +144,9 @@ PCI 4x \ 8x \ 16x
 **** 总线
 **** 制程
 **** 架构
+**** 
 
+**** 超线程技术（HT）
 *** 选购
 **** 盒装、散装
 **** ES、QS
@@ -328,6 +330,7 @@ ECC / RECC
 *** superset
 *** opencl
 
+
 ** for work
 *** SS
 **** vultr
@@ -347,6 +350,32 @@ ECC / RECC
 *** hashview
 *** bitcoin
 *** 蜜罐
+
+
+
+* Tensorflow 简介
+** 基本概念
+*** tensor
+*** variable
+*** graph
+*** placeholder
+*** session
+
+** 常用工具
+*** tflearn
+*** tensorflow board
+*** debug
+
+** 优化
+*** optimize
+*** gradient
+*** equal constraint
+*** inequal constraint
+*** normalize constraint
+
+** 示例
+*** lr
+*** ocsvm
 
 
 * 远程连接
@@ -377,9 +406,16 @@ ECC / RECC
 *** 域名隐私保护
 *** iptables 防火墙
 
-** 80 端口被封
-*** 跳板机 nginx 代理 
-*** 使用 https，443 端口
+*** 入侵检测
+
+** 网络限制
+*** 80 端口
+**** 跳板机 nginx 代理 
+**** 使用 https，443 端口
+
+*** DNS 污染
+**** 自建递归 DNS
+*** VPN
 
 ** 域名
 *** 购买
@@ -394,12 +430,10 @@ ECC / RECC
 ** UPS 电源
 *** 断电预警，短信通知
 
+
 ** 雷电接口
 *** linux 雷电驱动尚不可用
 
-** 备份
-*** 外接备份硬盘矩阵
-*** raid 之外安装备份盘
 
 ** 延续
 *** 虚拟化
@@ -409,3 +443,7 @@ windows / linux / osx
 **** xen
 **** docker
 docker hub，交叉编译，github，自动构建
+*** 备份
+**** tar 命令
+**** 外接备份硬盘矩阵
+**** raid 之外安装备份盘
