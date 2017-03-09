@@ -1,1 +1,1 @@
-/Users/Patrick/Git/reveal.js
+../reveal.js
