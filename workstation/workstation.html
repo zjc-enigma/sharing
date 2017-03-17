@@ -1,0 +1,2143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-03-17 Fri 19:31 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Build remote tensorflow workstation from scratch</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="jiancheng.zhai" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.js"></script>
+<script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Build remote tensorflow workstation from scratch</h1>
+
+<div id="outline-container-orgc8f2db4" class="outline-2">
+<h2 id="orgc8f2db4">Introduction</h2>
+<div class="outline-text-2" id="text-orgc8f2db4">
+</div><div id="outline-container-org38a8019" class="outline-3">
+<h3 id="org38a8019">搭建 workstation</h3>
+</div>
+<div id="outline-container-org0129590" class="outline-3">
+<h3 id="org0129590">关于 tensorflow</h3>
+</div>
+<div id="outline-container-org126a190" class="outline-3">
+<h3 id="org126a190">功能扩展</h3>
+</div>
+</div>
+
+
+<div id="outline-container-org2f85e91" class="outline-2">
+<h2 id="org2f85e91">Why</h2>
+<div class="outline-text-2" id="text-org2f85e91">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">工作方式 vs 特性</th>
+<th scope="col" class="org-left">本地</th>
+<th scope="col" class="org-left">公司服务器</th>
+<th scope="col" class="org-left">个人工作站</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">开发/测试/部署环境完全一致</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">支持高负荷复杂任务</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">终端关机/休眠/断网不影响工作</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">不依赖特定终端设备</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">终端设备成本低</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">系统全部资源可用</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">系统最高权限可用</td>
+<td class="org-left">✔</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">系统硬件资源可控</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">支持个性化定制开发环境</td>
+<td class="org-left">✔</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">不依赖 VPN / 堡垒机</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">支持多种虚拟化技术</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">支持多种私有云服务</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">配置文件长期稳定有效</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">支持图形界面</td>
+<td class="org-left">✔</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+
+<tr>
+<td class="org-left">可作为家庭数据中心使用</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-orgd5ba914" class="outline-2">
+<h2 id="orgd5ba914">Plan</h2>
+<div class="outline-text-2" id="text-orgd5ba914">
+</div><div id="outline-container-org5a75fc6" class="outline-3">
+<h3 id="org5a75fc6">需求</h3>
+<div class="outline-text-3" id="text-org5a75fc6">
+</div><div id="outline-container-org6c24500" class="outline-4">
+<h4 id="org6c24500">支持 CUDA 加速</h4>
+</div>
+<div id="outline-container-orgce403cd" class="outline-4">
+<h4 id="orgce403cd">多任务处理性能</h4>
+</div>
+<div id="outline-container-org24eb1a3" class="outline-4">
+<h4 id="org24eb1a3">24 小时开机</h4>
+</div>
+<div id="outline-container-org88e2ef0" class="outline-4">
+<h4 id="org88e2ef0">支持虚拟化</h4>
+</div>
+<div id="outline-container-org4383541" class="outline-4">
+<h4 id="org4383541">支持远程访问</h4>
+</div>
+<div id="outline-container-org0b41d28" class="outline-4">
+<h4 id="org0b41d28">大内存</h4>
+</div>
+<div id="outline-container-orgd9cf9cb" class="outline-4">
+<h4 id="orgd9cf9cb">大硬盘容量，高速 IO</h4>
+</div>
+<div id="outline-container-orgbb96604" class="outline-4">
+<h4 id="orgbb96604">硬件扩展性</h4>
+</div>
+</div>
+
+<div id="outline-container-org734a61a" class="outline-3">
+<h3 id="org734a61a">方案对比</h3>
+<div class="outline-text-3" id="text-org734a61a">
+<ul class="org-ul">
+<li>设最低价格指数为 1，最低性能指数为 1</li>
+</ul>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方案 vs 特性</th>
+<th scope="col" class="org-left">类别</th>
+<th scope="col" class="org-right">价格</th>
+<th scope="col" class="org-right">性能</th>
+<th scope="col" class="org-right">性价比</th>
+<th scope="col" class="org-left">网速</th>
+<th scope="col" class="org-left">稳定性</th>
+<th scope="col" class="org-left">售后</th>
+<th scope="col" class="org-left">折腾度</th>
+<th scope="col" class="org-left">扩展度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">AWS</td>
+<td class="org-left">云主机</td>
+<td class="org-right">10</td>
+<td class="org-right">1.3</td>
+<td class="org-right">0.13</td>
+<td class="org-left">低</td>
+<td class="org-left">高</td>
+<td class="org-left">高</td>
+<td class="org-left">低</td>
+<td class="org-left">低</td>
+</tr>
+
+<tr>
+<td class="org-left">阿里云</td>
+<td class="org-left">云主机</td>
+<td class="org-right">5.4</td>
+<td class="org-right">1.5</td>
+<td class="org-right">0.27777778</td>
+<td class="org-left">高</td>
+<td class="org-left">高</td>
+<td class="org-left">高</td>
+<td class="org-left">低</td>
+<td class="org-left">低</td>
+</tr>
+
+<tr>
+<td class="org-left">谷歌云</td>
+<td class="org-left">云主机</td>
+<td class="org-right">-</td>
+<td class="org-right">-</td>
+<td class="org-right">-</td>
+<td class="org-left">中</td>
+<td class="org-left">高</td>
+<td class="org-left">高</td>
+<td class="org-left">低</td>
+<td class="org-left">低</td>
+</tr>
+
+<tr>
+<td class="org-left">阿里云物理机</td>
+<td class="org-left">物理机</td>
+<td class="org-right">4.8</td>
+<td class="org-right">1.5</td>
+<td class="org-right">0.3125</td>
+<td class="org-left">高</td>
+<td class="org-left">高</td>
+<td class="org-left">高</td>
+<td class="org-left">低</td>
+<td class="org-left">低</td>
+</tr>
+
+<tr>
+<td class="org-left">商用机</td>
+<td class="org-left">物理机</td>
+<td class="org-right">2</td>
+<td class="org-right">1.8</td>
+<td class="org-right">0.9</td>
+<td class="org-left">高</td>
+<td class="org-left">中</td>
+<td class="org-left">中</td>
+<td class="org-left">低</td>
+<td class="org-left">低</td>
+</tr>
+
+<tr>
+<td class="org-left">准系统</td>
+<td class="org-left">物理机</td>
+<td class="org-right">1.2</td>
+<td class="org-right">3</td>
+<td class="org-right">2.5</td>
+<td class="org-left">高</td>
+<td class="org-left">中</td>
+<td class="org-left">低</td>
+<td class="org-left">中</td>
+<td class="org-left">中</td>
+</tr>
+
+<tr>
+<td class="org-left">DIY</td>
+<td class="org-left">物理机</td>
+<td class="org-right">1</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-left">高</td>
+<td class="org-left">中</td>
+<td class="org-left">低</td>
+<td class="org-left">高</td>
+<td class="org-left">高</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0984e45" class="outline-2">
+<h2 id="org0984e45">Hardware</h2>
+<div class="outline-text-2" id="text-org0984e45">
+</div><div id="outline-container-org5925a7c" class="outline-3">
+<h3 id="org5925a7c">预算参考</h3>
+<div class="outline-text-3" id="text-org5925a7c">
+</div><div id="outline-container-orgd846ef7" class="outline-4">
+<h4 id="orgd846ef7">8k ~ 2W</h4>
+<div class="outline-text-4" id="text-orgd846ef7">
+</div><ul class="org-ul"><li><a id="org2908fc0"></a>amd / 上代 E5 / E3 / i7 + 顶级 GPU<br /></li></ul>
+</div>
+<div id="outline-container-org7b54788" class="outline-4">
+<h4 id="org7b54788">2W ~ 5W</h4>
+<div class="outline-text-4" id="text-org7b54788">
+</div><ul class="org-ul"><li><a id="org4232539"></a>顶级 i7 + 2 顶级 GPU + SSD + 硬盘阵列<br /></li></ul>
+</div>
+<div id="outline-container-org7302733" class="outline-4">
+<h4 id="org7302733">5W ~ 10W</h4>
+<div class="outline-text-4" id="text-org7302733">
+</div><ul class="org-ul"><li><a id="orgd5fbf83"></a>双路 E5 + 4 顶级 GPU + 大容量 SSD + 硬盘阵列 + 海量内存 + 水冷<br /></li></ul>
+</div>
+</div>
+
+<div id="outline-container-org0dc0b45" class="outline-3">
+<h3 id="org0dc0b45">平台</h3>
+<div class="outline-text-3" id="text-org0dc0b45">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">平台 vs 特性</td>
+<td class="org-right">CPU 接口</td>
+<td class="org-left">最大内存</td>
+<td class="org-left">双路</td>
+<td class="org-left">CPU 类型</td>
+<td class="org-left">内存通道</td>
+</tr>
+
+<tr>
+<td class="org-left">X99</td>
+<td class="org-right">2011</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">i7 / i5 / E3</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Z270</td>
+<td class="org-right">2011</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">i7 / i5 / E3</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">C620</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">E5 v3/v4</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">AMD</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">r7</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgaccec67" class="outline-3">
+<h3 id="orgaccec67">商用机</h3>
+<div class="outline-text-3" id="text-orgaccec67">
+</div><div id="outline-container-orgc3e3a78" class="outline-4">
+<h4 id="orgc3e3a78">nvidia digits devbox</h4>
+<div class="outline-text-4" id="text-orgc3e3a78">
+<p>
+<a href="https://developer.nvidia.com/devbox">https://developer.nvidia.com/devbox</a>
+9.4W，到手 10W+，四路旧 TITAN X，28TFLOPS
+</p>
+</div>
+</div>
+<div id="outline-container-orgd623276" class="outline-4">
+<h4 id="orgd623276">NVIDIA DGX-1</h4>
+</div>
+</div>
+
+<div id="outline-container-org79f81ae" class="outline-3">
+<h3 id="org79f81ae">准系统</h3>
+<div class="outline-text-3" id="text-org79f81ae">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">准系统 vs 特性</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">超微 7048</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">FB 开源系统</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="https://code.facebook.com/posts/1687861518126048/facebook-to-open-source-ai-hardware-design/">https://code.facebook.com/posts/1687861518126048/facebook-to-open-source-ai-hardware-design/</a></td>
+</tr>
+
+<tr>
+<td class="org-left">矿机</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">T7310</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org89d4fd5" class="outline-3">
+<h3 id="org89d4fd5">二手服务器</h3>
+</div>
+
+<div id="outline-container-orgb565543" class="outline-3">
+<h3 id="orgb565543">主板</h3>
+<div class="outline-text-3" id="text-orgb565543">
+</div><div id="outline-container-org5989eaf" class="outline-4">
+<h4 id="org5989eaf">重要接口</h4>
+<div class="outline-text-4" id="text-org5989eaf">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">接口 vs 特性</td>
+<td class="org-left">对应设备</td>
+<td class="org-left">规格</td>
+<td class="org-left">数量</td>
+<td class="org-left">备注</td>
+</tr>
+
+<tr>
+<td class="org-left">PCIE 16x</td>
+<td class="org-left">显卡</td>
+<td class="org-left">PCIE 3.0</td>
+<td class="org-left">至少 3 个，越多越好</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">PCIE 8x</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">PCIE 4x</td>
+<td class="org-left">PCI 固态硬盘</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">PCH 4x</td>
+<td class="org-left">雷电卡或 PCI SSD</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">内存槽</td>
+<td class="org-left">内存</td>
+<td class="org-left">DDR4</td>
+<td class="org-left">最少 4 个，通常 8 个以上，16 个更好</td>
+<td class="org-left">注意 4 通道内存对应的插槽颜色</td>
+</tr>
+
+<tr>
+<td class="org-left">SATA</td>
+<td class="org-left">固态或机械硬盘</td>
+<td class="org-left">SATA3</td>
+<td class="org-left">至少 4 个以上，越多越好</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">m.2</td>
+<td class="org-left">m.2 固态硬盘</td>
+<td class="org-left">nvme</td>
+<td class="org-left">如果没这个，有多余的 PCI 也行，有了更好</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">raid</td>
+<td class="org-left">板载 raid 卡</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">比较少见，家用软 raid 可以取代</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">thunderbolt</td>
+<td class="org-left">雷电扩展卡</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">linux 下没有驱动，如果有雷电外设，用 windows 可以考虑</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">SAS</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">网卡</td>
+<td class="org-left">有线网络</td>
+<td class="org-left">千兆/万兆</td>
+<td class="org-left">至少 1 个，多 个更好，百兆卡不行，至少千兆卡</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">WIFI</td>
+<td class="org-left">无线网络</td>
+<td class="org-left">802.11ac</td>
+<td class="org-left">实在不方便扯网线可以考虑，必须支持 5Ghz 频段</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org55f7c38" class="outline-4">
+<h4 id="org55f7c38">推荐</h4>
+<div class="outline-text-4" id="text-org55f7c38">
+</div><ul class="org-ul"><li><a id="orgb8fa818"></a>超微 x10 系列<br /></li>
+<li><a id="org97c1eb0"></a>华硕 X99<br /></li>
+<li><a id="org47ecadc"></a>技嘉<br /></li></ul>
+</div>
+</div>
+
+<div id="outline-container-orgce318f6" class="outline-3">
+<h3 id="orgce318f6">CPU</h3>
+<div class="outline-text-3" id="text-orgce318f6">
+</div><div id="outline-container-org1d829b3" class="outline-4">
+<h4 id="org1d829b3">重要指标</h4>
+<div class="outline-text-4" id="text-org1d829b3">
+</div><ul class="org-ul"><li><a id="orge882741"></a>主频<br /><div class="outline-text-5" id="text-orge882741">
+<p>
+单线程影响显著
+</p>
+</div></li>
+<li><a id="orgee60009"></a>缓存<br /><div class="outline-text-5" id="text-orgee60009">
+<p>
+越大越好
+</p>
+</div></li>
+<li><a id="org4998e0f"></a>PCIE 总线<br /><div class="outline-text-5" id="text-org4998e0f">
+<p>
+显卡和 PCIE 固态硬盘都会占用 PCIE 通道，主板 plx 控制器可以扩展总线
+</p>
+</div></li>
+<li><a id="orgaa2458f"></a>制程<br /><div class="outline-text-5" id="text-orgaa2458f">
+<p>
+影响功耗，性能
+</p>
+</div></li>
+<li><a id="org41842a3"></a>架构<br /><div class="outline-text-5" id="text-org41842a3">
+<p>
+影响性能，同主频工作效率
+</p>
+</div></li>
+<li><a id="orge58edd3"></a>超线程技术（HT）<br /><div class="outline-text-5" id="text-orge58edd3">
+<p>
+会降低主频，提高核心利用率，增加调度切换成本，建议关闭
+</p>
+</div></li>
+<li><a id="org286abfd"></a>最大支持内存<br /><div class="outline-text-5" id="text-org286abfd">
+<p>
+桌面 U 通常为 64G，服务器 U 可支持到 2T
+</p>
+</div></li></ul>
+</div>
+<div id="outline-container-org2ff7a29" class="outline-4">
+<h4 id="org2ff7a29">产品一览</h4>
+<div class="outline-text-4" id="text-org2ff7a29">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">型号 vs 特性</th>
+<th scope="col" class="org-right">性能</th>
+<th scope="col" class="org-right">价格区间</th>
+<th scope="col" class="org-right">性价比</th>
+<th scope="col" class="org-left">功耗</th>
+<th scope="col" class="org-right">核心</th>
+<th scope="col" class="org-right">主频</th>
+<th scope="col" class="org-left">缓存</th>
+<th scope="col" class="org-left">ECC</th>
+<th scope="col" class="org-left">双路</th>
+<th scope="col" class="org-left">超频</th>
+<th scope="col" class="org-right">PCIE</th>
+<th scope="col" class="org-left">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">E5 2696 v3</td>
+<td class="org-right">22349</td>
+<td class="org-right">4000</td>
+<td class="org-right">5.58725</td>
+<td class="org-left">135W</td>
+<td class="org-right">18</td>
+<td class="org-right">2.3</td>
+<td class="org-left">45M</td>
+<td class="org-left">✔</td>
+<td class="org-left">✔</td>
+<td class="org-left">✘</td>
+<td class="org-right">40</td>
+<td class="org-left">性价比高，需鉴别经验</td>
+</tr>
+
+<tr>
+<td class="org-left">E5 2696 v4</td>
+<td class="org-right">22092</td>
+<td class="org-right">10000</td>
+<td class="org-right">2.2092</td>
+<td class="org-left">135W</td>
+<td class="org-right">22</td>
+<td class="org-right">2.2</td>
+<td class="org-left">55M</td>
+<td class="org-left">✔</td>
+<td class="org-left">✔</td>
+<td class="org-left">✘</td>
+<td class="org-right">40</td>
+<td class="org-left">适合服务器，机器学习利用不全</td>
+</tr>
+
+<tr>
+<td class="org-left">E3 1230 v5</td>
+<td class="org-right">9705</td>
+<td class="org-right">1500</td>
+<td class="org-right">6.47</td>
+<td class="org-left">80W</td>
+<td class="org-right">4</td>
+<td class="org-right">3.4</td>
+<td class="org-left">8M</td>
+<td class="org-left">✔</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-right">20</td>
+<td class="org-left">各方面与 i7 相近</td>
+</tr>
+
+<tr>
+<td class="org-left">i7 7700k</td>
+<td class="org-right">12309</td>
+<td class="org-right">2000</td>
+<td class="org-right">6.1545</td>
+<td class="org-left">91W</td>
+<td class="org-right">4</td>
+<td class="org-right">4.2</td>
+<td class="org-left">8M</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+<td class="org-right">16</td>
+<td class="org-left">常规 i7，中规中矩</td>
+</tr>
+
+<tr>
+<td class="org-left">i7 6950x</td>
+<td class="org-right">19974</td>
+<td class="org-right">10000</td>
+<td class="org-right">1.9974</td>
+<td class="org-left">140W</td>
+<td class="org-right">10</td>
+<td class="org-right">3.0</td>
+<td class="org-left">25M</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+<td class="org-right">40</td>
+<td class="org-left">家用旗舰，价格高</td>
+</tr>
+
+<tr>
+<td class="org-left">i7 5930k</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">6</td>
+<td class="org-right">3.5</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">省钱之选</td>
+</tr>
+
+<tr>
+<td class="org-left">amd r7 1800x</td>
+<td class="org-right">15469</td>
+<td class="org-right">4000</td>
+<td class="org-right">3.86725</td>
+<td class="org-left">95W</td>
+<td class="org-right">8</td>
+<td class="org-right">3.6</td>
+<td class="org-left">4M+16M</td>
+<td class="org-left">✘</td>
+<td class="org-left">✘</td>
+<td class="org-left">✔</td>
+<td class="org-right">24</td>
+<td class="org-left">性能超越大多数 i7，性价比高</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgce24cf6" class="outline-4">
+<h4 id="orgce24cf6">选购 tips</h4>
+<div class="outline-text-4" id="text-orgce24cf6">
+</div><ul class="org-ul"><li><a id="org5def766"></a>盒装、散装<br /></li>
+<li><a id="org08a0dce"></a>ES、QS、正显、不显<br /></li></ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgc9a8127" class="outline-3">
+<h3 id="orgc9a8127">运算卡</h3>
+<div class="outline-text-3" id="text-orgc9a8127">
+</div><div id="outline-container-orgb126248" class="outline-4">
+<h4 id="orgb126248">重要指标</h4>
+<div class="outline-text-4" id="text-orgb126248">
+</div><ul class="org-ul"><li><a id="orgbae9c14"></a>非公版设计<br /></li>
+<li><a id="org096ac75"></a>显存位宽<br /></li>
+<li><a id="org1e94c20"></a>显存容量<br /><div class="outline-text-5" id="text-org1e94c20">
+<p>
+取决于模型大小
+</p>
+</div></li>
+<li><a id="org7bae312"></a>cuda 单元<br /></li>
+<li><a id="org38edc44"></a>核心频率<br /></li>
+<li><a id="org5ef2af6"></a>支持 cuDNN<br /></li></ul>
+</div>
+
+<div id="outline-container-org874c366" class="outline-4">
+<h4 id="org874c366">产品一览</h4>
+<div class="outline-text-4" id="text-org874c366">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">型号 vs 特性</th>
+<th scope="col" class="org-right">TFLOP</th>
+<th scope="col" class="org-right">价格区间</th>
+<th scope="col" class="org-right">性价比</th>
+<th scope="col" class="org-left">显存</th>
+<th scope="col" class="org-left">核心频率</th>
+<th scope="col" class="org-left">功率</th>
+<th scope="col" class="org-left">非公版</th>
+<th scope="col" class="org-right">cuda 单元</th>
+<th scope="col" class="org-left">cuDNN</th>
+<th scope="col" class="org-left">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">1070</td>
+<td class="org-right">6.5</td>
+<td class="org-right">2000</td>
+<td class="org-right">3.25e-3</td>
+<td class="org-left">8G</td>
+<td class="org-left">1.5G</td>
+<td class="org-left">150W</td>
+<td class="org-left">✔</td>
+<td class="org-right">1920</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">入门级别</td>
+</tr>
+
+<tr>
+<td class="org-left">1080</td>
+<td class="org-right">9</td>
+<td class="org-right">3000</td>
+<td class="org-right">3e-3</td>
+<td class="org-left">8G</td>
+<td class="org-left">1.6G</td>
+<td class="org-left">180W</td>
+<td class="org-left">✔</td>
+<td class="org-right">2560</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">家用高端</td>
+</tr>
+
+<tr>
+<td class="org-left">1080ti</td>
+<td class="org-right">11</td>
+<td class="org-right">6000</td>
+<td class="org-right">1.8333333e-3</td>
+<td class="org-left">11G</td>
+<td class="org-left">1.5G</td>
+<td class="org-left">220W</td>
+<td class="org-left">✔</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">指标非常接近 titan X，性价比高</td>
+</tr>
+
+<tr>
+<td class="org-left">titan X</td>
+<td class="org-right">11</td>
+<td class="org-right">9000</td>
+<td class="org-right">1.2222222e-3</td>
+<td class="org-left">12G</td>
+<td class="org-left">1.4G</td>
+<td class="org-left">250W</td>
+<td class="org-left">✘</td>
+<td class="org-right">3584</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">家用旗舰</td>
+</tr>
+
+<tr>
+<td class="org-left">K40m</td>
+<td class="org-right">4.29</td>
+<td class="org-right">20000</td>
+<td class="org-right">2.145e-4</td>
+<td class="org-left">12G</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">✘</td>
+<td class="org-right">2880</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">专业卡，深度学习用不到</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orga70196e" class="outline-4">
+<h4 id="orga70196e">其他</h4>
+<div class="outline-text-4" id="text-orga70196e">
+</div><ul class="org-ul"><li><a id="org619fb06"></a>亮机卡<br /><div class="outline-text-5" id="text-org619fb06">
+<p>
+支持 4K@60Hz 多屏，功耗低于 100W
+</p>
+</div></li>
+<li><a id="org0970e7b"></a>sli<br /></li>
+<li><a id="org386bd8b"></a>FPGA 卡<br /></li>
+<li><a id="org6c65762"></a>phi xeon 加速卡<br /></li></ul>
+</div>
+</div>
+
+
+<div id="outline-container-org2258cbe" class="outline-3">
+<h3 id="org2258cbe">散热器</h3>
+<div class="outline-text-3" id="text-org2258cbe">
+</div><div id="outline-container-org6b911cd" class="outline-4">
+<h4 id="org6b911cd">产品一览</h4>
+<div class="outline-text-4" id="text-org6b911cd">
+</div><ul class="org-ul"><li><a id="orgd82d5b4"></a>水冷<br /></li>
+<li><a id="orgbc9b645"></a>风冷<br /></li>
+<li><a id="org93be675"></a>显卡水冷<br /></li></ul>
+</div>
+<div id="outline-container-org3dc5738" class="outline-4">
+<h4 id="org3dc5738">注意事项</h4>
+<div class="outline-text-4" id="text-org3dc5738">
+</div><ul class="org-ul"><li><a id="orgeee14e3"></a>风道<br /></li>
+<li><a id="org4277a7c"></a>机箱的安装位是否匹配<br /></li></ul>
+</div>
+<div id="outline-container-org2bff139" class="outline-4">
+<h4 id="org2bff139">推荐</h4>
+<div class="outline-text-4" id="text-org2bff139">
+</div><ul class="org-ul"><li><a id="org389d833"></a>玄冰风冷<br /></li>
+<li><a id="orgb97e13a"></a>海盗船 H60i / H100i<br /></li></ul>
+</div>
+</div>
+
+
+<div id="outline-container-org2dfc98c" class="outline-3">
+<h3 id="org2dfc98c">机箱</h3>
+<div class="outline-text-3" id="text-org2dfc98c">
+</div><div id="outline-container-org7384d8e" class="outline-4">
+<h4 id="org7384d8e">重要指标</h4>
+<div class="outline-text-4" id="text-org7384d8e">
+</div><ul class="org-ul"><li><a id="org10bedf8"></a>结实程度<br /></li>
+<li><a id="org3efcc79"></a>风扇位<br /></li>
+<li><a id="org228f73a"></a>和主板螺丝孔匹配<br /></li>
+<li><a id="org4087228"></a>最大支持的显卡长度<br /></li>
+<li><a id="org81de74c"></a>硬盘位<br /></li></ul>
+</div>
+
+<div id="outline-container-org561122d" class="outline-4">
+<h4 id="org561122d">产品一览</h4>
+<div class="outline-text-4" id="text-org561122d">
+</div><ul class="org-ul"><li><a id="org4b1191c"></a>itx<br /></li>
+<li><a id="orgf18ce36"></a>中塔<br /></li>
+<li><a id="org43dd45c"></a>全塔<br /></li>
+<li><a id="orgceeb9f5"></a>1U、2U<br /></li></ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-org50c585f" class="outline-3">
+<h3 id="org50c585f">内存</h3>
+<div class="outline-text-3" id="text-org50c585f">
+</div><div id="outline-container-org0b443eb" class="outline-4">
+<h4 id="org0b443eb">产品一览</h4>
+<div class="outline-text-4" id="text-org0b443eb">
+</div><ul class="org-ul"><li><a id="orgc47289e"></a>DDR3 / DDR4<br /></li>
+<li><a id="org42d85bf"></a>RECC / ECC<br /></li></ul>
+</div>
+
+<div id="outline-container-org03b4fe2" class="outline-4">
+<h4 id="org03b4fe2">重要指标</h4>
+<div class="outline-text-4" id="text-org03b4fe2">
+</div><ul class="org-ul"><li><a id="org901452f"></a>容量<br /></li>
+<li><a id="org3b16070"></a>是否支持校验<br /><div class="outline-text-5" id="text-org3b16070">
+<p>
+ECC / RECC
+</p>
+</div></li>
+<li><a id="org0967837"></a>频率<br /><div class="outline-text-5" id="text-org0967837">
+<p>
+2133、2400、更高
+</p>
+</div></li>
+<li><a id="org3adc332"></a>电压<br /><div class="outline-text-5" id="text-org3adc332">
+<p>
+低压、标压
+</p>
+</div></li></ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgc701df7" class="outline-3">
+<h3 id="orgc701df7">硬盘</h3>
+<div class="outline-text-3" id="text-orgc701df7">
+</div><div id="outline-container-orgd3b5a09" class="outline-4">
+<h4 id="orgd3b5a09">重要指标</h4>
+<div class="outline-text-4" id="text-orgd3b5a09">
+</div><ul class="org-ul"><li><a id="orgf97ee14"></a>读写速度<br /></li>
+<li><a id="org3e668f3"></a>转速<br /></li>
+<li><a id="org79d4886"></a>缓存大小<br /></li>
+<li><a id="orge25d6cd"></a>颗粒类型<br /></li></ul>
+</div>
+
+<div id="outline-container-org8dc8c59" class="outline-4">
+<h4 id="org8dc8c59">产品一览</h4>
+<div class="outline-text-4" id="text-org8dc8c59">
+</div><ul class="org-ul"><li><a id="orga1c5a80"></a>SSD<br /><div class="outline-text-5" id="text-orga1c5a80">
+<ul class="org-ul">
+<li>m.2 ssd</li>
+<li>SATA3 ssd</li>
+<li>pci ssd</li>
+<li>pci 转 m.2</li>
+</ul>
+</div></li>
+<li><a id="org165f9a1"></a>HDD<br /><div class="outline-text-5" id="text-org165f9a1">
+<ul class="org-ul">
+<li>SATA3 HDD</li>
+</ul>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">型号 vs 特性</td>
+<td class="org-left">插槽</td>
+<td class="org-left">类型</td>
+<td class="org-left">容量</td>
+<td class="org-right">价格区间</td>
+<td class="org-left">缓存</td>
+<td class="org-left">颗粒</td>
+<td class="org-left">转速</td>
+<td class="org-left">连续读写</td>
+<td class="org-left">随机读写</td>
+<td class="org-left">备注</td>
+</tr>
+
+<tr>
+<td class="org-left">希捷</td>
+<td class="org-left">SATA3</td>
+<td class="org-left">机械硬盘</td>
+<td class="org-left">8T</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">7200</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">数据盘</td>
+</tr>
+
+<tr>
+<td class="org-left">西数红盘</td>
+<td class="org-left">SATA3</td>
+<td class="org-left">机械硬盘</td>
+<td class="org-left">4T</td>
+<td class="org-right">2300</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">5400</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">数据盘</td>
+</tr>
+
+<tr>
+<td class="org-left">intel 750</td>
+<td class="org-left">PCI E</td>
+<td class="org-left">固态硬盘</td>
+<td class="org-left">1.2T</td>
+<td class="org-right">4500</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">-</td>
+<td class="org-left">2900M/s</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">缓存盘、系统盘</td>
+</tr>
+
+<tr>
+<td class="org-left">三星 pro960</td>
+<td class="org-left">m.2</td>
+<td class="org-left">固态硬盘</td>
+<td class="org-left">1T</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">-</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">缓存盘、系统盘</td>
+</tr>
+</tbody>
+</table>
+</div></li></ul>
+</div>
+</div>
+
+
+<div id="outline-container-orga879579" class="outline-3">
+<h3 id="orga879579">电源</h3>
+<div class="outline-text-3" id="text-orga879579">
+</div><div id="outline-container-org82aa425" class="outline-4">
+<h4 id="org82aa425">重要指标</h4>
+<div class="outline-text-4" id="text-org82aa425">
+</div><ul class="org-ul"><li><a id="org71bc566"></a>功率<br /><div class="outline-text-5" id="text-org71bc566">
+<p>
+&gt;=显卡总功率*2
+</p>
+</div></li></ul>
+</div>
+
+<div id="outline-container-org5133d90" class="outline-4">
+<h4 id="org5133d90">产品一览</h4>
+<div class="outline-text-4" id="text-org5133d90">
+</div><ul class="org-ul"><li><a id="org75cd71e"></a>全新优质电源<br /></li>
+<li><a id="org8d1fe1d"></a>二手服务器电源<br /></li></ul>
+</div>
+
+
+<div id="outline-container-org5f31076" class="outline-4">
+<h4 id="org5f31076">推荐</h4>
+<div class="outline-text-4" id="text-org5f31076">
+</div><ul class="org-ul"><li><a id="org81394d4"></a>海盗船 1000W（双卡)/ 1500W（四卡）<br /></li></ul>
+</div>
+</div>
+
+<div id="outline-container-orgdf1e03b" class="outline-3">
+<h3 id="orgdf1e03b">网络</h3>
+<div class="outline-text-3" id="text-orgdf1e03b">
+</div><div id="outline-container-org4c236d2" class="outline-4">
+<h4 id="org4c236d2">网卡</h4>
+</div>
+<div id="outline-container-org58bbdd0" class="outline-4">
+<h4 id="org58bbdd0">路由</h4>
+<div class="outline-text-4" id="text-org58bbdd0">
+</div><ul class="org-ul"><li><a id="org317bced"></a>openwrt / ddwrt<br /><div class="outline-text-5" id="text-org317bced">
+<ul class="org-ul">
+<li>dnsmasq</li>
+<li>广告拦截</li>
+<li>下载</li>
+</ul>
+</div></li></ul>
+</div>
+<div id="outline-container-org52a8342" class="outline-4">
+<h4 id="org52a8342">交换机</h4>
+</div>
+<div id="outline-container-orgd7c7ff0" class="outline-4">
+<h4 id="orgd7c7ff0">线材</h4>
+</div>
+</div>
+
+<div id="outline-container-org763ff33" class="outline-3">
+<h3 id="org763ff33">扩展</h3>
+<div class="outline-text-3" id="text-org763ff33">
+</div><div id="outline-container-org30ba8e3" class="outline-4">
+<h4 id="org30ba8e3">ups 后备电源</h4>
+</div>
+<div id="outline-container-orgc6d01ee" class="outline-4">
+<h4 id="orgc6d01ee">nas / raid</h4>
+<div class="outline-text-4" id="text-orgc6d01ee">
+</div><ul class="org-ul"><li><a id="orgbf15ca8"></a>硬 raid<br /></li>
+<li><a id="orgdd2147c"></a>软 raid<br /></li>
+<li><a id="orge4a0292"></a>fake raid<br /></li>
+<li><a id="orga785c1b"></a>raid 0<br /></li>
+<li><a id="org4951ff8"></a>raid 1<br /></li>
+<li><a id="orgbe961bd"></a>raid 5<br /></li>
+<li><a id="org5f9a331"></a>raid 6<br /></li>
+<li><a id="org323baf5"></a>raid 10<br /></li>
+<li><a id="orgbf6e828"></a>raidz<br /><div class="outline-text-5" id="text-orgbf6e828">
+<p>
+内存 + cache, 详见 zfs
+</p>
+</div></li></ul>
+</div>
+<div id="outline-container-orgcaf90d2" class="outline-4">
+<h4 id="orgcaf90d2">推荐</h4>
+<div class="outline-text-4" id="text-orgcaf90d2">
+</div><ul class="org-ul"><li><a id="org780e235"></a>群晖<br /></li>
+<li><a id="org0732efa"></a>hp gen8<br /></li>
+<li><a id="orgdfa7381"></a>乔鼎<br /></li></ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org106b5b2" class="outline-2">
+<h2 id="org106b5b2">OS</h2>
+<div class="outline-text-2" id="text-org106b5b2">
+</div><div id="outline-container-org4d922fd" class="outline-3">
+<h3 id="org4d922fd">发行版</h3>
+<div class="outline-text-3" id="text-org4d922fd">
+</div><div id="outline-container-org4abe487" class="outline-4">
+<h4 id="org4abe487">ubuntu</h4>
+<div class="outline-text-4" id="text-org4abe487">
+</div><ul class="org-ul"><li><a id="orgb832c70"></a>简单省心<br /></li></ul>
+</div>
+<div id="outline-container-orga9c67f9" class="outline-4">
+<h4 id="orga9c67f9">gentoo</h4>
+<div class="outline-text-4" id="text-orga9c67f9">
+</div><ul class="org-ul"><li><a id="org919d9a2"></a>通过 use 标签定制包功能<br /></li>
+<li><a id="orgfb83501"></a>Clags 优化，稳定性<br /></li>
+<li><a id="org5e86125"></a>内核剪裁<br /></li>
+<li><a id="org8133ace"></a>源码<br /></li>
+<li><a id="orgdcb4e5c"></a>slot 多版本共存<br /></li>
+<li><a id="orgf5a6c2a"></a>文档<br /></li></ul>
+</div>
+</div>
+<div id="outline-container-org7b8e658" class="outline-3">
+<h3 id="org7b8e658">安装方式</h3>
+<div class="outline-text-3" id="text-org7b8e658">
+</div><div id="outline-container-orgdbde113" class="outline-4">
+<h4 id="orgdbde113">livecd</h4>
+</div>
+<div id="outline-container-orgeb127fd" class="outline-4">
+<h4 id="orgeb127fd">usb</h4>
+</div>
+<div id="outline-container-org1433cf3" class="outline-4">
+<h4 id="org1433cf3">硬盘</h4>
+</div>
+</div>
+
+<div id="outline-container-org77a3d68" class="outline-3">
+<h3 id="org77a3d68">图形界面</h3>
+<div class="outline-text-3" id="text-org77a3d68">
+</div><div id="outline-container-orge3a62da" class="outline-4">
+<h4 id="orge3a62da">gnome</h4>
+</div>
+<div id="outline-container-org93d1e24" class="outline-4">
+<h4 id="org93d1e24">kde</h4>
+</div>
+<div id="outline-container-orgf3e9b53" class="outline-4">
+<h4 id="orgf3e9b53">xfce</h4>
+</div>
+</div>
+<div id="outline-container-org48772ed" class="outline-3">
+<h3 id="org48772ed">内核</h3>
+<div class="outline-text-3" id="text-org48772ed">
+</div><div id="outline-container-org8c66131" class="outline-4">
+<h4 id="org8c66131">docker</h4>
+</div>
+<div id="outline-container-org18f6eb8" class="outline-4">
+<h4 id="org18f6eb8">BBR</h4>
+</div>
+<div id="outline-container-orgc03af6c" class="outline-4">
+<h4 id="orgc03af6c">CPU</h4>
+<div class="outline-text-4" id="text-orgc03af6c">
+</div><ul class="org-ul"><li><a id="orgc159bd6"></a>架构<br /></li>
+<li><a id="orgd38c7e4"></a>核心数<br /></li>
+<li><a id="org48ac041"></a>调度策略<br /></li></ul>
+</div>
+<div id="outline-container-orgdffaa5f" class="outline-4">
+<h4 id="orgdffaa5f">内存策略</h4>
+</div>
+<div id="outline-container-org50bc37b" class="outline-4">
+<h4 id="org50bc37b">文件系统</h4>
+<div class="outline-text-4" id="text-org50bc37b">
+</div><ul class="org-ul"><li><a id="org4262121"></a>ZFS 支持<br /></li></ul>
+</div>
+</div>
+
+<div id="outline-container-org3a30983" class="outline-3">
+<h3 id="org3a30983">boot loader</h3>
+<div class="outline-text-3" id="text-org3a30983">
+</div><div id="outline-container-org51abf3e" class="outline-4">
+<h4 id="org51abf3e">grub</h4>
+</div>
+<div id="outline-container-org067b73f" class="outline-4">
+<h4 id="org067b73f">grub2</h4>
+</div>
+</div>
+
+<div id="outline-container-orgbbf998c" class="outline-3">
+<h3 id="orgbbf998c">系统服务管理</h3>
+<div class="outline-text-3" id="text-orgbbf998c">
+</div><div id="outline-container-orgbde0af9" class="outline-4">
+<h4 id="orgbde0af9">systemd</h4>
+</div>
+<div id="outline-container-orgaa5f1e2" class="outline-4">
+<h4 id="orgaa5f1e2">openrc</h4>
+</div>
+</div>
+
+<div id="outline-container-org50295e1" class="outline-3">
+<h3 id="org50295e1">参数设置</h3>
+<div class="outline-text-3" id="text-org50295e1">
+</div><div id="outline-container-org2266f9d" class="outline-4">
+<h4 id="org2266f9d">ulimit</h4>
+</div>
+</div>
+<div id="outline-container-org6b8f699" class="outline-3">
+<h3 id="org6b8f699">分区</h3>
+</div>
+</div>
+
+
+<div id="outline-container-org7d90db0" class="outline-2">
+<h2 id="org7d90db0">Software</h2>
+<div class="outline-text-2" id="text-org7d90db0">
+</div><div id="outline-container-org004d956" class="outline-3">
+<h3 id="org004d956">for ML</h3>
+<div class="outline-text-3" id="text-org004d956">
+</div><div id="outline-container-org628e203" class="outline-4">
+<h4 id="org628e203">nvidia-driver</h4>
+</div>
+<div id="outline-container-orgd2791d2" class="outline-4">
+<h4 id="orgd2791d2">cuda-toolkit</h4>
+</div>
+<div id="outline-container-orgbd8cbe3" class="outline-4">
+<h4 id="orgbd8cbe3">cudnn</h4>
+</div>
+<div id="outline-container-org6b9c56b" class="outline-4">
+<h4 id="org6b9c56b">tensorflow 安装</h4>
+<div class="outline-text-4" id="text-org6b9c56b">
+</div><ul class="org-ul"><li><a id="org3971a8e"></a>pip<br /><div class="outline-text-5" id="text-org3971a8e">
+<p>
+tensorflow-gpu
+</p>
+</div></li>
+<li><a id="org5f7f46d"></a>docker / nvidia-docker<br /></li>
+<li><a id="org19541ef"></a>anaconda<br /></li>
+<li><a id="orgd5919a5"></a>系统包管理器<br /></li>
+<li><a id="org9ecedf0"></a>github 编译<br /><div class="outline-text-5" id="text-org9ecedf0">
+<p>
+bazel / proxy chains
+</p>
+</div></li>
+<li><a id="orgac1f189"></a>nvidia 官网教程<br /></li>
+<li><a id="org11d8556"></a>手动安装<br /></li></ul>
+</div>
+<div id="outline-container-org8f78a90" class="outline-4">
+<h4 id="org8f78a90">tensorflow 扩展</h4>
+<div class="outline-text-4" id="text-org8f78a90">
+</div><ul class="org-ul"><li><a id="org3ca762e"></a>tensorflow board<br /></li>
+<li><a id="org12dcf82"></a>tensorflow serving<br /></li>
+<li><a id="orgb495c65"></a>tensorflow cluster<br /><div class="outline-text-5" id="text-orgb495c65">
+<p>
+公司服务器 pip 安装 tensorflow for cpu
+</p>
+</div></li></ul>
+</div>
+<div id="outline-container-orga42e29e" class="outline-4">
+<h4 id="orga42e29e">jupyter</h4>
+</div>
+<div id="outline-container-org170dd9c" class="outline-4">
+<h4 id="org170dd9c">superset</h4>
+</div>
+</div>
+
+<div id="outline-container-org7243e28" class="outline-3">
+<h3 id="org7243e28">for work</h3>
+<div class="outline-text-3" id="text-org7243e28">
+</div><div id="outline-container-org065e511" class="outline-4">
+<h4 id="org065e511">screen / tmux</h4>
+</div>
+<div id="outline-container-orgb19bd91" class="outline-4">
+<h4 id="orgb19bd91">spacevim / spacemacs</h4>
+</div>
+<div id="outline-container-org09c56b9" class="outline-4">
+<h4 id="org09c56b9">nextcloud</h4>
+</div>
+<div id="outline-container-org93aec2d" class="outline-4">
+<h4 id="org93aec2d">neo4j</h4>
+</div>
+<div id="outline-container-orgaf3aef0" class="outline-4">
+<h4 id="orgaf3aef0">airflow</h4>
+</div>
+<div id="outline-container-org6ca7fb4" class="outline-4">
+<h4 id="org6ca7fb4">分布式应用</h4>
+<div class="outline-text-4" id="text-org6ca7fb4">
+</div><ul class="org-ul"><li><a id="org5792737"></a>爬虫<br /></li></ul>
+</div>
+
+<div id="outline-container-org156db43" class="outline-4">
+<h4 id="org156db43">邮件服务</h4>
+<div class="outline-text-4" id="text-org156db43">
+</div><ul class="org-ul"><li><a id="org5b1336f"></a>mutt / sendmail<br /></li>
+<li><a id="orga79bf51"></a>stmp<br /></li></ul>
+</div>
+</div>
+
+<div id="outline-container-org8b2d6f8" class="outline-3">
+<h3 id="org8b2d6f8">for fun</h3>
+<div class="outline-text-3" id="text-org8b2d6f8">
+</div><div id="outline-container-orge9ac644" class="outline-4">
+<h4 id="orge9ac644">mldonkey</h4>
+</div>
+<div id="outline-container-org95e5472" class="outline-4">
+<h4 id="org95e5472">openstack</h4>
+</div>
+<div id="outline-container-org8fdc74a" class="outline-4">
+<h4 id="org8fdc74a">hashview</h4>
+</div>
+<div id="outline-container-org45cbed2" class="outline-4">
+<h4 id="org45cbed2">bitcoin</h4>
+</div>
+<div id="outline-container-org24f3005" class="outline-4">
+<h4 id="org24f3005">蜜罐</h4>
+</div>
+<div id="outline-container-org3eb3326" class="outline-4">
+<h4 id="org3eb3326">ZFS</h4>
+<div class="outline-text-4" id="text-org3eb3326">
+</div><ul class="org-ul"><li><a id="orgb63606f"></a>ZIL<br /></li>
+<li><a id="orgf307fb8"></a>L2ARG<br /></li>
+<li><a id="org1474b89"></a>内存缓冲<br /></li>
+<li><a id="org0774f38"></a>去重<br /></li>
+<li><a id="org3b24b36"></a>zraid<br /></li></ul>
+</div>
+<div id="outline-container-orgb6d9029" class="outline-4">
+<h4 id="orgb6d9029">dm-writeboost</h4>
+</div>
+<div id="outline-container-org6dd4537" class="outline-4">
+<h4 id="org6dd4537">lvm</h4>
+</div>
+<div id="outline-container-org3c4c376" class="outline-4">
+<h4 id="org3c4c376">opencl</h4>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb0836ad" class="outline-2">
+<h2 id="orgb0836ad">Tensorflow</h2>
+<div class="outline-text-2" id="text-orgb0836ad">
+</div><div id="outline-container-orga66b911" class="outline-3">
+<h3 id="orga66b911">基本概念</h3>
+<div class="outline-text-3" id="text-orga66b911">
+</div><div id="outline-container-orgcab0813" class="outline-4">
+<h4 id="orgcab0813">tensor</h4>
+</div>
+<div id="outline-container-org9a1d0c1" class="outline-4">
+<h4 id="org9a1d0c1">variable</h4>
+</div>
+<div id="outline-container-org1556598" class="outline-4">
+<h4 id="org1556598">graph</h4>
+</div>
+<div id="outline-container-orgc02ecd3" class="outline-4">
+<h4 id="orgc02ecd3">placeholder</h4>
+</div>
+<div id="outline-container-org24ab975" class="outline-4">
+<h4 id="org24ab975">session</h4>
+</div>
+</div>
+
+<div id="outline-container-org338ed64" class="outline-3">
+<h3 id="org338ed64">常用工具</h3>
+<div class="outline-text-3" id="text-org338ed64">
+</div><div id="outline-container-org7d3cabd" class="outline-4">
+<h4 id="org7d3cabd">tflearn</h4>
+</div>
+<div id="outline-container-orgd4eae28" class="outline-4">
+<h4 id="orgd4eae28">tensorflow board</h4>
+</div>
+<div id="outline-container-org7cc7b71" class="outline-4">
+<h4 id="org7cc7b71">debug</h4>
+</div>
+</div>
+
+<div id="outline-container-orgcfcbed4" class="outline-3">
+<h3 id="orgcfcbed4">优化问题求解</h3>
+<div class="outline-text-3" id="text-orgcfcbed4">
+</div><div id="outline-container-org1e837da" class="outline-4">
+<h4 id="org1e837da">optimize</h4>
+</div>
+<div id="outline-container-org1deae7a" class="outline-4">
+<h4 id="org1deae7a">gradient</h4>
+</div>
+<div id="outline-container-orgeddf862" class="outline-4">
+<h4 id="orgeddf862">equal constraint</h4>
+</div>
+<div id="outline-container-org4e13717" class="outline-4">
+<h4 id="org4e13717">inequal constraint</h4>
+</div>
+<div id="outline-container-org6d77752" class="outline-4">
+<h4 id="org6d77752">normalize constraint</h4>
+</div>
+</div>
+
+<div id="outline-container-org7f7b587" class="outline-3">
+<h3 id="org7f7b587">示例</h3>
+<div class="outline-text-3" id="text-org7f7b587">
+</div><div id="outline-container-org95d00a3" class="outline-4">
+<h4 id="org95d00a3">lr</h4>
+</div>
+<div id="outline-container-org2d1e035" class="outline-4">
+<h4 id="org2d1e035">ocsvm</h4>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org5a63fb7" class="outline-2">
+<h2 id="org5a63fb7">Remote</h2>
+<div class="outline-text-2" id="text-org5a63fb7">
+</div><div id="outline-container-org104f046" class="outline-3">
+<h3 id="org104f046">光猫改桥接 + DMZ</h3>
+<div class="outline-text-3" id="text-org104f046">
+</div><div id="outline-container-org4b0196d" class="outline-4">
+<h4 id="org4b0196d">联通 200M 光猫可破</h4>
+</div>
+<div id="outline-container-org852ac85" class="outline-4">
+<h4 id="org852ac85">端口转发安全性更高，只是比较繁琐</h4>
+</div>
+<div id="outline-container-orgd820446" class="outline-4">
+<h4 id="orgd820446">华为 HG8264，TPlink GP110</h4>
+</div>
+<div id="outline-container-org80053b9" class="outline-4">
+<h4 id="org80053b9">淘宝在线破解</h4>
+</div>
+</div>
+
+<div id="outline-container-orgba1f037" class="outline-3">
+<h3 id="orgba1f037">ssh 隧道 + 跳板机</h3>
+<div class="outline-text-3" id="text-orgba1f037">
+</div><div id="outline-container-orge91c1dd" class="outline-4">
+<h4 id="orge91c1dd">阿里云北京 5M</h4>
+</div>
+<div id="outline-container-org3dc6b5a" class="outline-4">
+<h4 id="org3dc6b5a">美团云</h4>
+</div>
+</div>
+
+<div id="outline-container-org5984ed2" class="outline-3">
+<h3 id="org5984ed2">ngrok</h3>
+<div class="outline-text-3" id="text-org5984ed2">
+</div><div id="outline-container-orgeb9d859" class="outline-4">
+<h4 id="orgeb9d859">go 语言</h4>
+</div>
+<div id="outline-container-org55d58b0" class="outline-4">
+<h4 id="org55d58b0">简单快捷</h4>
+</div>
+</div>
+
+<div id="outline-container-orgdf9229b" class="outline-3">
+<h3 id="orgdf9229b">DDNS</h3>
+<div class="outline-text-3" id="text-orgdf9229b">
+</div><div id="outline-container-orga5a8e2c" class="outline-4">
+<h4 id="orga5a8e2c">netgear</h4>
+</div>
+<div id="outline-container-orgd16ff68" class="outline-4">
+<h4 id="orgd16ff68">dnspod</h4>
+</div>
+<div id="outline-container-org36db3dd" class="outline-4">
+<h4 id="org36db3dd">push_ip / get_ip</h4>
+</div>
+</div>
+
+<div id="outline-container-org2ff750a" class="outline-3">
+<h3 id="org2ff750a">ssh X forwarding</h3>
+<div class="outline-text-3" id="text-org2ff750a">
+</div><div id="outline-container-orgf1b03fb" class="outline-4">
+<h4 id="orgf1b03fb">ssh -YC &amp; config</h4>
+</div>
+<div id="outline-container-org08a7a85" class="outline-4">
+<h4 id="org08a7a85">DISPLAY update</h4>
+<div class="outline-text-4" id="text-org08a7a85">
+</div><ul class="org-ul"><li><a id="org977f025"></a>preexec hook<br /></li></ul>
+</div>
+<div id="outline-container-org8719e74" class="outline-4">
+<h4 id="org8719e74">xclip</h4>
+</div>
+</div>
+
+<div id="outline-container-orgd5104ba" class="outline-3">
+<h3 id="orgd5104ba">vnc</h3>
+<div class="outline-text-3" id="text-orgd5104ba">
+</div><div id="outline-container-org7b29b77" class="outline-4">
+<h4 id="org7b29b77">x11vnc</h4>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org1c08c08" class="outline-2">
+<h2 id="org1c08c08">Tips</h2>
+<div class="outline-text-2" id="text-org1c08c08">
+</div><div id="outline-container-orgcd4b0a4" class="outline-3">
+<h3 id="orgcd4b0a4">DIY 注意事项</h3>
+<div class="outline-text-3" id="text-orgcd4b0a4">
+</div><div id="outline-container-orgefde65f" class="outline-4">
+<h4 id="orgefde65f">基本</h4>
+<div class="outline-text-4" id="text-orgefde65f">
+</div><ul class="org-ul"><li><a id="orged732a2"></a>远离静电<br /></li>
+<li><a id="org9370b2c"></a>插孔匹配原则<br /></li></ul>
+</div>
+<div id="outline-container-orged20128" class="outline-4">
+<h4 id="orged20128">CPU</h4>
+<div class="outline-text-4" id="text-orged20128">
+</div><ul class="org-ul"><li><a id="org8c309d3"></a>方向<br /></li>
+<li><a id="orgbd4ac35"></a>引脚对齐<br /></li>
+<li><a id="org89eb6ef"></a>硅脂<br /></li></ul>
+</div>
+<div id="outline-container-orgeefbba5" class="outline-4">
+<h4 id="orgeefbba5">主板</h4>
+<div class="outline-text-4" id="text-orgeefbba5">
+</div><ul class="org-ul"><li><a id="orgcbbff0e"></a>CMOS 电池<br /></li>
+<li><a id="orgfd0d8e6"></a>USB3<br /></li>
+<li><a id="org3fbf2ee"></a>阅读说明书<br /></li>
+<li><a id="orgfddfb0e"></a>去掉多余铜柱<br /></li></ul>
+</div>
+<div id="outline-container-orgd56e7ee" class="outline-4">
+<h4 id="orgd56e7ee">内存</h4>
+<div class="outline-text-4" id="text-orgd56e7ee">
+</div><ul class="org-ul"><li><a id="org2192a4c"></a>颜色/多通道<br /></li>
+<li><a id="org382d247"></a>保持型号规格一致<br /></li></ul>
+</div>
+<div id="outline-container-org7ebc520" class="outline-4">
+<h4 id="org7ebc520">散热器</h4>
+<div class="outline-text-4" id="text-org7ebc520">
+</div><ul class="org-ul"><li><a id="org32c8e8f"></a>接好才再上电<br /></li></ul>
+</div>
+<div id="outline-container-org9aa84d6" class="outline-4">
+<h4 id="org9aa84d6">硬盘</h4>
+<div class="outline-text-4" id="text-org9aa84d6">
+</div><ul class="org-ul"><li><a id="org4e0df7a"></a>固定紧<br /></li>
+<li><a id="org99b6713"></a>平放<br /></li></ul>
+</div>
+<div id="outline-container-org858c145" class="outline-4">
+<h4 id="org858c145">PCI 设备</h4>
+<div class="outline-text-4" id="text-org858c145">
+</div><ul class="org-ul"><li><a id="orgbf00a8b"></a>用螺钉紧固<br /></li></ul>
+</div>
+<div id="outline-container-orga46b6e2" class="outline-4">
+<h4 id="orga46b6e2">电源</h4>
+<div class="outline-text-4" id="text-orga46b6e2">
+</div><ul class="org-ul"><li><a id="org5174a0c"></a>6pin、8pin<br /></li>
+<li><a id="org1851a93"></a>风扇方向<br /></li></ul>
+</div>
+<div id="outline-container-orgf3adf96" class="outline-4">
+<h4 id="orgf3adf96">跳线</h4>
+<div class="outline-text-4" id="text-orgf3adf96">
+</div><ul class="org-ul"><li><a id="org9247442"></a>极性<br /></li></ul>
+</div>
+</div>
+
+<div id="outline-container-orgdef6c9e" class="outline-3">
+<h3 id="orgdef6c9e">BIOS</h3>
+<div class="outline-text-3" id="text-orgdef6c9e">
+</div><div id="outline-container-org3e4122f" class="outline-4">
+<h4 id="org3e4122f">多卡 PCI 冲突</h4>
+</div>
+<div id="outline-container-org8358fa0" class="outline-4">
+<h4 id="org8358fa0">legacy &amp; EFI</h4>
+</div>
+<div id="outline-container-org07bd242" class="outline-4">
+<h4 id="org07bd242">硬盘传输模式</h4>
+</div>
+<div id="outline-container-org57791b5" class="outline-4">
+<h4 id="org57791b5">启动项</h4>
+<div class="outline-text-4" id="text-org57791b5">
+</div><ul class="org-ul"><li><a id="orgf2a40cf"></a>添加硬盘后注意切换<br /></li></ul>
+</div>
+<div id="outline-container-org9555e52" class="outline-4">
+<h4 id="org9555e52">raid</h4>
+</div>
+<div id="outline-container-org427df85" class="outline-4">
+<h4 id="org427df85">超线程</h4>
+</div>
+<div id="outline-container-org019613d" class="outline-4">
+<h4 id="org019613d">超频</h4>
+<div class="outline-text-4" id="text-org019613d">
+</div><ul class="org-ul"><li><a id="org99767a7"></a>i7 3930x + x79<br /></li></ul>
+</div>
+</div>
+
+<div id="outline-container-org05d9d2b" class="outline-3">
+<h3 id="org05d9d2b">网络安全</h3>
+<div class="outline-text-3" id="text-org05d9d2b">
+</div><div id="outline-container-org766f07a" class="outline-4">
+<h4 id="org766f07a">换 ssh 默认端口</h4>
+</div>
+<div id="outline-container-org054ef79" class="outline-4">
+<h4 id="org054ef79">及时打补丁升级服务</h4>
+</div>
+<div id="outline-container-orgd1e5bf7" class="outline-4">
+<h4 id="orgd1e5bf7">禁用 root 登录 ssh</h4>
+</div>
+<div id="outline-container-org3d672ee" class="outline-4">
+<h4 id="org3d672ee">使用密钥而非密码登录</h4>
+</div>
+<div id="outline-container-org0485f40" class="outline-4">
+<h4 id="org0485f40">域名隐私保护</h4>
+</div>
+<div id="outline-container-org9fbfa57" class="outline-4">
+<h4 id="org9fbfa57">iptables 防火墙</h4>
+</div>
+<div id="outline-container-orgafbbd4e" class="outline-4">
+<h4 id="orgafbbd4e">入侵检测</h4>
+</div>
+</div>
+
+<div id="outline-container-org6411ffb" class="outline-3">
+<h3 id="org6411ffb">解除限制</h3>
+<div class="outline-text-3" id="text-org6411ffb">
+</div><div id="outline-container-org3ab5769" class="outline-4">
+<h4 id="org3ab5769">80 端口</h4>
+<div class="outline-text-4" id="text-org3ab5769">
+</div><ul class="org-ul"><li><a id="org68a61b3"></a>跳板机 nginx 代理<br /></li>
+<li><a id="orgb9fc2f6"></a>使用 https，443 端口<br /></li></ul>
+</div>
+
+<div id="outline-container-org49e56ea" class="outline-4">
+<h4 id="org49e56ea">DNS 污染</h4>
+<div class="outline-text-4" id="text-org49e56ea">
+</div><ul class="org-ul"><li><a id="org959ab45"></a>自建递归 DNS<br /></li></ul>
+</div>
+<div id="outline-container-org2005d4f" class="outline-4">
+<h4 id="org2005d4f">VPN</h4>
+</div>
+<div id="outline-container-org313846d" class="outline-4">
+<h4 id="org313846d">SS</h4>
+<div class="outline-text-4" id="text-org313846d">
+</div><ul class="org-ul"><li><a id="org66be54e"></a>vultr<br /></li>
+<li><a id="orgfb4d251"></a>linode<br /></li>
+<li><a id="orgc369bdf"></a>阿里云香港节点<br /></li>
+<li><a id="orgee8b946"></a>google ECS<br /></li></ul>
+</div>
+
+<div id="outline-container-org13eba66" class="outline-4">
+<h4 id="org13eba66">nginx 反向代理</h4>
+</div>
+</div>
+
+<div id="outline-container-org8b3083a" class="outline-3">
+<h3 id="org8b3083a">域名</h3>
+<div class="outline-text-3" id="text-org8b3083a">
+</div><div id="outline-container-org8d87ce3" class="outline-4">
+<h4 id="org8d87ce3">购买</h4>
+<div class="outline-text-4" id="text-org8d87ce3">
+</div><ul class="org-ul"><li><a id="orgd645cc0"></a>godaddy<br /></li>
+<li><a id="orga8ee66d"></a>万网<br /></li></ul>
+</div>
+<div id="outline-container-org3ee042e" class="outline-4">
+<h4 id="org3ee042e">DNS 设置</h4>
+<div class="outline-text-4" id="text-org3ee042e">
+</div><ul class="org-ul"><li><a id="org889eb78"></a>A 记录<br /></li>
+<li><a id="org29f1419"></a>CNAME 记录<br /></li>
+<li><a id="orga08695d"></a>NS server<br /></li></ul>
+</div>
+</div>
+
+<div id="outline-container-orga01220a" class="outline-3">
+<h3 id="orga01220a">UPS 电源</h3>
+<div class="outline-text-3" id="text-orga01220a">
+</div><div id="outline-container-org50fe2f4" class="outline-4">
+<h4 id="org50fe2f4">断电预警，短信通知</h4>
+</div>
+</div>
+
+<div id="outline-container-orge1aa9e8" class="outline-3">
+<h3 id="orge1aa9e8">雷电接口</h3>
+<div class="outline-text-3" id="text-orge1aa9e8">
+</div><div id="outline-container-org1c4b2df" class="outline-4">
+<h4 id="org1c4b2df">linux 雷电驱动尚不可用</h4>
+</div>
+</div>
+
+<div id="outline-container-orgbdd1c1f" class="outline-3">
+<h3 id="orgbdd1c1f">延续</h3>
+<div class="outline-text-3" id="text-orgbdd1c1f">
+</div><div id="outline-container-orgc3530aa" class="outline-4">
+<h4 id="orgc3530aa">虚拟化</h4>
+<div class="outline-text-4" id="text-orgc3530aa">
+</div><ul class="org-ul"><li><a id="orgaecbe7c"></a>hyperv<br /></li>
+<li><a id="org3c6b21f"></a>esxi<br /><div class="outline-text-5" id="text-org3c6b21f">
+<p>
+windows / linux / osx
+</p>
+</div></li>
+<li><a id="orgc73c5f1"></a>xen<br /></li>
+<li><a id="orge423834"></a>docker<br /><div class="outline-text-5" id="text-orge423834">
+<p>
+docker hub，交叉编译，github，自动构建
+</p>
+</div></li></ul>
+</div>
+<div id="outline-container-orgb79f9b2" class="outline-4">
+<h4 id="orgb79f9b2">备份</h4>
+<div class="outline-text-4" id="text-orgb79f9b2">
+</div><ul class="org-ul"><li><a id="orgdce7258"></a>tar 命令<br /></li>
+<li><a id="orgd7f9f69"></a>外接备份硬盘矩阵<br /></li>
+<li><a id="org14fd83b"></a>冗余备份盘<br /></li></ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgd9fab2c" class="outline-2">
+<h2 id="orgd9fab2c">Q &amp; A</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: jiancheng.zhai</p>
+<p class="date">Created: 2017-03-17 Fri 19:31</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

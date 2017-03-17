@@ -1,13 +1,14 @@
 #+Title: Build remote tensorflow workstation from scratch
 #+Author: jiancheng.zhai
 #+Email: jiancheng.pro@gmail.com
-#+OPTIONS: toc:nil reveal_mathjax:t
+# #+OPTIONS: toc:nil reveal_mathjax:t
 #+OPTIONS: ^:nil
 #+OPTIONS: toc:nil num:nil
 #+STARTUP: indent
-#+REVEAL_THEME: white
-#+REVEAL_TRANS: linear    
-#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+# #+REVEAL_THEME: white
+# #+REVEAL_TRANS: linear    
+# #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+SETUPFILE: ~/Git//org-html-themes/setup/theme-readtheorg.setup
 
 * Introduction
 ** 搭建 workstation
@@ -47,6 +48,7 @@
 *** 硬件扩展性
 
 ** 方案对比
+
 - 设最低价格指数为 1，最低性能指数为 1
 
 | 方案 vs 特性 | 类别   | 价格 | 性能 |     性价比 | 网速 | 稳定性 | 售后 | 折腾度 | 扩展度 |

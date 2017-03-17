@@ -55,7 +55,7 @@ window.onload=function hello(){
    - 高效 diff 算法
    - 避免直接重置 innerHTML
    - 只更新必要的 dom
-
+     
 ** jsx
 #+BEGIN_SRC js
 var names = ['Alice', 'Emily', 'Kate'];
