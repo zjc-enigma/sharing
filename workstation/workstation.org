@@ -66,7 +66,7 @@
 * Hardware
 ** 预算参考
 *** 8k ~ 2W
-**** amd / 上代 E5 / E3 / i7 + 顶级 GPU
+**** amd / E5 v3 / E3 / i7 + 顶级 GPU
 *** 2W ~ 5W
 **** 顶级 i7 + 2 顶级 GPU + SSD + 硬盘阵列
 *** 5W ~ 10W
@@ -74,11 +74,11 @@
 
 ** 平台
 
-| 平台 vs 特性 | CPU 接口 | 最大内存 | 双路 | CPU 类型     | 内存通道 |
-| X99          |     2011 |          |      | i7 / i5 / E3 |          |
-| Z270         |     2011 |          |      | i7 / i5 / E3 |          |
-| C620         |          |          |      | E5 v3/v4     |          |
-| AMD          |          |          |      | r7           |          |
+| 平台 vs 特性 | CPU 接口 | 最大内存 | 双路 | CPU 类型         | 内存通道 |
+| X99          | LGA 2011 |          |      | i7 / i5 / E3 /E5 |          |
+| Z270         | LGA 1151 |          |      | i7 / i5          |          |
+| C620         | LGA 2011 |          |      | E5 v3/v4         |          |
+| AMD          |          |          |      | r7 / r5          |          |
 
 ** 商用机
 *** nvidia digits devbox
@@ -100,9 +100,9 @@ https://developer.nvidia.com/devbox
 *** 重要接口
 | 接口 vs 特性 | 对应设备         | 规格      | 数量                                                  | 备注                          |
 | PCIE 16x     | 显卡             | PCIE 3.0  | 至少 3 个，越多越好                                   |                               |
-| PCIE 8x      |                  |           |                                                       |                               |
-| PCIE 4x      | PCI 固态硬盘      |           |                                                       |                               |
-| PCH 4x       | 雷电卡或 PCI SSD |           |                                                       |                               |
+| PCIE 8x      |                  | PCIE 3.0  |                                                       |                               |
+| PCIE 4x      | PCI SSD          | PCIE 3.0  |                                                       |                               |
+| PCH 4x       | 雷电卡或 PCI SSD | PCIE 2.0  |                                                       |                               |
 | 内存槽       | 内存             | DDR4      | 最少 4 个，通常 8 个以上，16 个更好                   | 注意 4 通道内存对应的插槽颜色 |
 | SATA         | 固态或机械硬盘   | SATA3     | 至少 4 个以上，越多越好                               |                               |
 | m.2          | m.2 固态硬盘     | nvme      | 如果没这个，有多余的 PCI 也行，有了更好               |                               |
@@ -299,18 +299,85 @@ ECC / RECC
 **** 源码
 **** slot 多版本共存
 **** 文档
+*** arch
+**** 高效，轻量级，最新特性
+**** 简单省心
+
 ** 安装方式
 *** livecd
 *** usb
 *** 硬盘
+** 引导
+*** GPT
+*** mbr
+*** grub/grub2
+*** UEFI
+- efibootmgr
+- rootwait
+- rootdelay
+*** initramfs
+**** dracut
+**** genkernel
 
 ** 图形界面
 *** gnome
 *** kde
 *** xfce
 ** 内核
+*** 版本
+- sys-kernel/alt-sources [11] (~4.9.5(4.9.5)): Kernel Sources and Patches for the System Rescue CD Standard Kernel
+- sys-kernel/argent-sources [5] (3.18.25(3.18)): Official Argent Linux Standard kernel sources
+- sys-kernel/aufs-sources (~4.9.12(4.9.12)): Full sources including the Gentoo patchset for the linux kernel tree and aufs4 support
+- sys-kernel/beaglebone-sources [42] (--): Official Sabayon Linux Standard kernel sources for beaglebone
+- sys-kernel/bfs-sources [36] (2.6.37-r4(2.6.37-r4)): Full sources for the Linux kernel with BFS schedular.
+- sys-kernel/calculate-sources (4.9.8(4.9.8)[13]): Calculate Linux kernel image
+- sys-kernel/chromeos-sources (--): Linux kernel source for the Samsung Chromebook
+- sys-kernel/ck-sources (~4.10.1(4.10.1)): Con Kolivas' high performance patchset and Gentoo's genpatches for Linux 4.10
+- sys-kernel/e-sources [19] (3.18.14(3.18)): Full sources for the Linux kernel including: gentoo, ck and other patches
+- sys-kernel/gentoo-sources (4.4.39(4.4.39)@01/22/2017 4.9.6-r1(4.9.6-r1)@03/20/2017 4.9.7(4.9.7)@02/07/2017 4.10.1(4.10.1)@03/19/2017 -> 3.4.113(3.4.113)^bs 3.8.13(3.8.13)^bs[49] 3.10.95(3.10.95)^bs 3.10.104-r1(3.10.104-r1)^bs 3.12.52-r1(3.12.52-r1)^bs 3.12.66(3.12.66)^bs 4.1.15-r1(4.1.15-r1)^bs 4.1.35(4.1.35)^bs 4.1.37(4.1.37)^bs 4.4.39(4.4.39)^bs 4.9.6-r1(4.9.6-r1)^bs): Full sources including the Gentoo patchset for the 4.6 kernel tree
+- sys-kernel/git-sources (~4.11_rc1(4.11_rc1)): Live -git version of the Linux kernel
+- sys-kernel/hardened-sources (4.8.17-r2(4.8.17-r2)): Hardened kernel sources (kernel series 4.9)
+- sys-kernel/infra-kernel-sources [24] (~3.15.2): Package to build kernel + initramfs for Gentoo infra boxes
+- sys-kernel/jens-n900-sources [23] (--):
+- sys-kernel/lh-sources [27] (~4.9.9(4.9.9)): Full sources including the Gentoo, BFQ and aufs patchset for the 4.9 kernel
+- sys-kernel/linaro-sources [31] (--): Live -git arm64 linaro version of the Linux kernel
+- sys-kernel/liquorix-sources (3.11.8(3.11.8)[18]): The Liquorix Kernel Sources v4.x
+- sys-kernel/longterm-sources [31] (2.6.32.68(2.6.32.68)): Longterm full sources for the Linux kernel
+- sys-kernel/meego-n900-sources [23] (--):
+- sys-kernel/mips-sources (--): Linux-Mips GIT sources for MIPS-based machines, dated 20161016
+- sys-kernel/nouveau-sources [51] (~9999): Patched kernel containing the latest nouveau sources
+- sys-kernel/odroid-sources (--): Linux kernel source for the ODROID-[UX]2 products
+- sys-kernel/odroidxu-sources (--): Linux kernel source for the ODROIDXU products
+- sys-kernel/omap4-sources [34] (--): OMAP4 sources
+- sys-kernel/openvz-sources (2.6.32.111.12(2.6.32.111.12)): Kernel sources with OpenVZ patchset
+- sys-kernel/pentoo-sources (4.7.10(4.7.10)[35]): Pentoo kernel sources (kernel series 4.7)
+- sys-kernel/pf-sources (~4.9_p5(4.9_p5)[48]): Linux kernel fork with new features, including the -ck patchset (BFS), BFQ
+- sys-kernel/radxa-sources [30] (--): Kernel sources for Radxa Rock
+- sys-kernel/raspberrypi-notro-sources [20] (--): ARCH_BCM2835 (Raspberry Pi) Linux kernel sources with Notro patches
+- sys-kernel/raspberrypi-sources (--): Raspberry PI kernel sources
+- sys-kernel/reiser4-sources (~4.9.9(4.9.9)[25]): Full sources including the Gentoo and Reiser4 patchsets for the 4.9 kernel tree
+- sys-kernel/rt-sources (~4.9.6_p4(4.9.6_p4)): Full Linux 4.9 kernel sources with the CONFIG_PREEMPT_RT patch
+- sys-kernel/sabayon-sources [42] (~4.9.9(4.9)): Official Sabayon Linux Standard kernel sources
+- sys-kernel/spike-sources [45] (~4.0.5(4.0)): Official Spike Linux Standard kernel sources
+- sys-kernel/std-sources [11] (~4.4.44(4.4.44)): Kernel Sources and Patches for the System Rescue CD Standard Kernel
+- sys-kernel/templar-sources [31] (~4.0): Official Spike Linux Grsecuity enhanced kernel image
+- sys-kernel/tuxonice-sources (3.0.35(3.0.35)[38]): TuxOnIce + Gentoo patchset sources
+- sys-kernel/ubuntu-sources (~4.8.16_p_p37_p39(4.8.16_p_p37_p39)[50]): Ubuntu patched kernel sources
+- sys-kernel/uksm-sources [9] (~3.3.5(3.3.5)): Full sources including the Gentoo patchset and UKSM patch for the 3.3 kernel tree
+- sys-kernel/vanilla-sources (~4.10.1(4.10.1)): Full sources for the Linux kernel
+- sys-kernel/xbox-sources (--): Full sources for the Xbox Linux kernel
+- sys-kernel/xen-dom0-sources [5] (~2.6.34-r4(2.6)): Xen dom0 Linux Kernel sources suitable for running on Xen and Amazon EC2
+- sys-kernel/xen-domU-sources [5] (~2.6.34-r4(2.6)): Xen domU Linux Kernel sources suitable for running on Xen and Amazon EC2
+- sys-kernel/zen-sources (~4.9.9999(4.9.9999)[15]): The Zen Kernel Live Sources
+
 *** docker
+>=3.10
 *** BBR
+>=4.9
+*** ZFS
+<4.10
+*** Nvidia-driver
+<4.10
 *** CPU
 **** 架构
 **** 核心数
