@@ -311,8 +311,12 @@ ECC / RECC
 *** GPT
 *** mbr
 *** grub/grub2
+*** BIOS
 *** UEFI
-- efibootmgr
+- 内核支持
+c- 关闭 secure boot
+- efibootmgr 
+- uefi shell
 - rootwait
 - rootdelay
 *** initramfs
@@ -556,6 +560,7 @@ bazel / proxy chains
 *** 域名隐私保护
 *** iptables 防火墙
 *** 入侵检测
+*** SELinux
 
 ** 解除限制
 *** 80 端口

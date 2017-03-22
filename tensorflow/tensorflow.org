@@ -1,0 +1,151 @@
+#+Title: Tensorflow introduction
+#+Author: jiancheng.zhai
+#+Email: jiancheng.pro@gmail.com
+# #+OPTIONS: toc:nil reveal_mathjax:t
+#+OPTIONS: ^:nil
+#+OPTIONS: toc:nil num:nil
+#+STARTUP: indent
+#+REVEAL_THEME: white
+#+REVEAL_TRANS: linear    
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+# #+SETUPFILE: ~/Git//org-html-themes/setup/theme-readtheorg.setup
+
+* Introduction
+
+* Compare with ...
+
+* Environment(CPU)
+** pip
+
+* import tensorflow as tf
+
+* Framework concept
+** computational graph
+*** build graph
+*** run graph
+** tensor
+** session
+
+* Data structure
+** tf.constant
+
+#+BEGIN_SRC python
+# tf.float16
+# tf.float32
+# tf.float64
+node1 = tf.constant(3.0, tf.float32)
+node2 = tf.constant(4.0) # also tf.float32 implicitly
+print(node1, node2)
+#+END_SRC
+
+** tf.placeholder
+#+BEGIN_SRC python
+a = tf.placeholder(tf.float32)
+b = tf.placeholder(tf.float32)
+adder_node = a + b  # + provides a shortcut for tf.add(a, b)
+#+END_SRC
+
+** tf.Variable
+#+BEGIN_SRC python
+W = tf.Variable([.3], tf.float32)
+b = tf.Variable([-.3], tf.float32)
+x = tf.placeholder(tf.float32)
+linear_model = W * x + b
+#+END_SRC
+
+** Matrix
+
+
+* Basic operation
+** import data
+
+** tf.Session
+#+BEGIN_SRC python
+# sess = tf.InteractiveSession()
+sess = tf.Session()
+init = tf.global_variables_initializer()
+sess.run(init)
+#+END_SRC
+
+** tf.assign
+#+BEGIN_SRC python
+fixW = tf.assign(W, [-1.])
+fixb = tf.assign(b, [1.])
+#+END_SRC
+** tf.square
+
+
+** tf.reduce_sum
+#+BEGIN_SRC python
+loss = tf.reduce_sum(squared_deltas)
+print(sess.run(loss, {x:[1,2,3,4], y:[0,-1,-2,-3]}))
+#+END_SRC
+
+** tf.reduce_mean
+#+BEGIN_SRC python
+cross_entropy = tf.reduce_mean(
+    tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y))
+#+END_SRC
+
+** tf.add
+#+BEGIN_SRC python
+node3 = tf.add(node1, node2)
+print("node3: ", node3)
+print("sess.run(node3): ",sess.run(node3))
+#+END_SRC
+
+** tf.matmul
+#+BEGIN_SRC python
+#+END_SRC
+
+** tf.equal
+
+** tf.cast 
+#+BEGIN_SRC python
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+#+END_SRC
+
+
+
+* Function
+** tf.nn.softmax_cross_entropy_with_logits
+#+BEGIN_SRC python
+tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=y)
+#+END_SRC
+
+** tf.sigmoid
+
+** tf.nn.softmax
+
+* Optimization methods
+** tf.train.GradientDescentOptimizer 
+#+BEGIN_SRC python
+train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
+#+END_SRC
+
+
+* Demos
+** LR
+** GBDT
+** NN
+
+
+* Tools
+** tf.learn
+** tf.contrib.learn
+** tf.nn
+** tensorflow board
+** tensorflow cluster
+** tensorflow serving
+
+* Tips
+** CUDA 加速
+** numpy
+
+
+
+
+* Q & A
+
+
+
