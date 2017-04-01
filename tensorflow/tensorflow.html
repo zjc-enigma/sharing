@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Tensorflow introduction 1</title>
+<meta name="author" content="(jiancheng.zhai)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/white.css" id="theme"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/css/zenburn.css"/>
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Tensorflow introduction 1</h1><h2 class="author">jiancheng.zhai</h2><p class="date">Created: 2017-03-31 Fri 17:05</p>
+</section>
+
+<section>
+<section id="slide-org11214df">
+<h2 id="org11214df">Introduction</h2>
+</section>
+</section>
+<section>
+<section id="slide-orgce67096">
+<h2 id="orgce67096">Comparison</h2>
+
+<div class="figure">
+<p><img src="img/framework_cmp.jpeg" alt="framework_cmp.jpeg" width="300%" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgb1a940f">
+<h2 id="orgb1a940f">Comparison</h2>
+
+<div class="figure">
+<p><img src="img/framework_cmp1.jpg" alt="framework_cmp1.jpg" height="50%" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org84ff106">
+<h2 id="org84ff106">Comparison</h2>
+
+<div class="figure">
+<p><img src="img/framework_cmp2.jpg" alt="framework_cmp2.jpg" height="50%" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org12bfda6">
+<h2 id="org12bfda6">Install</h2>
+<div class="outline-text-2" id="text-org12bfda6">
+</div></section>
+<section id="slide-org2c7592e">
+<h3 id="org2c7592e">pip - conf</h3>
+<div class="org-src-container">
+
+<pre><code class="conf"># >=OSX 10.11
+# >=CUDA 8.0
+# ~/.pip/pip.conf
+[global]
+index-url = http://pypi.douban.com/simple 
+trusted-host = pypi.douban.com
+disable-pip-version-check = true
+timeout = 120
+</code></pre>
+</div>
+</section>
+<section id="slide-orgce87913">
+<h3 id="orgce87913">pip - install</h3>
+<div class="org-src-container">
+
+<pre><code class="sh"># more details 
+# https://www.tensorflow.org/versions/r0.11/get_started/os_setup#pip-installation
+# http://blog.csdn.net/gs_008/article/details/52833741 
+# python 3.5 with GPU support
+export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/mac/gpu/tensorflow-0.11.0-py3-none-any.whl
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgba0a293">
+<h3 id="orgba0a293">Addition</h3>
+<ul>
+<li>docker</li>
+<li>compile</li>
+<li>CUDA &amp; cuDNN support</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org29feeab">
+<h2 id="org29feeab">Framework basis</h2>
+<div class="outline-text-2" id="text-org29feeab">
+</div></section>
+<section id="slide-org30477b9">
+<h3 id="org30477b9">computational graph</h3>
+<ul>
+<li>build graph</li>
+<li>run graph</li>
+
+</ul>
+</section>
+<section id="slide-orga3e2605">
+<h3 id="orga3e2605">tensor</h3>
+<div class="org-src-container">
+
+<pre><code class="python">3 # a rank 0 tensor; this is a scalar with shape []
+[1. ,2., 3.] # a rank 1 tensor; this is a vector with shape [3]
+[[1., 2., 3.], [4., 5., 6.]] # a rank 2 tensor; a matrix with shape [2, 3]
+[[[1., 2., 3.]], [[7., 8., 9.]]] # a rank 3 tensor with shape [2, 1, 3]
+</code></pre>
+</div>
+<p>
+Example: 
+</p>
+<div>
+\begin{pmatrix} 
+a & b \\
+c & d 
+\end{pmatrix}
+
+</div>
+<div class="org-src-container">
+
+<pre><code class="python"># if defined a, b, c, d 
+m = [[a, b], [c, d]]
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org027b20c">
+<h3 id="org027b20c">tf.constant</h3>
+<div class="org-src-container">
+
+<pre><code class="python"># tf.float16
+# tf.float32
+# tf.float64
+node1 = tf.constant(3.0, tf.float32)
+node2 = tf.constant(4.0) # tf.float32 implicitly
+print(node1, node2)
+# output:
+# Tensor("Const:0", shape=(), dtype=float32) Tensor("Const_1:0", shape=(), dtype=float32)
+print(type(node1))
+# output:
+# tensorflow.python.framework.ops.Tensor
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org77a89b1">
+<h3 id="org77a89b1">tf.placeholder</h3>
+<p>
+tf.placeholder is used to feed actual training examples.
+</p>
+<div class="org-src-container">
+
+<pre><code class="python">a = tf.placeholder(tf.float32)
+b = tf.placeholder(tf.float32)
+adder_node = a + b  # + provides a shortcut for tf.add(a, b)
+print(adder_node)
+# output:
+# <tf.Tensor 'add:0' shape=<unknown> dtype=float32>
+print(type(adder_node))
+# output:
+# tensorflow.python.framework.ops.Tensor
+</code></pre>
+</div>
+</section>
+<section id="slide-orga67b4c7">
+<h3 id="orga67b4c7">tf.Variable</h3>
+<div class="org-src-container">
+
+<pre><code class="python">W = tf.Variable([.3], tf.float32)
+b = tf.Variable([-.3], tf.float32)
+x = tf.placeholder(tf.float32)
+linear_model = W * x + b
+print(type(W))
+# output:
+# tensorflow.python.ops.variables.Variable
+# Variable as representing your model's trainable parameters
+# ------------------------------------------------------------------
+# Tensor as representing the data being fed into your model \
+# and the intermediate representations of that data as it \
+# passes through your model.
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orge3f6a73">
+<h3 id="orge3f6a73">tf.Session</h3>
+<div class="org-src-container">
+
+<pre><code class="python"># suppose we have defined
+# W = tf.Variable([.3], tf.float32)
+# sess = tf.InteractiveSession()
+sess = tf.Session()
+#init = tf.global_variables_initializer()
+init = tf.initialize_all_variables()
+sess.run(init)
+sess.run(W)
+W.eval(session=sess)
+# output:
+# array([ 0.30000001], dtype=float32)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgea57a97">
+<h3 id="orgea57a97">calculation</h3>
+<ul>
+<li>tf.assign</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="python"># W must be tf.Variable
+fixW = tf.assign(W, [-1.])
+# output:
+# <tf.Tensor 'Assign_7:0' shape=(1,) dtype=float32_ref>
+</code></pre>
+</div>
+<ul>
+<li>tf.add</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="python">node3 = tf.add(node1, node2)
+print("sess.run(node3): ",sess.run(node3))
+# output:
+# sess.run(node3):  7.0
+print(type(sess.run(node3))
+# output:
+# numpy.float32
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orga468947">
+<h3 id="orga468947">calculation</h3>
+<ul>
+<li>tf.matmul</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="python">matrix1 = tf.constant([[3., 3.]])
+matrix2 = tf.constant([[2.],[2.]])
+product = tf.matmul(matrix1, matrix2)
+sess.run(product)
+# output:
+# array([[ 12.]], dtype=float32)
+product = matrix1 * matrix2
+s.run(product)
+# output:
+# array([[ 6.,  6.],
+#       [ 6.,  6.]], dtype=float32)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org76f6d65">
+<h3 id="org76f6d65">calculation</h3>
+<ul>
+<li>reduce_sum</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="python"># 'x' is [[1, 1, 1]
+#         [1, 1, 1]]
+tf.reduce_sum(x) ==> 6
+tf.reduce_sum(x, 0) ==> [2, 2, 2]
+tf.reduce_sum(x, 1) ==> [3, 3]
+</code></pre>
+</div>
+<ul>
+<li>reduce_mean</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre><code class="python"># 'x' is [[1., 1.]
+#         [2., 2.]]
+tf.reduce_mean(x) ==> 1.5
+tf.reduce_mean(x, 0) ==> [1.5, 1.5]
+tf.reduce_mean(x, 1) ==> [1.,  2.]
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgb356ec5">
+<h3 id="orgb356ec5">optimizer</h3>
+<ul>
+<li>tf.train.GradientDescentOptimizer</li>
+<li>tf.train.AdadeltaOptimizer</li>
+<li>tf.train.AdagradOptimizer</li>
+<li>tf.train.AdagradDAOptimizer</li>
+<li>tf.train.MomentumOptimizer</li>
+<li>tf.train.AdamOptimizer</li>
+<li>tf.train.FtrlOptimizer</li>
+<li>tf.train.RMSPropOptimizer</li>
+<li><a href="http://sebastianruder.com/optimizing-gradient-descent/index.html">Comparison</a></li>
+
+</ul>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org84d6743">
+<h2 id="org84d6743">Demo</h2>
+<div class="outline-text-2" id="text-org84d6743">
+</div></section>
+<section id="slide-org6d05916">
+<h3 id="org6d05916">Linear Regression - import &amp; setting</h3>
+<div class="org-src-container">
+
+<pre><code class="python">import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+rng = np.random
+
+# Parameters
+learning_rate = 0.01
+training_epochs = 1000
+display_step = 50
+batch_size = 50
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgdce07da">
+<h3 id="orgdce07da">Linear Regression - data</h3>
+<div class="org-src-container">
+
+<pre><code class="python"># make training data
+def create_toy_data(func, low=0, high=1., n=1000, std=1.):
+    # sample points
+    x = np.random.uniform(low, high, n)
+    t = func(x) + np.random.normal(scale=std, size=n)
+    return train_test_split(x, t, test_size=0.33, random_state=42)
+
+def func(x):
+    return 3.56 * x + 1.28
+
+train_X, test_X, train_Y, test_Y = create_toy_data(func)
+n_samples = train_X.shape[0]
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgca716e1">
+<h3 id="orgca716e1">Linear Regression - data preview</h3>
+
+<div class="figure">
+<p><img src="img/data_preview.png" alt="data_preview.png" />
+</p>
+</div>
+</section>
+<section id="slide-orgfd6b4c0">
+<h3 id="orgfd6b4c0">Linear Regression - model</h3>
+<div class="org-src-container">
+
+<pre><code class="python"># tf Graph Input
+X = tf.placeholder("float")
+Y = tf.placeholder("float")
+# Set model weights : init to random values
+W = tf.Variable(rng.randn(), name="weight")
+b = tf.Variable(rng.randn(), name="bias")
+
+# Construct a linear model
+pred = tf.add(tf.mul(X, W), b)
+# Mean squared error
+cost_func = tf.reduce_sum(tf.pow(pred - Y, 2))/(2*n_samples)
+# optimizer
+optimizer = tf.train.GradientDescentOptimizer(learning_rate)
+                    .minimize(cost_func)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orga9cebcf">
+<h3 id="orga9cebcf">Linear Regression - train</h3>
+<div class="org-src-container">
+
+<pre><code class="python">init = tf.initialize_all_variables()
+sess = tf.Session()
+sess.run(init)
+for epoch in range(training_epochs):
+    avg_cost = 0.
+    total_batch = int(n_samples/batch_size)
+
+    for i in range(total_batch):
+        begin_idx = batch_size * i
+        batch_xs = train_X[begin_idx:begin_idx+batch_size, ]
+        batch_ys = train_Y[begin_idx:begin_idx+batch_size, ]
+        _, batch_cost = sess.run([optimizer, cost_func],
+                        feed_dict={X:batch_xs, Y:batch_ys})
+        avg_cost += batch_cost / total_batch
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgfa3c81e">
+<h3 id="orgfa3c81e">Linear Regression - result</h3>
+
+<div class="figure">
+<p><img src="img/data.png" alt="data.png" width="100%" />
+</p>
+</div>
+</section>
+<section id="slide-orgcf3fb3e">
+<h3 id="orgcf3fb3e">linear Regression - validate</h3>
+<div class="org-src-container">
+
+<pre><code class="python"># using test set to validate
+testing_cost = sess.run(cost_func, 
+                        feed_dict={X:test_X, Y:test_Y})
+print("Testing cost={}".format(testing_cost))
+print("Absolute mean square loss difference:{}"
+.format(abs(training_cost-testing_cost)))
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgba298f0">
+<h2 id="orgba298f0">Q &amp; A</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }]
+});
+</script>
+</body>
+</html>
