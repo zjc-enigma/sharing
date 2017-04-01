@@ -1,14 +1,14 @@
-#+Title: Tensorflow introduction
+1#+Title: Tensorflow introduction
 #+Author: jiancheng.zhai
 #+Email: jiancheng.pro@gmail.com
 # #+OPTIONS: toc:nil reveal_mathjax:t
 #+OPTIONS: ^:nil
 #+OPTIONS: toc:nil num:nil
 #+STARTUP: indent
-#+REVEAL_THEME: white
-#+REVEAL_TRANS: linear    
+# #+REVEAL_THEME: white
+# #+REVEAL_TRANS: linear    
 # #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
-#+REVEAL_ROOT: ~/Git/reveal.js
+# #+REVEAL_ROOT: ~/Git/reveal.js
 # #+SETUPFILE: ~/Git//org-html-themes/setup/theme-readtheorg.setup
 
 * Introduction
@@ -148,7 +148,7 @@ train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
 
 * Demos
 ** Linear Regression - data
-#+BEGIN_SRC python :session :exports both :results file
+#+BEGIN_SRC python
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -194,7 +194,7 @@ img_save_path = "img/data_dist.png"
 #+END_SRC 
 
 ** Linear Regression - model
-#+BEGIN_SRC python :session
+#+BEGIN_SRC python
 
 # tf Graph Input
 X = tf.placeholder("float")
@@ -205,14 +205,15 @@ W = tf.Variable(rng.randn(), name="weight")
 b = tf.Variable(rng.randn(), name="bias")
 #+END_SRC 
 
-\[ p(D) = \int_{-\infty}^{\infty} p(D|\mu)p(\mu)d\mu \neq \prod_{n=1}^{N} p(x_{n}) \]
-#+BEGIN_SRC python :session
+# \[ p(D) = \int_{-\infty}^{\infty} p(D|\mu)p(\mu)d\mu \neq \prod_{n=1}^{N} p(x_{n}) \]
+#+BEGIN_SRC python
 # Construct a linear model
 pred = tf.add(tf.mul(X, W), b)
+cost = tf.reduce_sum(tf.pow(pred - Y, 2))/(2*n_samples)
 #+END_SRC 
 
 # Mean squared error
-cost = tf.reduce_sum(tf.pow(pred - Y, 2))/(2*n_samples)
+
 
 
 
@@ -238,6 +239,22 @@ cost = tf.reduce_sum(tf.pow(pred - Y, 2))/(2*n_samples)
 ** cross entropy
 ** Mean squared error
 
+
+* Concept
+* Target function
+* Loss function
+* Cost function
+* Error function
+** cross entropy
+** Mean squared error
+
+* Concept
+* Target function
+* Loss function
+* Cost function
+* Error function
+** cross entropy
+** Mean squared error
 
 * Accuracy
 * 无约束优化问题
