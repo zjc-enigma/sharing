@@ -9,11 +9,93 @@
 #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 #+REVEAL_PLUGINS: (highlight)
 * Introduction
-* 感知机 / 神经元
-** 激活函数
-relu / sigmoid / softmax
+* Perceptron
+** structure
+\[
+t = f(\sum_{i=1}^{n} w_ix_i + b) = f({\bf w}^T{\bf x})
+\]
+
+\[
+\begin{equation*}
+f(n) = \left\{
+                  \begin{array}{lcl}
+                  +1 \quad if \quad n >= 0  \\
+                  -1 \quad otherwise  \\
+                 \end{array}  
+        \right.
+\end{equation*}
+
+\]
+[[file:img/perceptron.png]]
+** activation
+sigmoid
+\[
+S(t) = \frac{1}{1+e^{-t}}
+\]
+softmax
+\[
+
+\]
+relu 
 ** loss
 ** Optim
+
+* cost function
+** mean square
+已知：
+\[
+\begin{align*}
+& a=\delta(z) \\
+& z=wx+b
+\end{align*}
+\]
+
+设：
+\[ 
+
+\begin{align*}
+& x=1 \\
+& y=0 \\
+& C=\frac{(y-a)^2}{2} \\
+& \frac{\partial C}{\partial w}=(a - y)\delta '(x)x = a\delta '(z) \\
+& \frac{\partial C}{\partial b}=(a - y)\delta '(x) = a\delta '(z) \\
+\end{align*}
+\]
+[[file:img/sigmoid.png]]
+** cross entropy
+\[
+\begin{align*}
+& C=-\frac{1}{n}\sum_{x}[ylna+(1-y)ln(1-a)] \\
+& \frac{\partial C}{\partial w_j} = -\frac{1}{n}\sum_x(\frac{y}{\delta(z)} - \frac{(1-y)}{1-\delta(z)})\frac{\partial\delta}{\partial w_j} \\
+& =-\frac{1}{n}\sum_x(\frac{y}{\delta(z)}-\frac{(1-y)}{1-\delta(z)})\delta '(z)x_j \\
+& =\frac{1}{n}\sum_x\frac{\delta '(z)x_j}{\delta(z)(1-\delta(z))}(\delta(z)-y)
+\end{align*}
+\]
+带入
+\[ 
+\delta '(z)=\delta(z)(1-\delta(z))
+\]
+得到
+\[
+\frac{\partial C}{\partial w_j} = \frac{1}{n}\sum_x x_j(\delta(z)-y)
+\]
+
+[[file:img/cross_entropy_node.png]]
+
+
+* regularization
+** l1
+\[
+C = C_0+\frac{\lambda}{2n}\sum_w |w|
+\]
+** l2
+\[
+C = C_0+\frac{\lambda}{2n}\sum_w w^2
+\]
+** dropout
+** 训练数据扩展
+
+
 
 * NN(Neural Network)
 ** BP
@@ -29,4 +111,9 @@ relu / sigmoid / softmax
 ** loss
 ** Optim
 
+* demo
+* tools
+** keras
+** pyTorch
+** 
 * Q & A
