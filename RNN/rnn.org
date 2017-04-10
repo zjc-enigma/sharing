@@ -1,0 +1,32 @@
+#+Title: RNN introduction
+#+Author: jiancheng.zhai
+#+Email: jiancheng.pro@gmail.com
+#+OPTIONS: ^:nil
+#+OPTIONS: toc:nil num:nil reveal_mathjax:t
+#+STARTUP: indent
+#+REVEAL_THEME: white
+#+REVEAL_TRANS: linear    
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_PLUGINS: (highlight)
+* Introduction
+* 感知机 / 神经元
+** 激活函数
+relu / sigmoid / softmax
+** loss
+** Optim
+
+* NN(Neural Network)
+** BP
+** loss
+** Optim
+
+* Deep Learning
+* RNN(Recurrent Neural Network)
+** loss
+** Optim
+
+* LSTM
+** loss
+** Optim
+
+* Q & A
