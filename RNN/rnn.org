@@ -27,16 +27,23 @@ f(n) = \left\{
 
 \]
 [[file:img/perceptron.png]]
-** activation
-sigmoid
+** activation - sigmoid & tanh
+[[file:sigmoid_tanh.jpg]]
 \[
 S(t) = \frac{1}{1+e^{-t}}
 \]
+
+** activation - softmax
 softmax
 \[
 
 \]
+** activation - relu
+[[file:relu.jpg]]
 relu 
+** activation - softplus
+[[file:softplus.jpg]]
+softplus
 ** loss
 ** Optim
 
@@ -82,7 +89,6 @@ relu
 
 [[file:img/cross_entropy_node.png]]
 
-
 * regularization
 ** l1
 \[
@@ -94,8 +100,6 @@ C = C_0+\frac{\lambda}{2n}\sum_w w^2
 \]
 ** dropout
 ** 训练数据扩展
-
-
 
 * NN(Neural Network)
 ** BP
