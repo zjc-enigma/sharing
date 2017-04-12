@@ -8,6 +8,7 @@
 #+REVEAL_TRANS: linear    
 #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 #+REVEAL_PLUGINS: (highlight)
+
 # #+REVEAL_ROOT: ~/Git/reveal.js
 # #+SETUPFILE: ~/Git//org-html-themes/setup/theme-readtheorg.setup
 
@@ -241,6 +242,7 @@ Y = tf.placeholder("float")
 W = tf.Variable(rng.randn(), name="weight")
 b = tf.Variable(rng.randn(), name="bias")
 
+
 # Construct a linear model
 pred = tf.add(tf.mul(X, W), b)
 # Mean squared error
@@ -281,6 +283,7 @@ print("Absolute mean square loss difference:{}"
 .format(abs(training_cost-testing_cost)))
 #+END_SRC 
 * Q & A
+
 
 # * Distribution
 # * Tools
@@ -325,3 +328,4 @@ print("Absolute mean square loss difference:{}"
 # * KKT（Karush Kuhn Tucker） - 不等约束
 # ** 需要满足 KKT 条件
 # ** 拉格朗日的推广
+
