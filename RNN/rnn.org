@@ -27,18 +27,35 @@ f(n) = \left\{
 
 \]
 [[file:img/perceptron.png]]
-** activation
-sigmoid
+** activation - sigmoid 
+[[file:sigmoid_tanh.jpg]]
 \[
 S(t) = \frac{1}{1+e^{-t}}
 \]
+** activation - sigmoid 
+[[file:sigmoid_family.png]]
+
+** activation - softmax
 softmax
 \[
 
 \]
-relu 
-** loss
-** Optim
+** activation - relu
+[[file:relu.jpg]]
+\[
+\begin{equation*}
+ReLU(x) = \left\{
+\begin{array}{lcl}
+  x, \quad x>0 \\
+  0, \quad x\leq0 \\
+\end{array}
+
+\right.
+\end{equation*}
+\]
+** activation - softplus
+[[file:softplus.jpg]]
+softplus
 
 * cost function
 ** mean square
@@ -94,24 +111,93 @@ C = C_0+\frac{\lambda}{2n}\sum_w w^2
 ** dropout
 ** 训练数据扩展
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c4ce45b658b160de38764560ef781650d6b1da2d
 * NN(Neural Network)
+** FP
+\[
+\frac{\partial C}{\partial w_j}  \approx \frac{C(w+\delta e_j) - C(w)}{\delta}
+\]
+对每一个权重计算一次代价函数，当权重多时，成本过高
 ** BP
-** loss
-** Optim
+* demo - NN
+* Recurrent Neural Network
+** node - structure
+[[file:img/rnn_node.png]]
+\[
+\begin{align*}
+& n_{in,t} = w_c x_t + w_p n_{out, t-1} + w_b \\
+& n_{out, t} = \frac{1}{1+e^{-n_{in, t}}} \\
+\end{align*}
+\]
 
-* Deep Learning
-* RNN(Recurrent Neural Network)
-** loss
-** Optim
+** node - expand
+[[file:img/rnn_expand.png]]
 
-* LSTM
-** loss
-** Optim
+** training - cost function
+t 时刻
+\[
+C = -y_t log(n_{out,t}) - (1-y_t)log(1-n_{out,t})
+\]
 
-* demo
+将最后一个时刻的值回传到第一个时间点
+
+** training - bp
+\[
+\frac{\partial C}{partial n_{in}}
+\]
+
+s 是 0 到 t 间的一个时刻
+\[
+\begin{equation*}
+\delta_{in,s} = \frac{\partial C}{\partial n_{in,s}} = \left\{
+\begin{array}{lcl}
+(\frac{\partial C}{\partial n_{out,s}})(\frac{\partial n_{out,s}}{\partial n_{in,s}}) \quad if \quad s=t \\
+(\frac{\partial C}{\partial n_{in,s+1}})(\frac{\partial n_{in, s+1}}{\partial n_{out,s}})(\frac{\partial n_{out,s}}{\partial n_{in,s}}) \quad otherwise \\
+\end{array}  
+\right.
+\end{equation*}
+\]
+
+\[
+\begin{equation*}
+\delta_{in,s} = \left\{
+                  \begin{array}{lcl}
+                  n_{out,s} - y_s \quad if \quad s=t  \\
+                  \delta_{in, s+1} w_p n_{out,s} (1-n_{out,s}) \quad otherwise  \\
+                 \end{array}  
+
+\right.
+\end{equation*}
+\]
+** training - back propagation
+[[file:img/rnn_train.png]]
+
+** training - back propagation through time
+[[file:img/rnn_train2.png]]
+
+** training - weights update
+[[file:img/rnn_train3]]
+\[
+\begin{align*}
+& w_c \gets w_c - \eta \frac{\partial C}{\partial n_{in,s}} \frac{\partial n_{in,s}}{w_c} \\
+& w_b \gets w_b - \eta \frac{\partial C}{\partial n_{in,s}} \frac{\partial n_{in,s}}{w_b} \\
+& w_p \gets w_p - \eta \frac{\partial C}{\partial n_{in,s}} \frac{\partial n_{in,s}}{w_p} \\
+\end{align*}
+\]
+\[
+\begin{align*}
+& w_c \gets w_c - \eta \delta_{in,s}x_s \\
+& w_b \gets w_b - \eta \delta_{in,s} \\
+& w_p \gets w_p - \eta \delta_{in,s}n_{out,s-1} \\
+\end{align*}
+\]
+
+
+* demo - RNN
 * tools
 ** keras
 ** pyTorch
-** 
 * Q & A
